@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:systemrepair/main.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -8,9 +9,8 @@ class AppPages {
 
   static final routes = [
     GetPage(
-      name: _Paths.HOME,
-      page: () => HomeAdminPage(),
-      binding: HomeAdminBinding(),
+      name: _Paths.LOGIN,
+      page: () => const MyApp(),
     ),
   ];
 }

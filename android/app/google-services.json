@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "290961475555",
+    "project_id": "systemrepair-73db0",
+    "storage_bucket": "systemrepair-73db0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290961475555:android:47cc6117678e8fe0ce82d6",
+        "android_client_info": {
+          "package_name": "com.cudevnb.systemrepair"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKK3v9FjMuX4hDuw0jVH94OCDe0mxMFM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
