@@ -8,7 +8,7 @@ class AppPages {
   AppPages._();
 
   static const INITIAL = Routes.SCREEN;
-  static const WALKTROUGHS = Routes.SCREEN;
+  static const WALKTROUGHS = Routes.WALKTROUGHS;
 
   static final routes = [
     GetPage(
@@ -18,7 +18,7 @@ class AppPages {
 
     GetPage(
       name: _Paths.WALKTROUGHS,
-      page: () => const WalktroughsViews(),
+      page: () => WalktroughsViews(),
     ),
   ];
 

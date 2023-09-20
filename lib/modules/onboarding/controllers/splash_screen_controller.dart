@@ -9,20 +9,21 @@ class SplashScreenController extends GetxController {
   int secondsDelay = 5;
   RxDouble containerWidth = 100.0.obs;
   RxDouble containerHeight = 100.0.obs;
-  bool _animationComplete = false;
+
 
   @override
-  void onInit() {
+  void onInit() async {
     Get.put(AppController(), permanent: true);
+    setTimeOutAnimation();
+    super.onInit();
+  }
+
+  void setTimeOutAnimation() {
     Future.delayed(const Duration(seconds: 2), () {
       containerWidth.value = 200.0;
       containerHeight.value = 200.0;
-      _animationComplete = true;
     });
-    if(!_animationComplete) {
-      Get.offAllNamed(AppPages.WALKTROUGHS);
-    }
-    super.onInit();
+
   }
 
 }

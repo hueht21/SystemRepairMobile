@@ -40,13 +40,12 @@ class _Application extends State<Application> {
       DeviceOrientation.portraitUp,
     ]);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.white,
+        systemNavigationBarColor: AppColors.darkAccentColor,
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.light));
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -69,6 +68,10 @@ class _Application extends State<Application> {
           GlobalWidgetsLocalizations.delegate,
           DefaultCupertinoLocalizations.delegate
         ],
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.white,
+          canvasColor: AppColors.secondaryColor,
+        ),
         title: AppStr.appName,
       ),
     );
