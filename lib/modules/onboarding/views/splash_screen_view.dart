@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:systemrepair/modules/onboarding/controllers/splash_screen_controller.dart';
-import 'package:systemrepair/modules/onboarding/controllers/splash_screen_controller_imp.dart';
 
 import '../../../base_utils/base_widget/base_widget_page.dart';
 import '../../../cores/const/app_colors.dart';
 import '../../../shared/utils/font_ui.dart';
 
-class SplashScreenView extends BaseGetWidget {
+class SplashScreenView extends GetView {
 
   @override
-  SplashScreenController controller = SplashScreenControllerImp();
+  SplashScreenController controller = SplashScreenController();
 
   SplashScreenView({super.key});
+
   @override
-  Widget buildWidgets(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
