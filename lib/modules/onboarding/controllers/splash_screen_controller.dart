@@ -1,8 +1,16 @@
-import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
+import 'package:get/get.dart';
+import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
 
-abstract class SplashScreenController extends BaseGetxController {
+class SplashScreenController extends GetxController{
+
 
   int secondsDelay = 5;
 
+
+  @override
+  void onInit() {
+    Get.put(AppController(), permanent: true);
+    super.onInit();
+  }
 
 }
