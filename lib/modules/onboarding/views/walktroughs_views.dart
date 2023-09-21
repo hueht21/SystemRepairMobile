@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
+import 'package:systemrepair/router/app_pages.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../cores/const/app_colors.dart';
@@ -108,24 +109,29 @@ class WalktroughsViews extends BaseGetWidget {
                                   color: AppColors.textTitleColor),
                               child: const Icon(Icons.arrow_forward),
                             )
-                          : Container(
-                              width: 158,
-                              height: 54,
-                              decoration: BoxDecoration(
-                                  color: AppColors.colorBottom,
-                                  borderRadius: BorderRadius.circular(25)),
-                              child: Center(
-                                child: Text(
-                                  "Bắt đầu thôi!",
-                                  style: FontStyleUI.fontPlusJakartaSans()
-                                      .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
+                          : InkWell(
+                            onTap: () {
+                              Get.offAllNamed(AppPages.LOGIN);
+                            },
+                            child: Container(
+                                width: 158,
+                                height: 54,
+                                decoration: BoxDecoration(
+                                    color: AppColors.colorBottom,
+                                    borderRadius: BorderRadius.circular(25)),
+                                child: Center(
+                                  child: Text(
+                                    "Bắt đầu thôi!",
+                                    style: FontStyleUI.fontPlusJakartaSans()
+                                        .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                          ),
                     )
                   ],
                 ),

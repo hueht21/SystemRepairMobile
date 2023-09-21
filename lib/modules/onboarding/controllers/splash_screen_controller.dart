@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
 
-import '../../../router/app_pages.dart';
 
 class SplashScreenController extends GetxController {
   int secondsDelay = 5;

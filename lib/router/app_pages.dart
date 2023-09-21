@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:systemrepair/main.dart';
+import 'package:systemrepair/modules/login/views/login_view.dart';
 import 'package:systemrepair/modules/onboarding/views/splash_screen_view.dart';
 import 'package:systemrepair/modules/onboarding/views/walktroughs_views.dart';
 part 'app_routes.dart';
@@ -9,6 +10,7 @@ class AppPages {
 
   static const INITIAL = Routes.SCREEN;
   static const WALKTROUGHS = Routes.WALKTROUGHS;
+  static const LOGIN = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -19,6 +21,11 @@ class AppPages {
     GetPage(
       name: _Paths.WALKTROUGHS,
       page: () => WalktroughsViews(),
+    ),
+
+    GetPage(
+      name: _Paths.LOGIN,
+      page: () => LoginView(),
     ),
   ];
 
