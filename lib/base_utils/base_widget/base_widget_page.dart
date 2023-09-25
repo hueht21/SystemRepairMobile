@@ -8,6 +8,9 @@ import 'package:systemrepair/cores/values/defaul_theme.dart';
 import 'package:systemrepair/cores/values/string_values.dart';
 import 'package:systemrepair/shared/utils/util_widget.dart';
 
+import '../../cores/const/app_colors.dart';
+import '../../shared/widget/base_widget.dart';
+
 abstract class BaseGetWidget<T extends BaseGetxController> extends GetView<T> {
   const BaseGetWidget({Key? key}) : super(key: key);
 
@@ -31,6 +34,58 @@ abstract class BaseGetWidget<T extends BaseGetxController> extends GetView<T> {
           () => controller.isShowLoading.value
           ? const Center(child: UtilWidget.buildLoading)
           : child(),
+    );
+  }
+
+  static Widget buildButton(String btnTitle, Function function,
+      {List<Color> colors = AppColors.colorGradientOrange,
+        bool isLoading = false,
+        bool showLoading = true}) {
+    return Container(
+      width: double.infinity,
+      height: 50,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(colors: colors),
+          borderRadius: BorderRadius.circular(8)),
+      child: BaseWidget.baseOnAction(
+        onTap: !isLoading ? function : () {},
+        child: ElevatedButton(
+          onPressed: null,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0)),
+          ),
+          child: Stack(
+            children: [
+              Center(
+                child: Text(btnTitle.tr,
+                    style: const TextStyle(
+                        fontSize: 16, color: Colors.white)),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Visibility(
+                  visible: isLoading && showLoading,
+                  child: Container(
+                    height: 20,
+                    width: 20,
+                    child: const CircularProgressIndicator(
+                      strokeWidth: 2,
+                      backgroundColor: Colors.white,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Color(0xFFff5f6d),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 

@@ -14,5 +14,16 @@ class AppColors {
   static const textColorXam88 = Color(0xff888888);
   static const textColorDNBang = Color(0xff4E4D5F);
   static const textColorForgot = Color(0xff2EB4FF);
+  static const colorIcon = Color(0xff888888);
   static const Color backgroundGrey = Color.fromARGB(255, 235, 234, 240);
+
+  static const List<Color> colorGradientOrange = [
+    Color(0xFFff7e5f),
+    Color(0xFFff5f6d),
+  ];
+
+  static const List<Color> colorButton = [
+    Color(0xFF6B46D6),
+    Color(0xFF6B46D6),
+  ];
 }
