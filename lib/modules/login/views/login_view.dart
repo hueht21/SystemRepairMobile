@@ -18,54 +18,51 @@ class LoginView extends BaseGetWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundGrey,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BaseWidgetLogin()
-                .buildHeader("Đăng nhập", "Đăng nhập để nhận đầy đủ chức năng"),
-            const SizedBox(
-              height: 15,
-            ),
-            buildFromLogin(),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              alignment: Alignment.topRight,
-              child: Text(
-                "Quên mật khẩu",
-                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                    color: AppColors.textColorForgot,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BaseWidgetLogin().buildHeader(
+                  "Đăng nhập", "Đăng nhập để nhận đầy đủ chức năng"),
+              const SizedBox(
+                height: 15,
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            BaseWidgetLogin().buttonView(
-              "Đăng nhập",
-              () {},controller.isShowLoading.value
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            BaseWidgetLogin().buildRegister(
-              "Bạn chưa có tài khoản? ",
-              "Đăng ký ngay", () {
+              buildFromLogin(),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                alignment: Alignment.topRight,
+                child: Text(
+                  "Quên mật khẩu",
+                  style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                      color: AppColors.textColorForgot,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              BaseWidgetLogin().buttonView(
+                  "Đăng nhập", () {}, controller.isShowLoading.value),
+              const SizedBox(
+                height: 15,
+              ),
+              BaseWidgetLogin()
+                  .buildRegister("Bạn chưa có tài khoản? ", "Đăng ký ngay", () {
                 Get.toNamed(AppPages.REGISTER);
-            }
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            BaseWidgetLogin().buildLoginSocialNetwork()
-          ],
-        ).paddingSymmetric(horizontal: 20),
+              }),
+              const SizedBox(
+                height: 30,
+              ),
+              BaseWidgetLogin().buildLoginSocialNetwork()
+            ],
+          ).paddingSymmetric(horizontal: 20),
+        ),
       ),
     );
   }
-
 
   Widget buildFromLogin() {
     return Column(
@@ -73,13 +70,14 @@ class LoginView extends BaseGetWidget {
         const SizedBox(
           height: 15,
         ),
-        BaseWidgetLogin().buildFromTextInput(controller.textNumberPhone, "Số điện thoại", true),
+        BaseWidgetLogin().buildFromTextInput(
+            controller.textNumberPhone, "Số điện thoại", true),
         const SizedBox(
           height: 20,
         ),
-        BaseWidgetLogin().buildFromTextInput(controller.textPass, "Mật khẩu", false),
+        BaseWidgetLogin()
+            .buildFromTextInput(controller.textPass, "Mật khẩu", false),
       ],
     );
   }
-
 }

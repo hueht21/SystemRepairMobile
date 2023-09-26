@@ -9,7 +9,7 @@ class BaseShowNotification {
       type: type,
       text: title,
       confirmBtnColor: AppColors.textTitleColor,
-      confirmBtnText: "Oke",
+      confirmBtnText: "Tôi hiểu",
     );
   }
 }

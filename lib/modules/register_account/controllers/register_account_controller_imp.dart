@@ -44,11 +44,12 @@ class RegisterAccountControllerImp extends RegisterAccountController {
         password: password,
       );
       User? user = credential.user;
-      if(user != null) {
+      if (user != null) {
         // sendVerificationEmail(user);
         await searchLocation(textAddress.text);
 
-        CollectionReference users = FirebaseFirestore.instance.collection('User');
+        CollectionReference users =
+            FirebaseFirestore.instance.collection('User');
 
         AccountModel accountModel = AccountModel(
           auth: 0,
@@ -57,21 +58,22 @@ class RegisterAccountControllerImp extends RegisterAccountController {
           nameAccout: textName.text.trim(),
           numberPhone: textNumberPhone.text.trim(),
           uid: user.uid,
+          email: textEmail.text.trim(),
+          address: textEmail.text.trim(),
         );
 
         try {
-          // Thêm một tài liệu mới vào bộ sưu tập
           await users.add(accountModel.toMap());
           log('Dữ liệu đã được thêm vào Firestore.');
         } catch (e) {
-          print('Lỗi khi thêm dữ liệu vào Firestore: $e');
+          BaseShowNotification.showNotification(
+            Get.context!,
+            'Lỗi khi thêm dữ liệu vào Firestore: $e',
+            QuickAlertType.error,
+          );
         }
-
-
+        Get.back();
       }
-
-
-      Get.back();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         BaseShowNotification.showNotification(
@@ -103,7 +105,11 @@ class RegisterAccountControllerImp extends RegisterAccountController {
       }
       log("${latitude.value} ${longitude.value}");
     } catch (e) {
-      print('Error: $e');
+      BaseShowNotification.showNotification(
+        Get.context!,
+        "Không lấy được vị trí $e",
+        QuickAlertType.error,
+      );
     }
   }
 
@@ -129,18 +135,39 @@ class RegisterAccountControllerImp extends RegisterAccountController {
 
   @override
   Future<void> isCheckEnterPass() async {
-    FocusScope.of(Get.context!).requestFocus(FocusNode()); // Ẩn bàn phím
-    if (textPass.text != textEnterPassword.text) {
+    if(checkNotNullText()) {
+      FocusScope.of(Get.context!).requestFocus(FocusNode()); // Ẩn bàn phím
+      if (textPass.text != textEnterPassword.text) {
+        BaseShowNotification.showNotification(
+          Get.context!,
+          "Mật khẩu nhập không trùng nhau",
+          QuickAlertType.error,
+        );
+      } else {
+        await signUp(
+          email: textEmail.text.trim(),
+          password: textPass.text.trim(),
+        );
+        // await sendSignInLink(textNumberPhone.text);
+        // Get.back();
+      }
+    } else {
       BaseShowNotification.showNotification(
         Get.context!,
-        "Mật khẩu nhập không trùng nhau",
+        "Dữ liệu cần đầy đủ",
         QuickAlertType.error,
       );
-    } else {
-      await signUp(
-          email: textEmail.text.trim(), password: textPass.text.trim());
-      // await sendSignInLink(textNumberPhone.text);
-      // Get.back();
     }
+
+  }
+
+  @override
+  bool checkNotNullText() {
+    if (textEmail.text.isEmpty ||
+        textPass.text.isEmpty ||
+        textEnterPassword.text.isEmpty ||
+        textNumberPhone.text.isEmpty ||
+        textName.text.isEmpty) return false;
+    return true;
   }
 }

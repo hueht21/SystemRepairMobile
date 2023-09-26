@@ -6,6 +6,8 @@ class AccountModel {
     required this.nameAccout,
     required this.numberPhone,
     required this.uid,
+    required this.email,
+    required this.address
   });
 
   int? auth;
@@ -14,6 +16,8 @@ class AccountModel {
   String? nameAccout;
   String? numberPhone;
   String? uid;
+  String email;
+  String address;
 
   factory AccountModel.fromJson(Map<String, dynamic> json){
     return AccountModel(
@@ -23,6 +27,8 @@ class AccountModel {
       nameAccout: json["NameAccout"],
       numberPhone: json["NumberPhone"],
       uid: json["UID"],
+      email: json["Email"],
+      address: json["Address"]
     );
   }
 
@@ -34,6 +40,8 @@ class AccountModel {
       "NameAccout": nameAccout,
       "NumberPhone": numberPhone,
       "UID": uid,
+      "Email": email,
+      "Address": address,
     };
   }
 

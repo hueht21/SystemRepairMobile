@@ -3,6 +3,7 @@ import 'package:systemrepair/main.dart';
 import 'package:systemrepair/modules/login/views/login_view.dart';
 import 'package:systemrepair/modules/onboarding/views/splash_screen_view.dart';
 import 'package:systemrepair/modules/onboarding/views/walktroughs_views.dart';
+import 'package:systemrepair/modules/register_account/views/finish_regiter_view.dart';
 import 'package:systemrepair/modules/register_account/views/register_account_view.dart';
 
 import '../modules/register_account/views/otp_view.dart';
@@ -39,6 +40,10 @@ class AppPages {
     GetPage(
       name: _Paths.OTP,
       page: () => OtpView(),
+    ),
+    GetPage(
+      name: _Paths.FINISH_REGITER,
+      page: () => FinishRegiter(),
     ),
   ];
 

@@ -50,6 +50,9 @@ class _Application extends State<Application> {
   Widget build(BuildContext context) {
     return GestureDetector(
       // onTap: KeyBoard.hide,
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode()); // Ẩn bàn phím
+      },
       child: GetMaterialApp(
         locale: const Locale('vi', 'VN'),
         debugShowCheckedModeBanner: false,

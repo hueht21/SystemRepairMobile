@@ -30,4 +30,6 @@ abstract class RegisterAccountController extends BaseGetxController {
   Future<void> sendSignInLink(String email);
 
   Future<void> searchLocation(String address);
+
+  bool checkNotNullText();
 }

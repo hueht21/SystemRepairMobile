@@ -35,15 +35,20 @@ class WalktroughsViews extends BaseGetWidget {
           child: Obx(
             () => Column(
               children: [
-                Container(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    "Bỏ qua",
-                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                        color: AppColors.colorNext,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ).paddingOnly(top: 10),
+                InkWell(
+                  onTap: () {
+                    Get.offAllNamed(AppPages.LOGIN);
+                  },
+                  child: Container(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      "Bỏ qua",
+                      style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                          color: AppColors.colorNext,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ).paddingOnly(top: 10),
+                  ),
                 ),
                 Image.asset(
                     controller.getImgWalkTroughs(controller.indexView.value)),

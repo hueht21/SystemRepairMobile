@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
@@ -24,52 +23,50 @@ class RegisterAccount extends BaseGetWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundGrey,
       body: SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(FocusNode()); // Ẩn bàn phím
-          },
-          child: SingleChildScrollView(
-            child: Obx(
-              () => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BaseWidgetLogin().buildHeader(
-                      "Đăng ký", "Đăng ký để nhận dịch vụ của chúng tôi"),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  buildFromLogin(),
-                  _buildFormCustomer(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  BaseWidgetLogin().buttonView(
-                    "Đăng ký ngay",
-                    () async {
-                      controller.showLoading();
-                      // Get.toNamed(AppPages.OTP);
-                      await controller.isCheckEnterPass();
-                      controller.hideLoading();
-                    },
-                    controller.isShowLoading.value,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  BaseWidgetLogin().buildRegister(
-                      "Bạn đã có tài khoản? ", "Đăng nhập ngay", () {
+        child: SingleChildScrollView(
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BaseWidgetLogin().buildHeader(
+                    "Đăng ký", "Đăng ký để nhận dịch vụ của chúng tôi"),
+                const SizedBox(
+                  height: 15,
+                ),
+                buildFromLogin(),
+                _buildFormCustomer(),
+                const SizedBox(
+                  height: 10,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                BaseWidgetLogin().buttonView(
+                  "Đăng ký ngay",
+                  () async {
+                    controller.showLoading();
+                    // Get.toNamed(AppPages.OTP);
+                    await controller.isCheckEnterPass();
+                    controller.hideLoading();
+                  },
+                  controller.isShowLoading.value,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                BaseWidgetLogin().buildRegister(
+                  "Bạn đã có tài khoản? ",
+                  "Đăng nhập ngay",
+                  () {
                     Get.back();
-                  }),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  BaseWidgetLogin().buildLoginSocialNetwork()
-                ],
-              ).paddingSymmetric(horizontal: 20),
-            ),
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                BaseWidgetLogin().buildLoginSocialNetwork()
+              ],
+            ).paddingSymmetric(horizontal: 20),
           ),
         ),
       ),
@@ -116,9 +113,18 @@ class RegisterAccount extends BaseGetWidget {
         ),
         _buildItemInfor(
             controller.textAddress, "Địa chỉ", AppConst.homeSvg, true),
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "Lưu ý: Địa chỉ cần nhập đúng ngõ,đường, quân",
+            style: FontStyleUI.fontPlusJakartaSans()
+                .copyWith(color: AppColors.textColorXam, fontSize: 13),
+          ).paddingOnly(top: 10),
+        ),
         const SizedBox(
           height: 15,
         ),
+
         // _buildItemInfor(controller.textNumberPhone, "Họ và tên"),
       ],
     );
