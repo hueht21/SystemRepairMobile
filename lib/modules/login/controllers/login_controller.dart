@@ -3,6 +3,9 @@ import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
 
 abstract class LoginController extends BaseGetxController {
 
-  TextEditingController textNumberPhone = TextEditingController();
+  TextEditingController textEmail = TextEditingController();
+
   TextEditingController textPass = TextEditingController();
+
+  Future<void> loginAcc();
 }

@@ -37,7 +37,7 @@ class WalktroughsViews extends BaseGetWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.offAllNamed(AppPages.LOGIN);
+                    Get.offAllNamed(AppPages.login);
                   },
                   child: Container(
                     alignment: Alignment.topRight,
@@ -116,7 +116,7 @@ class WalktroughsViews extends BaseGetWidget {
                             )
                           : InkWell(
                             onTap: () {
-                              Get.offAllNamed(AppPages.LOGIN);
+                              Get.offAllNamed(AppPages.login);
                             },
                             child: Container(
                                 width: 158,

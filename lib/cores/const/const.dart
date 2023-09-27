@@ -18,4 +18,9 @@ class AppConst {
   static const String homeSvg = "assets/images/home_svg.svg";
   static const String phoneSvg = "assets/images/phone_svg.svg";
 
+
+  // hive
+
+  static const String keyAccount = "keyAccount";
+
 }

@@ -27,7 +27,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
                 width: controller.containerWidth.value,
                 height: controller.containerHeight.value,
                 onEnd: () {
-                  Get.offAllNamed(AppPages.WALKTROUGHS);
+                  Get.offAllNamed(AppPages.walkTroughs);
                 },
                 child: SizedBox(
                   width: 250,

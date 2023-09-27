@@ -9,6 +9,7 @@ import 'package:systemrepair/base_utils/base_widget/base_show_notification.dart'
 import 'package:systemrepair/modules/register_account/controllers/register_account_controller.dart';
 import 'package:systemrepair/modules/register_account/model/account_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:systemrepair/router/app_pages.dart';
 
 import '../../../cores/const/app_colors.dart';
 
@@ -59,7 +60,7 @@ class RegisterAccountControllerImp extends RegisterAccountController {
           numberPhone: textNumberPhone.text.trim(),
           uid: user.uid,
           email: textEmail.text.trim(),
-          address: textEmail.text.trim(),
+          address: textAddress.text.trim(),
         );
 
         try {
@@ -72,7 +73,8 @@ class RegisterAccountControllerImp extends RegisterAccountController {
             QuickAlertType.error,
           );
         }
-        Get.back();
+        // Get.back();
+        Get.toNamed(AppPages.finishRegister);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

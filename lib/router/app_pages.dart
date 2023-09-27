@@ -12,37 +12,38 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SCREEN;
-  static const WALKTROUGHS = Routes.WALKTROUGHS;
-  static const LOGIN = Routes.LOGIN;
-  static const REGISTER = Routes.REGISTER;
-  static const OTP = Routes.OTP;
+  static const initial = Routes.screen;
+  static const walkTroughs = Routes.walkTroughs;
+  static const login = Routes.login;
+  static const register = Routes.register;
+  static const otp = Routes.otp;
+  static const finishRegister = Routes.finishRegister;
 
   static final routes = [
     GetPage(
-      name: _Paths.SCREEN,
+      name: _Paths.screen,
       page: () => SplashScreenView(),
     ),
 
     GetPage(
-      name: _Paths.WALKTROUGHS,
+      name: _Paths.walkTroughs,
       page: () => WalktroughsViews(),
     ),
 
     GetPage(
-      name: _Paths.LOGIN,
+      name: _Paths.login,
       page: () => LoginView(),
     ),
     GetPage(
-      name: _Paths.REGISTER,
+      name: _Paths.register,
       page: () => RegisterAccount(),
     ),
     GetPage(
-      name: _Paths.OTP,
+      name: _Paths.otp,
       page: () => OtpView(),
     ),
     GetPage(
-      name: _Paths.FINISH_REGITER,
+      name: _Paths.finishRegister,
       page: () => FinishRegiter(),
     ),
   ];

@@ -44,14 +44,21 @@ class LoginView extends BaseGetWidget {
               const SizedBox(
                 height: 15,
               ),
-              BaseWidgetLogin().buttonView(
-                  "Đăng nhập", () {}, controller.isShowLoading.value),
+              Obx(
+                () => BaseWidgetLogin().buttonView(
+                  "Đăng nhập",
+                  () async {
+                    await controller.loginAcc();
+                  },
+                  controller.isShowLoading.value,
+                ),
+              ),
               const SizedBox(
                 height: 15,
               ),
               BaseWidgetLogin()
                   .buildRegister("Bạn chưa có tài khoản? ", "Đăng ký ngay", () {
-                Get.toNamed(AppPages.REGISTER);
+                Get.toNamed(AppPages.register);
               }),
               const SizedBox(
                 height: 30,
@@ -70,8 +77,8 @@ class LoginView extends BaseGetWidget {
         const SizedBox(
           height: 15,
         ),
-        BaseWidgetLogin().buildFromTextInput(
-            controller.textNumberPhone, "Số điện thoại", true),
+        BaseWidgetLogin()
+            .buildFromTextInput(controller.textEmail, "Email", true),
         const SizedBox(
           height: 20,
         ),

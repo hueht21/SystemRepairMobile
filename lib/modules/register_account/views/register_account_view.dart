@@ -46,8 +46,9 @@ class RegisterAccount extends BaseGetWidget {
                   () async {
                     controller.showLoading();
                     // Get.toNamed(AppPages.OTP);
-                    await controller.isCheckEnterPass();
-                    controller.hideLoading();
+                    Get.toNamed(AppPages.finishRegister);
+                    // await controller.isCheckEnterPass();
+                    // controller.hideLoading();
                   },
                   controller.isShowLoading.value,
                 ),

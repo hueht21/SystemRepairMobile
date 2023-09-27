@@ -164,6 +164,7 @@ class BaseWidgetLogin {
             flex: 8,
             child: Center(
               child: TextField(
+                obscureText: isKeyInputNumber ? false : true,
                 controller: textEditingController,
                 decoration: InputDecoration(
                   enabledBorder: const UnderlineInputBorder(
