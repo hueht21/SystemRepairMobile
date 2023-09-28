@@ -19,5 +19,5 @@ abstract class _Paths {
   static const register= '/register';
   static const walkTroughs = '/walktroughs';
   static const otp = '/otp';
-  static const finishRegister = '/finish_regiter';
+  static const finishRegister = '/finish_register';
 }

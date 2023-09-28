@@ -1,4 +1,15 @@
-class AccountModel {
+import 'package:hive/hive.dart';
+
+import '../../../hive_helper/fields/account_model_fields.dart';
+import '../../../hive_helper/hive_adapters.dart';
+import '../../../hive_helper/hive_types.dart';
+
+
+part 'account_model.g.dart';
+
+
+@HiveType(typeId: HiveTypes.accountModel, adapterName: HiveAdapters.accountModel)
+class AccountModel extends HiveObject{
   AccountModel({
     required this.auth,
     required this.latitude,
@@ -10,13 +21,21 @@ class AccountModel {
     required this.address
   });
 
+	@HiveField(AccountModelFields.auth)
   int? auth;
+	@HiveField(AccountModelFields.latitude)
   double? latitude;
+	@HiveField(AccountModelFields.longitude)
   double? longitude;
+	@HiveField(AccountModelFields.nameAccout)
   String? nameAccout;
+	@HiveField(AccountModelFields.numberPhone)
   String? numberPhone;
+	@HiveField(AccountModelFields.uid)
   String? uid;
+	@HiveField(AccountModelFields.email)
   String email;
+	@HiveField(AccountModelFields.address)
   String address;
 
   factory AccountModel.fromJson(Map<String, dynamic> json){

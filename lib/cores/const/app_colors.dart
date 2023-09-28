@@ -16,6 +16,7 @@ class AppColors {
   static const textColorForgot = Color(0xff2EB4FF);
   static const colorIcon = Color(0xff888888);
   static const Color backgroundGrey = Color.fromARGB(255, 235, 234, 240);
+  static const Color backgroundGreyT = Color.fromARGB(255, 255, 255, 245);
 
   static const List<Color> colorGradientOrange = [
     Color(0xFFff7e5f),

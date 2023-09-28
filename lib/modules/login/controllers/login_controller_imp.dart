@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
 import 'package:systemrepair/base_utils/base_widget/base_show_notification.dart';
 import 'package:systemrepair/cores/const/const.dart';
 import 'package:systemrepair/modules/login/controllers/login_controller.dart';
 import 'package:systemrepair/modules/register_account/model/account_model.dart';
+import 'package:systemrepair/router/app_pages.dart';
 
 class LoginControllerImp extends LoginController {
   @override
@@ -28,6 +30,7 @@ class LoginControllerImp extends LoginController {
       if (user != null) {
 
         await getData(user.uid);
+
         
       } else {
         BaseShowNotification.showNotification(
@@ -55,17 +58,20 @@ class LoginControllerImp extends LoginController {
           .get();
 
       if (documentSnapshot.docs.isNotEmpty) {
-        // Dữ liệu tồn tại, bạn có thể truy cập nó như sau:
-
         var doc =  documentSnapshot.docs.first;
         AccountModel accountModel = AccountModel.fromJson(doc.data());
         
-        HIVE_APP.put(AppConst.keyAccount, "accountModel");
+        await HIVE_APP.put(AppConst.keyAccount, accountModel);
 
-        // AccountModel copy = await HIVE_APP.get(AppConst.keyAccount);
-        log(copy.email);
+        Get.offAllNamed(AppPages.home);
+
       } else {
-        print('Dữ liệu không tồn tại cho UID này.');
+        log('Dữ liệu không tồn tại cho UID này.');
+        BaseShowNotification.showNotification(
+          Get.context!,
+          "Dữ liệu không tồn tại cho UID này.",
+          QuickAlertType.error,
+        );
       }
     } catch (e) {
       BaseShowNotification.showNotification(
