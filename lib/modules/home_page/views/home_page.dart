@@ -1,21 +1,25 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
+import 'package:systemrepair/modules/home_page/controllers/home_page_controller_imp.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../cores/const/app_colors.dart';
 import '../../../cores/const/const.dart';
+import '../controllers/home_page_controller.dart';
 
 class HomePage extends BaseGetWidget {
+  @override
+  HomePageController controller = Get.put(HomePageControllerImp());
+
   @override
   Widget buildWidgets(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundGreyT,
       body: SafeArea(
-        child: SizedBox(
-          height: Get.height,
-          width: Get.width,
+        child: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(
@@ -45,9 +49,10 @@ class HomePage extends BaseGetWidget {
                     width: 21,
                   ),
                   _viewOption(
-                      color: 0xff6DB2DE,
-                      name: "Chuyển đồ",
-                      icon: AppConst.truckCar)
+                    color: 0xff6DB2DE,
+                    name: "Chuyển đồ",
+                    icon: AppConst.truckCar,
+                  )
                 ],
               ),
               const SizedBox(
@@ -78,43 +83,130 @@ class HomePage extends BaseGetWidget {
               ),
               const Padding(
                 padding: EdgeInsets.only(
-                    top: 20.21, right: 13.79, left: 15.21, bottom: 20),
+                  top: 20.21,
+                  right: 13.79,
+                  left: 15.21,
+                  bottom: 20,
+                ),
                 child: Divider(
                   color: Color(0xff888888),
                 ),
               ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    "Địa điểm thợ sửa ",
-                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xff574B78)),
-                  ),
-                  const Flexible(fit: FlexFit.tight, child: SizedBox()),
-                  Text(
-                    "Xem thêm ",
-                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xff574B78)),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                ],
+              introducingInformation(
+                "Giới thiệu về chúng tôi ",
+                widget: CarouselSlider(
+                    items: [1,2,3,4,5].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(8), // Đặt bán kính bo tròn, giá trị 50 để tạo hình tròn
+                            child: Image.asset(
+                              width: Get.width,
+                              height: 120,
+                              AppConst.bannerGt,
+                              fit: BoxFit.cover,
+                            ),
+                          ).paddingSymmetric(horizontal: 5,vertical: 10);
+                        },
+                      );
+                    }).toList(),
+                    options: CarouselOptions(
+                      // height: 400,
+                      // aspectRatio: 16/9,
+                      // viewportFraction: 0.8,
+                      // initialPage: 0,
+                      // enableInfiniteScroll: true,
+                      // reverse: false,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      // autoPlayCurve: Curves.fastOutSlowIn,
+                      // enlargeCenterPage: true,
+                      // enlargeFactor: 0.3,
+                      // // onPageChanged: callbackFunction,
+                      scrollDirection: Axis.horizontal,
+                    )
+                )
               ),
               const SizedBox(
                 height: 15,
               ),
+              introducingInformation(
+                "Tin tức",
+                widget: _buildListNews(),
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildListNews() {
+    return SizedBox(
+      height: 200,
+      width: Get.width,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal, // Đặt chiều cuộn là ngang
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                // Đặt bán kính bo tròn, giá trị 50 để tạo hình tròn
+                child: Image.asset(
+                  height: 120,
+                  width: Get.width * 0.45,
+                  controller.listImgNews[index],
+                  fit: BoxFit
+                      .cover, // Điều chỉnh cách ảnh sẽ điều chỉnh để phù hợp
+                ),
+              ),
+              Text(
+                controller.listTitleNews[index],
+                style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
+              ).paddingOnly(top: 5)
+            ],
+          ).paddingOnly(left: 5);
+        },
+        itemCount: controller.listImgNews.length,
+      ),
+    ).paddingSymmetric(vertical: 10);
+  }
+
+  Widget introducingInformation(String title, {required Widget widget}) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            const SizedBox(
+              width: 15,
+            ),
+            Text(
+              title,
+              style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xff574B78)),
+            ),
+            const Flexible(fit: FlexFit.tight, child: SizedBox()),
+            Text(
+              "Xem thêm ",
+              style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xff574B78)),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        widget
+      ],
     );
   }
 
@@ -132,9 +224,10 @@ class HomePage extends BaseGetWidget {
           Text(
             name,
             style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
-                color: const Color(0xff574B78)),
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xff574B78),
+            ),
           )
         ],
       ),
@@ -199,24 +292,26 @@ class HomePage extends BaseGetWidget {
       required String icon,
       int? check}) {
     return Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.09),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 2), // changes position of shadow
-          ),
-        ], color: Colors.orange, shape: BoxShape.circle),
-        child: CircleAvatar(
-            backgroundColor: Colors.white,
-            child: check == 1
-                ? SvgPicture.asset(
-                    icon,
-                    color: const Color(0xff6B46D6),
-                  )
-                : SvgPicture.asset(icon)));
+      width: width,
+      height: height,
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.09),
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: const Offset(0, 2), // changes position of shadow
+        ),
+      ], color: Colors.orange, shape: BoxShape.circle),
+      child: CircleAvatar(
+        backgroundColor: Colors.white,
+        child: check == 1
+            ? SvgPicture.asset(
+                icon,
+                color: const Color(0xff6B46D6),
+              )
+            : SvgPicture.asset(icon),
+      ),
+    );
   }
 
   Widget _viewOption(

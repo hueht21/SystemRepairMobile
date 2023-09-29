@@ -36,6 +36,13 @@ class AppConst {
   static const String notification = "assets/images/notification.svg";
 
   static const String search = "assets/images/searchhome.svg";
+  static const String bannerGt = "assets/images/banner_gt.jpg";
+  static const String bannerXanh = "assets/images/bannerxanh.jpg";
+
+  static const String suaBepTu = "assets/images/suabeptu.jpg";
+  static const String mayLocNuoc = "assets/images/maylocnuoc.jpg";
+  static const String suaTuLanh = "assets/images/suatulanh.jpg";
+  static const String thayGa = "assets/images/thayga.jpg";
 
 
   // hive
