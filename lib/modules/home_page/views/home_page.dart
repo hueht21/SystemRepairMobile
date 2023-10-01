@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
 import 'package:systemrepair/modules/home_page/controllers/home_page_controller_imp.dart';
+import 'package:systemrepair/router/app_pages.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../cores/const/app_colors.dart';
@@ -38,6 +39,7 @@ class HomePage extends BaseGetWidget {
                   InkWell(
                     onTap: () {
                       // Get.toNamed("/register_schedule");
+                      Get.toNamed(AppPages.scheduleRepair);
                     },
                     child: _viewOption(
                       color: 0xff6B46D6,
@@ -95,7 +97,7 @@ class HomePage extends BaseGetWidget {
               introducingInformation(
                 "Giới thiệu về chúng tôi ",
                 widget: CarouselSlider(
-                    items: [1,2,3,4,5].map((i) {
+                    items: [0,1,2,3].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
                           return ClipRRect(
@@ -103,7 +105,7 @@ class HomePage extends BaseGetWidget {
                             child: Image.asset(
                               width: Get.width,
                               height: 120,
-                              AppConst.bannerGt,
+                              controller.listBanner[i],
                               fit: BoxFit.cover,
                             ),
                           ).paddingSymmetric(horizontal: 5,vertical: 10);
@@ -111,29 +113,19 @@ class HomePage extends BaseGetWidget {
                       );
                     }).toList(),
                     options: CarouselOptions(
-                      // height: 400,
-                      // aspectRatio: 16/9,
-                      // viewportFraction: 0.8,
-                      // initialPage: 0,
-                      // enableInfiniteScroll: true,
-                      // reverse: false,
                       autoPlay: true,
                       autoPlayInterval: Duration(seconds: 3),
                       autoPlayAnimationDuration: Duration(milliseconds: 800),
-                      // autoPlayCurve: Curves.fastOutSlowIn,
-                      // enlargeCenterPage: true,
-                      // enlargeFactor: 0.3,
-                      // // onPageChanged: callbackFunction,
                       scrollDirection: Axis.horizontal,
                     )
-                )
+                ).paddingSymmetric(horizontal: 15)
               ),
               const SizedBox(
                 height: 15,
               ),
               introducingInformation(
                 "Tin tức",
-                widget: _buildListNews(),
+                widget: _buildListNews().paddingSymmetric(horizontal: 10),
               )
             ],
           ),

@@ -5,6 +5,7 @@ import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
 import 'package:systemrepair/modules/home/controller/home_controller.dart';
 import 'package:systemrepair/modules/home/controller/home_controller_imp.dart';
 import 'package:systemrepair/modules/home_page/views/home_page.dart';
+import 'package:systemrepair/modules/profile/views/profile_view.dart';
 
 import '../../../cores/const/const.dart';
 
@@ -14,13 +15,13 @@ class HomeView extends BaseGetWidget {
 
   @override
   Widget buildWidgets(BuildContext context) {
-    final Facment = [HomePage(), HomePage(), HomePage(), HomePage()];
-    return Scaffold(
-      body: SafeArea(
-        child: Facment[controller.selectIndex.value],
-      ),
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
+    final Facment = [HomePage(), HomePage(), HomePage(), ProfileView()];
+    return Obx(()
+      => Scaffold(
+        body: SafeArea(
+          child: Facment[controller.selectIndex.value],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           items: [
             _bottomNavi(

@@ -8,6 +8,7 @@ import 'package:systemrepair/modules/register_account/views/finish_regiter_view.
 import 'package:systemrepair/modules/register_account/views/register_account_view.dart';
 
 import '../modules/register_account/views/otp_view.dart';
+import '../modules/schedule_repair/views/schedule_repair_view.dart';
 part 'app_routes.dart';
 
 class AppPages {
@@ -20,6 +21,7 @@ class AppPages {
   static const otp = Routes.otp;
   static const finishRegister = Routes.finishRegister;
   static const home = Routes.home;
+  static const scheduleRepair = Routes.scheduleRepair;
 
   static final routes = [
     GetPage(
@@ -51,6 +53,10 @@ class AppPages {
     GetPage(
       name: _Paths.home,
       page: () => HomeView(),
+    ),
+    GetPage(
+      name: _Paths.scheduleRepair,
+      page: () => ScheduleRepair(),
     ),
   ];
 

@@ -8,6 +8,7 @@ class AppColors {
   static const textTim = Color(0xff574B78);
   static const textXam = Color(0xffEBEDF1);
   static const colorBottom = Color(0xff7C46D6);
+  static const colorDate = Color(0xff6DB2DE);
   static const colorThanh = Color(0xffD7D7D9);
   static const colorTextLogin = Color(0xff574B78);
   static const textColorXam = Color(0xff575757);
@@ -15,6 +16,9 @@ class AppColors {
   static const textColorDNBang = Color(0xff4E4D5F);
   static const textColorForgot = Color(0xff2EB4FF);
   static const colorIcon = Color(0xff888888);
+  static const colorNen= Color(0xffF4F4F4);
+  static const colorCam= Color(0xffFFBC42);
+  static const colorXamWarning= Color(0xff5F5F5F);
   static const Color backgroundGrey = Color.fromARGB(255, 235, 234, 240);
   static const Color backgroundGreyT = Color.fromARGB(255, 255, 255, 245);
 

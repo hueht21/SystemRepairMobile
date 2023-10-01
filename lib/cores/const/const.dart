@@ -38,11 +38,28 @@ class AppConst {
   static const String search = "assets/images/searchhome.svg";
   static const String bannerGt = "assets/images/banner_gt.jpg";
   static const String bannerXanh = "assets/images/bannerxanh.jpg";
+  static const String bannerQuangCao = "assets/images/bannerquangcao.jpg";
+  static const String bannerSuaGap = "assets/images/bannersuagap.jpg";
 
   static const String suaBepTu = "assets/images/suabeptu.jpg";
   static const String mayLocNuoc = "assets/images/maylocnuoc.jpg";
   static const String suaTuLanh = "assets/images/suatulanh.jpg";
   static const String thayGa = "assets/images/thayga.jpg";
+
+  static const String backgroundUser = "assets/images/backgrounduser.png";
+  static const String searchUser = "assets/images/searchuser.svg";
+  static const String sortUser = "assets/images/sortuser.svg";
+  static const String messengerUser = "assets/images/messengeruser.svg";
+  static const String userUser = "assets/images/useruser.png";
+  static const String editName = "assets/images/editname.svg";
+  static const String nextUser = "assets/images/nextuser.svg";
+  static const String payUser = "assets/images/payuser.svg";
+  static const String setting = "assets/images/settinguser.svg";
+  static const String help = "assets/images/helpuser.svg";
+  static const String logout = "assets/images/logout.svg";
+  static const String iconWarning = "assets/images/icon_warning.svg";
+  static const String iconDate = "assets/images/icon_date.svg";
+  static const String iconCamera = "assets/images/camera_icon.svg";
 
 
   // hive

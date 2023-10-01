@@ -7,7 +7,7 @@ class HomePageControllerImp extends HomePageController{
   void onInit() {
     listTitleNews = ["Sửa bếp từ Cheft", "Thay ga điều hoà", "Sửa tủ lạnh", "Máy lọc nước"];
     listImgNews = [AppConst.suaBepTu,AppConst.thayGa, AppConst.suaTuLanh,AppConst.mayLocNuoc,];
-    listBanner = [AppConst.suaBepTu,AppConst.thayGa, AppConst.suaTuLanh,AppConst.mayLocNuoc,];
+    listBanner = [AppConst.bannerQuangCao,AppConst.bannerGt,AppConst.bannerXanh, AppConst.bannerSuaGap,];
   }
 
 }

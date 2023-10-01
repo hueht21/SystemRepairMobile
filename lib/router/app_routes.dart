@@ -9,6 +9,7 @@ abstract class Routes {
   static const register = _Paths.register;
   static const otp = _Paths.otp;
   static const finishRegister = _Paths.finishRegister;
+  static const scheduleRepair = _Paths.scheduleRepair;
 }
 
 abstract class _Paths {
@@ -20,4 +21,5 @@ abstract class _Paths {
   static const walkTroughs = '/walktroughs';
   static const otp = '/otp';
   static const finishRegister = '/finish_register';
+  static const scheduleRepair = '/scheduleRepair';
 }
