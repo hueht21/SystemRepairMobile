@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +14,8 @@ import '../../../shared/utils/date_utils.dart';
 import '../controllers/schedule_repair_controller.dart';
 
 part 'customer_information_view.dart';
-
 part 'information_corrupted_view.dart';
+part 'confirm_schedule_repair.dart';
 
 class ScheduleRepair extends BaseGetWidget {
   @override
@@ -29,7 +28,7 @@ class ScheduleRepair extends BaseGetWidget {
     final widgetView = [
       buildCustomerInformation(controller),
       buildInformationCorrupted(controller),
-      buildCustomerInformation(controller),
+      buildConfirmSchedule(controller),
     ];
 
     return Scaffold(
