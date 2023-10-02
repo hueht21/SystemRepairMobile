@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
+import 'package:systemrepair/modules/register_account/model/account_model.dart';
 
 abstract class ScheduleRepairController extends BaseGetxController {
 
@@ -16,11 +17,19 @@ abstract class ScheduleRepairController extends BaseGetxController {
 
   TextEditingController textAddress = TextEditingController();
 
+  TextEditingController textDescribe = TextEditingController();
+
   TextEditingController textNote = TextEditingController();
 
   Rx<DateTime> selectedDate = DateTime.now().obs;
 
   Rx<TimeOfDay> selectedTime = TimeOfDay.now().obs;
+
+  RxString timeSelect = "".obs;
+
+  RxString dateSelect = "".obs;
+
+  late AccountModel accountModel;
 
   bool isVideo = false;
 

@@ -192,14 +192,14 @@ class ScheduleRepair extends BaseGetWidget {
               }
             },
             child: Container(
-              width: 100,
+              width: controller.indexHead.value == 2 ? 200 : 100,
               height: 35,
               decoration: BoxDecoration(
                   color: AppColors.textTitleColor,
                   borderRadius: BorderRadius.circular(25)),
               child: Center(
                 child: Text(
-                  "Tiếp",
+                  controller.indexHead.value == 2 ? "Tìm kiếm thợ sửa": "Tiếp",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,

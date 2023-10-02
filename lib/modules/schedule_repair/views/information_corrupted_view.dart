@@ -18,14 +18,15 @@ Widget buildInformationCorrupted(ScheduleRepairController controller) {
       const SizedBox(
         height: 20,
       ),
-      Obx(() => Row(
+      Obx(
+        () => Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             InkWell(
               onTap: () async {
                 await controller.selectTime(Get.context!);
               },
-              child: _buildCardTime("Thời gian", controller.selectedTime.value.format(Get.context!)),
+              child: _buildCardTime("Thời gian", controller.timeSelect.value),
             ),
             const SizedBox(
               width: 20,
@@ -34,7 +35,7 @@ Widget buildInformationCorrupted(ScheduleRepairController controller) {
               onTap: () async {
                 await controller.selectDate(Get.context!);
               },
-                  child: _buildCardTime("Ngày đặt", formatDateTimeToString(controller.selectedDate.value)),
+              child: _buildCardTime("Ngày đặt", controller.dateSelect.value),
             ),
           ],
         ),
@@ -42,7 +43,11 @@ Widget buildInformationCorrupted(ScheduleRepairController controller) {
       const SizedBox(
         height: 20,
       ),
-      buildFormNote(controller),
+      buildFormNote(controller.textDescribe, "Mô tả", "Mô tả tình trạng hỏng"),
+      const SizedBox(
+        height: 20,
+      ),
+      buildFormNote(controller.textNote, "Ghi chú", "Những yêu cầu khi đặt lịch"),
       const SizedBox(
         height: 20,
       ),
@@ -110,7 +115,7 @@ Widget _buildCardTime(String title, String valueDate) {
   );
 }
 
-Widget buildFormNote(ScheduleRepairController controller) {
+Widget buildFormNote(TextEditingController textEditingController, String title, String textHide) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -118,7 +123,7 @@ Widget buildFormNote(ScheduleRepairController controller) {
         height: 10,
       ),
       Text(
-        "Mô tả",
+        title,
         style: FontStyleUI.fontPlusJakartaSans().copyWith(
           fontSize: 14,
           fontWeight: FontWeight.w700,
@@ -128,14 +133,16 @@ Widget buildFormNote(ScheduleRepairController controller) {
       const SizedBox(
         height: 10,
       ),
-      _buildItemInforNote(controller.textNote, "Mô tả tình trạng hỏng",
-          AppConst.phoneSvg, true),
+      _buildItemInforNote(
+        textEditingController,
+        textHide,
+      ),
     ],
   );
 }
 
-Widget _buildItemInforNote(TextEditingController textEditingController,
-    String title, String svg, bool isTextInputNumber) {
+Widget _buildItemInforNote(
+    TextEditingController textEditingController, String title) {
   return Container(
     width: Get.width,
     height: 120,
@@ -163,16 +170,15 @@ Widget _buildItemInforNote(TextEditingController textEditingController,
         ),
         style: FontStyleUI.fontPlusJakartaSans()
             .copyWith(color: AppColors.textColorXam88, fontSize: 14),
-        keyboardType:
-            isTextInputNumber ? TextInputType.text : TextInputType.number,
+        keyboardType: TextInputType.text,
       ).paddingSymmetric(horizontal: 20),
     ),
   );
 }
 
 Widget _buildSelectImg(ScheduleRepairController controller) {
-  return Obx(()
-    => Column(
+  return Obx(
+    () => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
@@ -195,7 +201,7 @@ Widget _buildSelectImg(ScheduleRepairController controller) {
         /// Convert BASE64 to IMg
         // controller.linkImg.value.isNotEmpty
         //     ? Image.memory(
-        //   base64Decode( controller.linkImg.value),
+        //   base64Decode( contro/ller.linkImg.value),
         //   fit: BoxFit.cover,
         // ).paddingOnly(bottom: 20)
         //     : const SizedBox(),

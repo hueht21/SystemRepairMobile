@@ -5,14 +5,14 @@ Widget buildConfirmSchedule(ScheduleRepairController controller) {
     children: [
       _buildInforCustomer(
         "Thông tin khách hàng",
-        _buildItemInforCustomer(),
+        _buildItemInforCustomer(controller),
       ),
       const SizedBox(
         height: 20,
       ),
       _buildInforCustomer(
         "Thông tin sửa chữa",
-        _buildInforScheduleRepair(),
+        _buildInforScheduleRepair(controller),
       )
     ],
   );
@@ -54,7 +54,7 @@ Widget _buildInforCustomer(String title, Widget widget) {
   );
 }
 
-Widget _buildItemInforCustomer() {
+Widget _buildItemInforCustomer(ScheduleRepairController controller) {
   return Container(
     height: 116,
     alignment: Alignment.center,
@@ -71,7 +71,9 @@ Widget _buildItemInforCustomer() {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Phạm Văn A",
+                controller.textName.text.isEmpty
+                    ? "${controller.accountModel.nameAccout}"
+                    : controller.textName.text,
                 style: FontStyleUI.fontPlusJakartaSans().copyWith(
                   color: AppColors.colorTextLogin,
                   fontSize: 14,
@@ -82,7 +84,9 @@ Widget _buildItemInforCustomer() {
                 height: 3,
               ),
               Text(
-                "0368542155",
+                controller.textNumberPhone.text.isEmpty
+                    ? "${controller.accountModel.numberPhone}"
+                    : controller.textNumberPhone.text,
                 style: FontStyleUI.fontPlusJakartaSans().copyWith(
                   color: AppColors.textColorXam,
                   fontSize: 12,
@@ -93,7 +97,9 @@ Widget _buildItemInforCustomer() {
                 height: 3,
               ),
               Text(
-                "phamngochue@gmail.com",
+                controller.textEmail.text.isEmpty
+                    ? controller.accountModel.email
+                    : controller.textEmail.text,
                 style: FontStyleUI.fontPlusJakartaSans().copyWith(
                   color: AppColors.textColorXam,
                   fontSize: 12,
@@ -104,7 +110,9 @@ Widget _buildItemInforCustomer() {
                 height: 3,
               ),
               Text(
-                "Số nhà 8 ngõ 111 Triều Khúc Thanh Xuân",
+                controller.textAddress.text.isEmpty
+                    ? controller.accountModel.address
+                    : controller.textAddress.text,
                 style: FontStyleUI.fontPlusJakartaSans().copyWith(
                   color: AppColors.textColorXam,
                   fontSize: 12,
@@ -119,41 +127,43 @@ Widget _buildItemInforCustomer() {
   );
 }
 
-Widget _buildInforScheduleRepair() {
+Widget _buildInforScheduleRepair(ScheduleRepairController controller) {
   return Container(
     height: 116,
     alignment: Alignment.centerLeft,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Thời gian: 12:04 12/07/2023",
-          style: FontStyleUI.fontPlusJakartaSans().copyWith(
-            color: AppColors.textColorXam,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+    child: Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Thời gian: ${controller.selectedDate.value} ${controller.dateSelect.value}",
+            style: FontStyleUI.fontPlusJakartaSans().copyWith(
+              color: AppColors.textColorXam,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 3,
-        ),
-        Text(
-          "Mô tả lỗi: hjasdhjashjdasbdasmndasbdnmas dnasd ádhbagdasmbdakn báhdbbsa",
-          style: FontStyleUI.fontPlusJakartaSans().copyWith(
-            color: AppColors.textColorXam,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+          const SizedBox(
+            height: 3,
           ),
-        ),
-        Text(
-          "Lưu ý: hjasdhjashjdasbdasmndasbdnmas dnasd ádhbagdasmbdakn báhdbbsa",
-          style: FontStyleUI.fontPlusJakartaSans().copyWith(
-            color: AppColors.textColorXam,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+          Text(
+            "Mô tả lỗi: ${controller.textDescribe.text}",
+            style: FontStyleUI.fontPlusJakartaSans().copyWith(
+              color: AppColors.textColorXam,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-      ],
-    ).paddingSymmetric(horizontal: 10,vertical: 5),
+          Text(
+            "Lưu ý: ${controller.textNote.text}",
+            style: FontStyleUI.fontPlusJakartaSans().copyWith(
+              color: AppColors.textColorXam,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ).paddingSymmetric(horizontal: 10, vertical: 5),
+    ),
   );
 }

@@ -2,10 +2,22 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
+import 'package:systemrepair/cores/const/const.dart';
 import 'package:systemrepair/modules/schedule_repair/controllers/schedule_repair_controller.dart';
 
+import '../../../shared/utils/date_utils.dart';
+
 class ScheduleRepairControllerImp extends ScheduleRepairController {
+
+  @override
+  void onInit() {
+    accountModel = HIVE_APP.get(AppConst.keyAccount);
+    super.onInit();
+  }
+
   @override
   void setIndexHead(int index) {
     indexHead.value = index;
@@ -20,6 +32,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
       lastDate: DateTime(2101),
     );
     selectedDate.value = picked ?? DateTime.now();
+    dateSelect.value = formatDateTimeToString(selectedDate.value);
   }
 
   @override
@@ -29,6 +42,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
       initialTime: selectedTime.value,
     );
     selectedTime.value = picked ?? TimeOfDay.now();
+    dateSelect.value = selectedTime.value.format(Get.context!);
   }
 
   @override
