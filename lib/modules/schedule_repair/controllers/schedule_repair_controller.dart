@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
 import 'package:systemrepair/modules/register_account/model/account_model.dart';
 
+import '../models/fixer_model.dart';
+
 abstract class ScheduleRepairController extends BaseGetxController {
 
   RxInt indexHead = 0.obs;
@@ -37,6 +39,8 @@ abstract class ScheduleRepairController extends BaseGetxController {
 
   Rx<File> image = File("").obs;
 
+  List<FixerModel> listFixerModel = [];
+
 
 
   void setIndexHead(int index);
@@ -48,5 +52,7 @@ abstract class ScheduleRepairController extends BaseGetxController {
   Future<void> getImageFromGallery();
 
   String  fileToBase64(File file);
+
+  Future<void> getDataFixerModel();
 
 }
