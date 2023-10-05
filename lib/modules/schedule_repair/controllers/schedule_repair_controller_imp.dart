@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -54,10 +56,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      // Đã chọn ảnh, bạn có thể làm gì đó với nó ở đây
-      // Ví dụ: hiển thị nó trên màn hình
       image.value = File(pickedFile.path);
-      // linkImg.value = fileToBase64(image.value);
     }
   }
 
@@ -79,10 +78,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
     if (result.docs.isNotEmpty) {
       for (final dataFixerModel in result.docs) {
         listFixerModel.add(FixerModel.fromJson(dataFixerModel.data()));
-        // print(dataFixerModel.);
       }
-      // var doc = result.docs.first;
-      // print(doc);
     } else {
       BaseShowNotification.showNotification(
         Get.context!,
@@ -90,5 +86,31 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
         QuickAlertType.error,
       );
     }
+  }
+
+  @override
+  Future<void> getFixer() async {
+
+    for(var item in listFixerModel){
+      if(item.status ?? false){
+        // Tính khoảng cách giữa vị trí hiện tại và vị trí trong danh sách
+        double distance = Geolocator.distanceBetween(
+          accountModel.latitude ?? 0.0,
+          accountModel.longitude ?? 0.0,
+          item.latitude ?? 0,
+          item.longitude ?? 0,
+        );
+
+        // So sánh khoảng cách với vị trí gần tôi nhất hiện tại
+        if (nearestDistance == 0.0 || distance < nearestDistance) {
+          nearestDistance = distance;
+          latitudeFixer = item.latitude ?? 0.0;
+          longitudeFixer = item.longitude ?? 0.0;
+        }
+      }
+    }
+
+    log("${latitudeFixer} ${longitudeFixer}");
+    log("${accountModel.latitude} ${accountModel.longitude}");
   }
 }
