@@ -9,8 +9,9 @@ import 'package:systemrepair/modules/profile/controllers/profile_controller_imp.
 import 'package:systemrepair/shared/utils/font_ui.dart';
 import 'package:systemrepair/shared/widget/base_widget.dart';
 
-class ProfileView extends BaseGetWidget {
+import '../../../router/app_pages.dart';
 
+class ProfileView extends BaseGetWidget {
   @override
   ProfileController controller = Get.put(ProfileControllerImp());
 
@@ -81,9 +82,10 @@ class ProfileView extends BaseGetWidget {
                               ),
                               Expanded(
                                 child: BaseWidget().optionCircle(
-                                    width: 44,
-                                    height: 44,
-                                    icon: AppConst.messengerUser),
+                                  width: 44,
+                                  height: 44,
+                                  icon: AppConst.messengerUser,
+                                ),
                               )
                             ],
                           ),
@@ -181,13 +183,21 @@ class ProfileView extends BaseGetWidget {
               height: 10,
             ),
             InkWell(
-              onTap: () {},
-              child: itemOption(icon: icon1, name: name1),
+              onTap: () {
+                Get.toNamed(AppPages.updateProfile);
+              },
+              child: itemOption(
+                icon: icon1,
+                name: name1,
+              ),
             ),
             const Divider(
               color: Color(0xffF3F3F9),
             ),
-            itemOption(icon: icon2, name: name2),
+            itemOption(
+              icon: icon2,
+              name: name2,
+            ),
             if (icon4 != null)
               const Divider(
                 color: Color(0xffF3F3F9),
