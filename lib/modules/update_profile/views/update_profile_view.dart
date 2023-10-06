@@ -44,24 +44,29 @@ class UpdateProfile extends BaseGetWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Stack(
-                  children: [
-                    Positioned(
-                      child: Center(
-                        child: SizedBox(
-                          width: 106,
-                          height: 106,
-                          child: Image.asset(AppConst.userUser),
+                InkWell(
+                  onTap: () async {
+                    await controller.getImageFromGallery();
+                  },
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        child: Center(
+                          child: SizedBox(
+                            width: 106,
+                            height: 106,
+                            child: Image.asset(AppConst.userUser),
+                          ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 55,
-                      left: 180,
-                      child: SvgPicture.asset(AppConst.iconUpdateImg),
-                    )
-                  ],
-                ).paddingOnly(top: 50),
+                      Positioned(
+                        top: 55,
+                        left: 180,
+                        child: SvgPicture.asset(AppConst.iconUpdateImg),
+                      )
+                    ],
+                  ).paddingOnly(top: 50),
+                ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -85,7 +90,7 @@ class UpdateProfile extends BaseGetWidget {
                       () => BaseWidgetLogin().buttonView(
                     "Cập nhập tài khoản",
                         () async {
-                      // await controller.loginAcc();
+
                     },
                     controller.isShowLoading.value,
                   ),

@@ -15,6 +15,7 @@ import 'package:systemrepair/modules/schedule_repair/models/fixer_model.dart';
 
 import '../../../base_utils/base_widget/base_show_notification.dart';
 import '../../../shared/utils/date_utils.dart';
+import '../models/registration_schedule_model.dart';
 
 class ScheduleRepairControllerImp extends ScheduleRepairController {
   @override
@@ -90,9 +91,8 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
 
   @override
   Future<void> getFixer() async {
-
-    for(var item in listFixerModel){
-      if(item.status ?? false){
+    for (var item in listFixerModel) {
+      if (item.status ?? false) {
         // Tính khoảng cách giữa vị trí hiện tại và vị trí trong danh sách
         double distance = Geolocator.distanceBetween(
           accountModel.latitude ?? 0.0,
@@ -104,13 +104,61 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
         // So sánh khoảng cách với vị trí gần tôi nhất hiện tại
         if (nearestDistance == 0.0 || distance < nearestDistance) {
           nearestDistance = distance;
-          latitudeFixer = item.latitude ?? 0.0;
-          longitudeFixer = item.longitude ?? 0.0;
+          // latitudeFixer = item.latitude ?? 0.0;
+          // longitudeFixer = item.longitude ?? 0.0;
+          accFixer.latitude = item.latitude ?? 0.0;
+          accFixer.longitude = item.longitude ?? 0.0;
+          accFixer.uid = item.uid;
         }
       }
     }
+  }
 
-    log("${latitudeFixer} ${longitudeFixer}");
-    log("${accountModel.latitude} ${accountModel.longitude}");
+  @override
+  Future<void> registerSchedule() async {
+    getFixer();
+    fixAccNull();
+    String id = uuid.v4();
+    RegistrationScheduleModel registrationScheduleModel =
+        RegistrationScheduleModel(
+      id: id,
+      address: textAddress.text.trim(),
+      numberPhone: textNumberPhone.text.trim(),
+      email: textEmail.text.trim(),
+      status: 0,
+      customerName: textName.text.trim(),
+      numberCancel: 0,
+      uidFixer: accFixer.uid,
+      latitude: accFixer.latitude,
+      longitude: accFixer.longitude,
+      describe: textDescribe.text.trim(),
+      note: textNote.text.trim(),
+    );
+    CollectionReference users =
+        FirebaseFirestore.instance.collection('RegistrationSchedule');
+    try {
+      await users.add(registrationScheduleModel.toJson());
+      log('Dữ liệu đã được thêm vào Firestore.');
+    } catch (e) {
+      BaseShowNotification.showNotification(
+        Get.context!,
+        'Lỗi khi thêm dữ liệu vào Firestore: $e',
+        QuickAlertType.error,
+      );
+    }
+  }
+
+  @override
+  void fixAccNull() {
+    // TODO: implement fixAccNull
+    if (textName.text.isEmpty) {
+      textName.text = accountModel.nameAccout ?? "";
+    }
+    if (textEmail.text.isEmpty) {
+      textEmail.text = accountModel.email;
+    }
+    if (textNumberPhone.text.isEmpty) {
+      textNumberPhone.text = accountModel.numberPhone ?? "";
+    }
   }
 }

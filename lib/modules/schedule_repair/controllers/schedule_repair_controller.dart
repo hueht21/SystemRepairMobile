@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
 import 'package:systemrepair/modules/register_account/model/account_model.dart';
+import 'package:uuid/uuid.dart';
 
 import '../models/fixer_model.dart';
 
 abstract class ScheduleRepairController extends BaseGetxController {
-
   RxInt indexHead = 0.obs;
 
   TextEditingController textEmail = TextEditingController();
@@ -42,15 +42,20 @@ abstract class ScheduleRepairController extends BaseGetxController {
 
   List<FixerModel> listFixerModel = [];
 
-
-  double latitudeFixer = 0.0;
-
-  double longitudeFixer = 0.0;
-
   double nearestDistance = 0.0;
 
+  var uuid = const Uuid();
 
-
+  AccountModel accFixer = AccountModel(
+    auth: 1,
+    latitude: 0,
+    longitude: 0,
+    nameAccout: "",
+    numberPhone: "",
+    uid: "",
+    email: "",
+    address: "",
+  );
 
   void setIndexHead(int index);
 
@@ -60,10 +65,13 @@ abstract class ScheduleRepairController extends BaseGetxController {
 
   Future<void> getImageFromGallery();
 
-  String  fileToBase64(File file);
+  String fileToBase64(File file);
 
   Future<void> getDataFixerModel();
 
   Future<void> getFixer();
 
+  Future<void> registerSchedule();
+
+  void fixAccNull();
 }
