@@ -1,9 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
 import 'package:systemrepair/modules/register_account/model/account_model.dart';
+
+import '../models/fixer_model.dart';
 
 abstract class ScheduleRepairController extends BaseGetxController {
 
@@ -37,6 +40,16 @@ abstract class ScheduleRepairController extends BaseGetxController {
 
   Rx<File> image = File("").obs;
 
+  List<FixerModel> listFixerModel = [];
+
+
+  double latitudeFixer = 0.0;
+
+  double longitudeFixer = 0.0;
+
+  double nearestDistance = 0.0;
+
+
 
 
   void setIndexHead(int index);
@@ -48,5 +61,9 @@ abstract class ScheduleRepairController extends BaseGetxController {
   Future<void> getImageFromGallery();
 
   String  fileToBase64(File file);
+
+  Future<void> getDataFixerModel();
+
+  Future<void> getFixer();
 
 }

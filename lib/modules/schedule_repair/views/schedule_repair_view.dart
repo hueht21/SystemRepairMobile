@@ -189,6 +189,8 @@ class ScheduleRepair extends BaseGetWidget {
             onTap: () {
               if (controller.indexHead.value != 2) {
                 controller.indexHead.value++;
+              }else {
+                controller.getFixer();
               }
             },
             child: Container(
