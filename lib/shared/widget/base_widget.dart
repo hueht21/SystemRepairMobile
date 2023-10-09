@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+import '../../cores/const/app_colors.dart';
+import '../utils/font_ui.dart';
+
 class BaseWidget {
   static DateTime? _dateTime;
   static int _oldFunc = 0;
@@ -53,5 +56,55 @@ class BaseWidget {
         )
     );
   }
+
+  Widget buildItemHead(String title, String number, bool isSelect) {
+    return Column(
+      children: [
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+              color: isSelect
+                  ? AppColors.textTitleColor
+                  : AppColors.textColorXam88,
+              borderRadius: BorderRadius.circular(50)),
+          child: Center(
+            child: Text(
+              number,
+              style: FontStyleUI.fontNunito().copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 102,
+          child: Text(
+            title,
+            style: FontStyleUI.fontPlusJakartaSans().copyWith(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: isSelect ? AppColors.textTim : AppColors.textColorXam88,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ).paddingOnly(top: 5)
+      ],
+    );
+  }
+
+  Widget buildItemBar(bool isSelect) {
+    return Container(
+      width: 50,
+      height: 1,
+      decoration: BoxDecoration(
+        color: isSelect ? AppColors.textTim : AppColors.textColorXam88,
+        borderRadius: BorderRadius.circular(5),
+      ),
+    ).paddingSymmetric(vertical: 13);
+  }
+
 
 }

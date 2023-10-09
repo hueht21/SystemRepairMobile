@@ -14,7 +14,7 @@ abstract class OrderController extends BaseGetxController {
   ];
 
 
-
-
   void setIndexOption(int index);
+
+  String getStatus(int index);
 }

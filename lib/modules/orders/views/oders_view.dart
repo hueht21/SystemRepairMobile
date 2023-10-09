@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/cores/const/app_colors.dart';
+import 'package:systemrepair/router/app_pages.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../base_utils/base_widget/base_widget_page.dart';
@@ -60,7 +61,19 @@ class OdersView extends BaseGetWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ).paddingOnly(left: 10),
-              _buildItemOrder()
+              Expanded(
+                child: SizedBox(
+                  width: Get.width,
+                  height: Get.height,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return _buildItemOrder();
+                    },
+                    itemCount: 5,
+                  ),
+                ),
+              ),
+              // _buildItemOrder()
             ],
           ),
         ),
@@ -78,10 +91,11 @@ class OdersView extends BaseGetWidget {
           width: 100,
           height: 35,
           decoration: BoxDecoration(
-              color: controller.indexOption.value == index
-                  ? AppColors.colorBottom
-                  : AppColors.textXam,
-              borderRadius: BorderRadius.circular(20)),
+            color: controller.indexOption.value == index
+                ? AppColors.colorBottom
+                : AppColors.textXam,
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Center(
             child: Text(
               title,
@@ -100,86 +114,92 @@ class OdersView extends BaseGetWidget {
   }
 
   Widget _buildItemOrder() {
-    return Container(
-      width: Get.width,
-      height: 250,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: AppColors.textTitleColor, // Màu border muốn đặt
-          width: 1.0, // Độ dày của border
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                "Khách hàng: Phạm Ngọc Huế ",
-                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                    color: AppColors.textTitleColor,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              Text(
-                "0356814233",
-                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
-                ),
-              )
-            ],
-          ).paddingSymmetric(horizontal: 10, vertical: 8),
-          Text(
-            "phamngochue127@gmail.com",
-            style: FontStyleUI.fontPlusJakartaSans().copyWith(
-              color: Colors.black,
-              fontSize: 14,
-              fontWeight: FontWeight.normal,
-            ),
-          ).paddingSymmetric(horizontal: 10),
-          const SizedBox(
-            height: 10,
+    return InkWell(
+      onTap: () {
+
+        Get.toNamed(AppPages.orderDetails);
+      },
+      child: Container(
+        width: Get.width,
+        height: 250,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: AppColors.textTitleColor, // Màu border muốn đặt
+            width: 1.0, // Độ dày của border
           ),
-          Row(
-            children: [
-              Text(
-                "08:30 ",
-                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  "Khách hàng: Phạm Ngọc Huế ",
+                  style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                      color: AppColors.textTitleColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700),
                 ),
-              ),
-              Container(
-                width: 60,
-                height: 2,
-                decoration: const BoxDecoration(color: AppColors.colorThanh),
-              ).paddingSymmetric(horizontal: 10),
-              Text(
-                "12/07/2023",
-                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                  color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.normal,
+                const SizedBox(
+                  width: 20,
                 ),
+                Text(
+                  "0356814233",
+                  style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                )
+              ],
+            ).paddingSymmetric(horizontal: 10, vertical: 8),
+            Text(
+              "phamngochue127@gmail.com",
+              style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
               ),
-            ],
-          ).paddingSymmetric(horizontal: 10),
-          Container(
-            width: Get.width,
-            height: 1,
-            decoration: const BoxDecoration(color: AppColors.colorThanh),
-          ).paddingSymmetric(vertical: 10),
-          _buildFixer()
-        ],
-      ),
-    ).paddingSymmetric(horizontal: 10, vertical: 10);
+            ).paddingSymmetric(horizontal: 10),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Text(
+                  "08:30 ",
+                  style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                Container(
+                  width: 60,
+                  height: 2,
+                  decoration: const BoxDecoration(color: AppColors.colorThanh),
+                ).paddingSymmetric(horizontal: 10),
+                Text(
+                  "12/07/2023",
+                  style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ).paddingSymmetric(horizontal: 10),
+            Container(
+              width: Get.width,
+              height: 1,
+              decoration: const BoxDecoration(color: AppColors.colorThanh),
+            ).paddingSymmetric(vertical: 10),
+            _buildFixer()
+          ],
+        ),
+      ).paddingSymmetric(horizontal: 10, vertical: 10),
+    );
   }
 
   Widget _buildFixer() {
@@ -207,14 +227,11 @@ class OdersView extends BaseGetWidget {
               ),
             )
           ],
-        ).paddingSymmetric( vertical: 8),
+        ).paddingSymmetric(vertical: 8),
         Text(
           "Đia chỉ: 54 Triều khúc Thanh Xuân",
           style: FontStyleUI.fontPlusJakartaSans().copyWith(
-            color: Colors.black,
-            fontSize: 12,
-            fontWeight: FontWeight.normal
-          ),
+              color: Colors.black, fontSize: 12, fontWeight: FontWeight.normal),
         ),
         const SizedBox(
           height: 15,
@@ -236,7 +253,11 @@ class OdersView extends BaseGetWidget {
           decoration: BoxDecoration(
               color: AppColors.colorCam,
               borderRadius: BorderRadius.circular(8)),
-          child: const Center(child: Text("Đang chờ")),
+          child: Center(
+            child: Text(
+              controller.getStatus(0),
+            ),
+          ),
         ).paddingOnly(left: 10)
       ],
     ).paddingSymmetric(horizontal: 10);

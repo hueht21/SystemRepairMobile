@@ -7,6 +7,7 @@ import 'package:systemrepair/modules/onboarding/views/walktroughs_views.dart';
 import 'package:systemrepair/modules/register_account/views/finish_regiter_view.dart';
 import 'package:systemrepair/modules/register_account/views/register_account_view.dart';
 
+import '../modules/ order_details/views/order_details_views.dart';
 import '../modules/register_account/views/otp_view.dart';
 import '../modules/schedule_repair/views/schedule_repair_view.dart';
 import '../modules/update_profile/views/update_profile_view.dart';
@@ -24,6 +25,7 @@ class AppPages {
   static const home = Routes.home;
   static const scheduleRepair = Routes.scheduleRepair;
   static const updateProfile = Routes.updateProfile;
+  static const orderDetails = Routes.orderDetails;
 
   static final routes = [
     GetPage(
@@ -63,6 +65,10 @@ class AppPages {
     GetPage(
       name: _Paths.updateProfile,
       page: () => UpdateProfile(),
+    ),
+    GetPage(
+      name: _Paths.orderDetails,
+      page: () => OrderDetails(),
     ),
   ];
 
