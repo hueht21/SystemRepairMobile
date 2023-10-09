@@ -186,11 +186,11 @@ class ScheduleRepair extends BaseGetWidget {
             child: SizedBox(),
           ),
           InkWell(
-            onTap: () {
+            onTap: () async {
               if (controller.indexHead.value != 2) {
                 controller.indexHead.value++;
               }else {
-                controller.getFixer();
+                await controller.registerSchedule();
               }
             },
             child: Container(

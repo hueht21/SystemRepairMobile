@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
@@ -72,6 +71,8 @@ abstract class ScheduleRepairController extends BaseGetxController {
   Future<void> getFixer();
 
   Future<void> registerSchedule();
+
+  Future<void> searchLocation(String address);
 
   void fixAccNull();
 }

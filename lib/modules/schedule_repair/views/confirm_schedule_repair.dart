@@ -136,7 +136,7 @@ Widget _buildInforScheduleRepair(ScheduleRepairController controller) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Thời gian: ${controller.selectedDate.value} ${controller.dateSelect.value}",
+            "Thời gian: ${controller.timeSelect.value} - ${controller.dateSelect.value}",
             style: FontStyleUI.fontPlusJakartaSans().copyWith(
               color: AppColors.textColorXam,
               fontSize: 14,

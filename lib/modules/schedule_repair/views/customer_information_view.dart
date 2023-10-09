@@ -18,6 +18,17 @@ Widget _buildInputInformation(ScheduleRepairController controller) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
+        "Lưu ý : Nếu đặt cho bạn với địa chỉ đã đăng ký thì để trống.",
+        style: FontStyleUI.fontPlusJakartaSans().copyWith(
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textTim,
+        ),
+      ),
+      const SizedBox(
+        height: 10,
+      ),
+      Text(
         "Họ và tên",
         style: FontStyleUI.fontPlusJakartaSans().copyWith(
           fontSize: 14,
@@ -60,8 +71,8 @@ Widget _buildInputInformation(ScheduleRepairController controller) {
       const SizedBox(
         height: 10,
       ),
-      _buildItemInfor(controller.textNumberPhone, "Nhập đúng định dạng Email",
-          AppConst.phoneSvg, false),
+      _buildItemInfor(controller.textEmail, "Nhập đúng định dạng Email",
+          AppConst.emailSvg, true),
       const SizedBox(
         height: 10,
       ),

@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -49,7 +50,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
       initialTime: selectedTime.value,
     );
     selectedTime.value = picked ?? TimeOfDay.now();
-    dateSelect.value = selectedTime.value.format(Get.context!);
+    timeSelect.value = selectedTime.value.format(Get.context!);
   }
 
   @override
@@ -116,36 +117,51 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
 
   @override
   Future<void> registerSchedule() async {
-    getFixer();
-    fixAccNull();
-    String id = uuid.v4();
-    RegistrationScheduleModel registrationScheduleModel =
-        RegistrationScheduleModel(
-      id: id,
-      address: textAddress.text.trim(),
-      numberPhone: textNumberPhone.text.trim(),
-      email: textEmail.text.trim(),
-      status: 0,
-      customerName: textName.text.trim(),
-      numberCancel: 0,
-      uidFixer: accFixer.uid,
-      latitude: accFixer.latitude,
-      longitude: accFixer.longitude,
-      describe: textDescribe.text.trim(),
-      note: textNote.text.trim(),
-    );
-    CollectionReference users =
-        FirebaseFirestore.instance.collection('RegistrationSchedule');
-    try {
-      await users.add(registrationScheduleModel.toJson());
-      log('Dữ liệu đã được thêm vào Firestore.');
-    } catch (e) {
+
+    if(isNullTime()){
+      await searchLocation(textAddress.text.trim());
+      getFixer();
+      fixAccNull();
+      String id = uuid.v4();
+      RegistrationScheduleModel registrationScheduleModel =
+      RegistrationScheduleModel(
+          id: id,
+          address: textAddress.text.trim(),
+          numberPhone: textNumberPhone.text.trim(),
+          email: textEmail.text.trim(),
+          status: 0,
+          customerName: textName.text.trim(),
+          numberCancel: 0,
+          uidFixer: accFixer.uid,
+          latitude: accFixer.latitude,
+          longitude: accFixer.longitude,
+          describe: textDescribe.text.trim(),
+          note: textNote.text.trim(),
+          imgFix: image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
+          timeSet: timeSelect.value,
+          dateSet: dateSelect.value,
+          uidClient: accountModel.uid);
+      CollectionReference users =
+      FirebaseFirestore.instance.collection('RegistrationSchedule');
+      try {
+        print(registrationScheduleModel);
+        // await users.add(registrationScheduleModel.toJson());
+        log('Dữ liệu đã được thêm vào Firestore.');
+      } catch (e) {
+        BaseShowNotification.showNotification(
+          Get.context!,
+          'Lỗi khi thêm dữ liệu vào Firestore: $e',
+          QuickAlertType.error,
+        );
+      }
+    } else {
       BaseShowNotification.showNotification(
         Get.context!,
-        'Lỗi khi thêm dữ liệu vào Firestore: $e',
-        QuickAlertType.error,
+        'Thời gian và mô tả không được để trống',
+        QuickAlertType.warning,
       );
     }
+
   }
 
   @override
@@ -159,6 +175,34 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
     }
     if (textNumberPhone.text.isEmpty) {
       textNumberPhone.text = accountModel.numberPhone ?? "";
+    }
+    if(textAddress.text.isEmpty){
+      textAddress.text = accountModel.address;
+    }
+  }
+
+  bool isNullTime() {
+    if(timeSelect.value.isEmpty || dateSelect.value.isEmpty || textDescribe.text.isEmpty){
+      return false;
+    }
+    return true;
+  }
+
+  @override
+  Future<void> searchLocation(String address) async {
+    try {
+      List<Location> locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        accountModel.latitude = locations[0].latitude;
+        accountModel.longitude = locations[0].longitude;
+      }
+      log("${accountModel.latitude} ${accountModel.longitude}");
+    } catch (e) {
+      BaseShowNotification.showNotification(
+        Get.context!,
+        "Không lấy được vị trí $e",
+        QuickAlertType.error,
+      );
     }
   }
 }
