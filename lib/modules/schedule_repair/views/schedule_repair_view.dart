@@ -11,6 +11,7 @@ import 'package:systemrepair/shared/utils/font_ui.dart';
 import '../../../cores/const/app_colors.dart';
 import '../../../cores/const/const.dart';
 import '../../../shared/utils/date_utils.dart';
+import '../../../shared/widget/base_widget.dart';
 import '../controllers/schedule_repair_controller.dart';
 
 part 'customer_information_view.dart';
@@ -87,19 +88,19 @@ class ScheduleRepair extends BaseGetWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: _buildItemHead("Thông tin khách hàng", "1", true),
+            child: BaseWidget().buildItemHead("Thông tin khách hàng", "1", true),
           ),
-          Expanded(child: _buildItemBar(controller.indexHead.value >= 2)),
+          Expanded(child: BaseWidget().buildItemBar(controller.indexHead.value >= 2)),
           Expanded(
-            child: _buildItemHead(
+            child: BaseWidget().buildItemHead(
               "Tình trạng hỏng",
               "2",
               controller.indexHead.value >= 1 ? true : false,
             ),
           ),
-          Expanded(child: _buildItemBar(controller.indexHead.value >= 2)),
+          Expanded(child: BaseWidget().buildItemBar(controller.indexHead.value >= 2)),
           Expanded(
-            child: _buildItemHead(
+            child: BaseWidget().buildItemHead(
               "Xác nhận",
               "3",
               controller.indexHead.value >= 2,
@@ -108,55 +109,6 @@ class ScheduleRepair extends BaseGetWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildItemHead(String title, String number, bool isSelect) {
-    return Column(
-      children: [
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-              color: isSelect
-                  ? AppColors.textTitleColor
-                  : AppColors.textColorXam88,
-              borderRadius: BorderRadius.circular(50)),
-          child: Center(
-            child: Text(
-              number,
-              style: FontStyleUI.fontNunito().copyWith(
-                fontSize: 16,
-                fontWeight: FontWeight.w800,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 102,
-          child: Text(
-            title,
-            style: FontStyleUI.fontPlusJakartaSans().copyWith(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: isSelect ? AppColors.textTim : AppColors.textColorXam88,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ).paddingOnly(top: 5)
-      ],
-    );
-  }
-
-  Widget _buildItemBar(bool isSelect) {
-    return Container(
-      width: 50,
-      height: 1,
-      decoration: BoxDecoration(
-        color: isSelect ? AppColors.textTim : AppColors.textColorXam88,
-        borderRadius: BorderRadius.circular(5),
-      ),
-    ).paddingSymmetric(vertical: 13);
   }
 
   Widget _buildButtonNext() {
