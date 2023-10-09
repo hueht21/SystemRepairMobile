@@ -1,4 +1,3 @@
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +14,9 @@ import '../../../shared/widget/base_widget.dart';
 import '../controllers/schedule_repair_controller.dart';
 
 part 'customer_information_view.dart';
+
 part 'information_corrupted_view.dart';
+
 part 'confirm_schedule_repair.dart';
 
 class ScheduleRepair extends BaseGetWidget {
@@ -57,27 +58,31 @@ class ScheduleRepair extends BaseGetWidget {
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                _buildTitleHead(),
-                const SizedBox(
-                  height: 20,
-                ),
-                Obx(() => widgetView[controller.indexHead.value]),
-                const SizedBox(
-                  height: 30,
-                ),
-
-              ],
-            ).paddingSymmetric(horizontal: 10),
+          child: Obx(
+            () => BaseWidget().baseLoading(
+              isLoading: controller.isLoadingOverlay.value,
+              widget: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _buildTitleHead(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    widgetView[controller.indexHead.value],
+                    const SizedBox(
+                      height: 30,
+                    ),
+                  ],
+                ).paddingSymmetric(horizontal: 10),
+              ),
+            ),
           ),
         ),
       ),
-      bottomNavigationBar:  _buildButtonNext().paddingOnly(bottom: 10),
+      bottomNavigationBar: _buildButtonNext().paddingOnly(bottom: 10),
     );
   }
 
@@ -88,9 +93,12 @@ class ScheduleRepair extends BaseGetWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: BaseWidget().buildItemHead("Thông tin khách hàng", "1", true),
+            child:
+                BaseWidget().buildItemHead("Thông tin khách hàng", "1", true),
           ),
-          Expanded(child: BaseWidget().buildItemBar(controller.indexHead.value >= 2)),
+          Expanded(
+              child:
+                  BaseWidget().buildItemBar(controller.indexHead.value >= 2)),
           Expanded(
             child: BaseWidget().buildItemHead(
               "Tình trạng hỏng",
@@ -98,7 +106,9 @@ class ScheduleRepair extends BaseGetWidget {
               controller.indexHead.value >= 1 ? true : false,
             ),
           ),
-          Expanded(child: BaseWidget().buildItemBar(controller.indexHead.value >= 2)),
+          Expanded(
+              child:
+                  BaseWidget().buildItemBar(controller.indexHead.value >= 2)),
           Expanded(
             child: BaseWidget().buildItemHead(
               "Xác nhận",
@@ -141,7 +151,7 @@ class ScheduleRepair extends BaseGetWidget {
             onTap: () async {
               if (controller.indexHead.value != 2) {
                 controller.indexHead.value++;
-              }else {
+              } else {
                 await controller.registerSchedule();
               }
             },
@@ -153,7 +163,7 @@ class ScheduleRepair extends BaseGetWidget {
                   borderRadius: BorderRadius.circular(25)),
               child: Center(
                 child: Text(
-                  controller.indexHead.value == 2 ? "Tìm kiếm thợ sửa": "Tiếp",
+                  controller.indexHead.value == 2 ? "Tìm kiếm thợ sửa" : "Tiếp",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.w600,

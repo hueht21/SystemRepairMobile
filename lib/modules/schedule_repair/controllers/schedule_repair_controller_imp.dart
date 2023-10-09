@@ -117,36 +117,43 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
 
   @override
   Future<void> registerSchedule() async {
+    showLoadingOverlay();
 
-    if(isNullTime()){
-      await searchLocation(textAddress.text.trim());
+    if (isNullTime()) {
+      await searchLocation(
+        textAddress.text.trim().isEmpty
+            ? accountModel.address
+            : textAddress.text.trim(),
+      );
       getFixer();
       fixAccNull();
       String id = uuid.v4();
       RegistrationScheduleModel registrationScheduleModel =
-      RegistrationScheduleModel(
-          id: id,
-          address: textAddress.text.trim(),
-          numberPhone: textNumberPhone.text.trim(),
-          email: textEmail.text.trim(),
-          status: 0,
-          customerName: textName.text.trim(),
-          numberCancel: 0,
-          uidFixer: accFixer.uid,
-          latitude: accFixer.latitude,
-          longitude: accFixer.longitude,
-          describe: textDescribe.text.trim(),
-          note: textNote.text.trim(),
-          imgFix: image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
-          timeSet: timeSelect.value,
-          dateSet: dateSelect.value,
-          uidClient: accountModel.uid);
+          RegistrationScheduleModel(
+              id: id,
+              address: textAddress.text.trim(),
+              numberPhone: textNumberPhone.text.trim(),
+              email: textEmail.text.trim(),
+              status: 0,
+              customerName: textName.text.trim(),
+              numberCancel: 0,
+              uidFixer: accFixer.uid,
+              latitude: accFixer.latitude,
+              longitude: accFixer.longitude,
+              describe: textDescribe.text.trim(),
+              note: textNote.text.trim(),
+              imgFix:
+                  image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
+              timeSet: timeSelect.value,
+              dateSet: dateSelect.value,
+              uidClient: accountModel.uid);
       CollectionReference users =
-      FirebaseFirestore.instance.collection('RegistrationSchedule');
+          FirebaseFirestore.instance.collection('RegistrationSchedule');
       try {
         print(registrationScheduleModel);
         // await users.add(registrationScheduleModel.toJson());
         log('Dữ liệu đã được thêm vào Firestore.');
+        // Get.back();
       } catch (e) {
         BaseShowNotification.showNotification(
           Get.context!,
@@ -162,6 +169,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
       );
     }
 
+    hideLoadingOverlay();
   }
 
   @override
@@ -176,13 +184,15 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
     if (textNumberPhone.text.isEmpty) {
       textNumberPhone.text = accountModel.numberPhone ?? "";
     }
-    if(textAddress.text.isEmpty){
+    if (textAddress.text.isEmpty) {
       textAddress.text = accountModel.address;
     }
   }
 
   bool isNullTime() {
-    if(timeSelect.value.isEmpty || dateSelect.value.isEmpty || textDescribe.text.isEmpty){
+    if (timeSelect.value.isEmpty ||
+        dateSelect.value.isEmpty ||
+        textDescribe.text.isEmpty) {
       return false;
     }
     return true;
