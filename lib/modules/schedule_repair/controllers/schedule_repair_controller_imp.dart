@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -77,6 +78,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
         // .where("UID", isEqualTo: uid) // UID của tài khoản bạn muốn truy vấn
         .get();
 
+
     if (result.docs.isNotEmpty) {
       for (final dataFixerModel in result.docs) {
         listFixerModel.add(FixerModel.fromJson(dataFixerModel.data()));
@@ -137,21 +139,33 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
               status: 0,
               customerName: textName.text.trim(),
               numberCancel: 0,
-              uidFixer: accFixer.uid,
+              uidFixer: accFixer,
               latitude: accFixer.latitude,
               longitude: accFixer.longitude,
               describe: textDescribe.text.trim(),
               note: textNote.text.trim(),
-              imgFix:
-                  image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
+              imgFix: "",
+                  // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
               timeSet: timeSelect.value,
               dateSet: dateSelect.value,
               uidClient: accountModel.uid);
+
+      try {
+        final storage = FirebaseStorage.instance;
+        var updateImg = storage.ref().child("ImageScheduleFixer").child("${id}imageScheduleFixer.jpg");
+
+        await updateImg.putFile(image.value); // Tải lên ảnh
+
+      }catch(e) {
+        log("$e");
+        hideLoadingOverlay();
+      }
+
+      registrationScheduleModel.imgFix = "${id}imageScheduleFixer.jpg";
       CollectionReference users =
           FirebaseFirestore.instance.collection('RegistrationSchedule');
       try {
-        print(registrationScheduleModel);
-        // await users.add(registrationScheduleModel.toJson());
+        await users.add(registrationScheduleModel.toJson());
         log('Dữ liệu đã được thêm vào Firestore.');
         // Get.back();
       } catch (e) {
@@ -160,6 +174,8 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
           'Lỗi khi thêm dữ liệu vào Firestore: $e',
           QuickAlertType.error,
         );
+        log("$e");
+        hideLoadingOverlay();
       }
     } else {
       BaseShowNotification.showNotification(

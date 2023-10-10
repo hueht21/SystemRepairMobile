@@ -201,7 +201,7 @@ Widget _buildSelectImg(ScheduleRepairController controller) {
         /// Convert BASE64 to IMg
         // controller.linkImg.value.isNotEmpty
         //     ? Image.memory(
-        //   base64Decode( contro/ller.linkImg.value),
+        //   base64Decode( controller.linkImg.value),
         //   fit: BoxFit.cover,
         // ).paddingOnly(bottom: 20)
         //     : const SizedBox(),

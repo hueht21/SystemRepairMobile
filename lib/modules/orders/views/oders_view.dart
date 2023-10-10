@@ -6,6 +6,7 @@ import 'package:systemrepair/router/app_pages.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../base_utils/base_widget/base_widget_page.dart';
+import '../../schedule_repair/models/registration_schedule_model.dart';
 import '../controllers/order_controler.dart';
 import '../controllers/order_controller_imp.dart';
 
@@ -67,9 +68,9 @@ class OdersView extends BaseGetWidget {
                   height: Get.height,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return _buildItemOrder();
+                      return _buildItemOrder(controller.listRegistrationSchedule[index]);
                     },
-                    itemCount: 5,
+                    itemCount: controller.listRegistrationSchedule.length,
                   ),
                 ),
               ),
@@ -113,10 +114,9 @@ class OdersView extends BaseGetWidget {
     );
   }
 
-  Widget _buildItemOrder() {
+  Widget _buildItemOrder(RegistrationScheduleModel registrationScheduleModel) {
     return InkWell(
       onTap: () {
-
         Get.toNamed(AppPages.orderDetails);
       },
       child: Container(
@@ -135,7 +135,7 @@ class OdersView extends BaseGetWidget {
             Row(
               children: [
                 Text(
-                  "Khách hàng: Phạm Ngọc Huế ",
+                  "Khách hàng: ${registrationScheduleModel.customerName} ",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
                       color: AppColors.textTitleColor,
                       fontSize: 15,
@@ -145,7 +145,7 @@ class OdersView extends BaseGetWidget {
                   width: 20,
                 ),
                 Text(
-                  "0356814233",
+                  "${registrationScheduleModel.numberPhone}",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
                     color: Colors.black,
                     fontSize: 14,
@@ -155,7 +155,7 @@ class OdersView extends BaseGetWidget {
               ],
             ).paddingSymmetric(horizontal: 10, vertical: 8),
             Text(
-              "phamngochue127@gmail.com",
+              "${registrationScheduleModel.email}",
               style: FontStyleUI.fontPlusJakartaSans().copyWith(
                 color: Colors.black,
                 fontSize: 14,
@@ -168,7 +168,7 @@ class OdersView extends BaseGetWidget {
             Row(
               children: [
                 Text(
-                  "08:30 ",
+                  "${registrationScheduleModel.timeSet} ",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
                     color: Colors.black,
                     fontSize: 14,
@@ -181,7 +181,7 @@ class OdersView extends BaseGetWidget {
                   decoration: const BoxDecoration(color: AppColors.colorThanh),
                 ).paddingSymmetric(horizontal: 10),
                 Text(
-                  "12/07/2023",
+                  "${registrationScheduleModel.dateSet}",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
                     color: Colors.black,
                     fontSize: 14,
@@ -195,21 +195,21 @@ class OdersView extends BaseGetWidget {
               height: 1,
               decoration: const BoxDecoration(color: AppColors.colorThanh),
             ).paddingSymmetric(vertical: 10),
-            _buildFixer()
+            _buildFixer(registrationScheduleModel)
           ],
         ),
       ).paddingSymmetric(horizontal: 10, vertical: 10),
     );
   }
 
-  Widget _buildFixer() {
+  Widget _buildFixer(RegistrationScheduleModel registrationScheduleModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Text(
-              "Thợ: Phạm Văn Dũng ",
+              "Thợ: ${registrationScheduleModel.numberPhone} ",
               style: FontStyleUI.fontPlusJakartaSans().copyWith(
                   color: AppColors.textTitleColor,
                   fontSize: 15,

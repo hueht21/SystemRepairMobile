@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
@@ -32,33 +34,48 @@ class OrderDetails extends BaseGetWidget {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 15,
-            ),
-            _buildTitleHead(),
-            const SizedBox(
-              height: 10,
-            ),
-            _buildInforOder(),
-            const SizedBox(
-              height: 15,
-            ),
-            Container(
-              width: Get.width,
-              height: 1,
-              decoration: const BoxDecoration(
-                color: AppColors.colorThanh
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 15,
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            _buildInforFixer()
-          ],
+              _buildTitleHead(),
+              const SizedBox(
+                height: 10,
+              ),
+              _buildInforOder(),
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                width: Get.width,
+                height: 1,
+                decoration: const BoxDecoration(color: AppColors.colorThanh),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              _buildInforFixer(),
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                width: Get.width,
+                height: 1,
+                decoration: const BoxDecoration(color: AppColors.colorThanh),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              _buildRepairPhoto()
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: BaseGetWidget.buildButton("Huỷ đơn", () {},
+          isLoading: controller.isShowLoading.value,
+          colors: AppColors.colorButton).paddingSymmetric(horizontal: 10),
     );
   }
 
@@ -82,8 +99,8 @@ class OrderDetails extends BaseGetWidget {
             ),
           ),
           Expanded(
-              child:
-                  BaseWidget().buildItemBar(controller.indexHead.value >= 2)),
+            child: BaseWidget().buildItemBar(controller.indexHead.value >= 2),
+          ),
           Expanded(
             child: BaseWidget().buildItemHead(
               "Đã huỷ",
@@ -172,7 +189,6 @@ class OrderDetails extends BaseGetWidget {
     ).paddingSymmetric(horizontal: 10);
   }
 
-
   Widget _buildInforFixer() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +215,6 @@ class OrderDetails extends BaseGetWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-
           ],
         ),
         const SizedBox(
@@ -230,8 +245,10 @@ class OrderDetails extends BaseGetWidget {
           height: 8,
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
+              flex: 5,
               child: Text(
                 "Địa chỉ sửa: 345 Khương Trung, Thanh Xuân",
                 style: FontStyleUI.fontPlusJakartaSans().copyWith(
@@ -241,9 +258,63 @@ class OrderDetails extends BaseGetWidget {
                 ),
               ),
             ),
-            Expanded(child: Image.asset(AppConst.userUser))
+            Expanded(
+              flex: 2,
+              child: SizedBox(
+                width: 50,
+                height: 100,
+                child: Image.asset(
+                  AppConst.userUser,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            )
           ],
         ),
+      ],
+    ).paddingSymmetric(horizontal: 10);
+  }
+
+  Widget _buildRepairPhoto() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Hình ảnh sửa",
+              style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                color: AppColors.textTitleColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Text(
+              "Xem chi tiết",
+              style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                color: AppColors.textTitleColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          alignment: Alignment.topCenter,
+          width: 250,
+          height: 250,
+          child: Image.memory(
+            base64Decode(AppConst.imgBase64.split(',').last), /// Đoạn này ghép API vào bỏ đi
+            fit: BoxFit.cover,
+          ),
+        )
       ],
     ).paddingSymmetric(horizontal: 10);
   }

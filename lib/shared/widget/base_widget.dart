@@ -11,8 +11,8 @@ class BaseWidget {
   static DateTime? _dateTime;
   static int _oldFunc = 0;
 
-  static const Widget sizedBox10 = const SizedBox(height: 10);
-  static const Widget sizedBox5 = const SizedBox(height: 5);
+  static const Widget sizedBox10 = SizedBox(height: 10);
+  static const Widget sizedBox5 = SizedBox(height: 5);
 
   /// Sử dụng để tránh trường hợp click liên tiếp khi thực hiện function
   static Widget baseOnAction({

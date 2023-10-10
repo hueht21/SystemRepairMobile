@@ -1,3 +1,5 @@
+import 'fixer_model.dart';
+
 class RegistrationScheduleModel {
   RegistrationScheduleModel({
     required this.address,
@@ -18,22 +20,22 @@ class RegistrationScheduleModel {
     required this.uidFixer,
   });
 
-  final String? address;
-  final String? customerName;
-  final String? dateSet;
-  final String? describe;
-  final String? email;
-  final String? id;
-  final String? imgFix;
-  final double? latitude;
-  final double? longitude;
-  final String? note;
-  final int? numberCancel;
-  final String? numberPhone;
-  final int? status;
-  final String? timeSet;
-  final String? uidClient;
-  final String? uidFixer;
+   String? address;
+   String? customerName;
+   String? dateSet;
+   String? describe;
+   String? email;
+   String? id;
+   String? imgFix;
+   double? latitude;
+   double? longitude;
+   String? note;
+   int? numberCancel;
+   String? numberPhone;
+   int? status;
+   String? timeSet;
+   String? uidClient;
+   FixerModel? uidFixer;
 
   factory RegistrationScheduleModel.fromJson(Map<String, dynamic> json){
     return RegistrationScheduleModel(
@@ -52,8 +54,29 @@ class RegistrationScheduleModel {
       status: json["Status"],
       timeSet: json["TimeSet"],
       uidClient: json["UIDClient"],
-      uidFixer: json["UIDFixer"],
+      uidFixer: json["UIDFixer"] == null ? null : FixerModel.fromJson(json["UIDFixer"]),
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "Address": address,
+      "CustomerName": customerName,
+      "DateSet": dateSet,
+      "Describe": describe,
+      "Email": email,
+      "ID": id,
+      "ImgFix": imgFix,
+      "Latitude": latitude,
+      "Longitude": longitude,
+      "Note": note,
+      "NumberCancel": numberCancel,
+      "NumberPhone": numberPhone,
+      "Status": status,
+      "TimeSet": timeSet,
+      "UIDClient": uidClient,
+      "UIDFixer": uidFixer?.toJson(), // Chuyển đối tượng UidFixer thành JSON
+    };
+  }
 }
+

@@ -32,4 +32,17 @@ class FixerModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "Age": age,
+      "Email": email,
+      "Latitude": latitude,
+      "Longitude": longitude,
+      "Name": name,
+      "NumberPhone": numberPhone,
+      "Status": status,
+      "UID": uid,
+    };
+  }
+
 }
