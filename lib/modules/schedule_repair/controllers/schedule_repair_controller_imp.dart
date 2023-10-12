@@ -109,9 +109,10 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
           nearestDistance = distance;
           // latitudeFixer = item.latitude ?? 0.0;
           // longitudeFixer = item.longitude ?? 0.0;
-          accFixer.latitude = item.latitude ?? 0.0;
-          accFixer.longitude = item.longitude ?? 0.0;
-          accFixer.uid = item.uid;
+          // accFixer.latitude = item.latitude ?? 0.0;
+          // accFixer.longitude = item.longitude ?? 0.0;
+          // accFixer.uid = item.uid;
+          fixerModel = item;
         }
       }
     }
@@ -139,9 +140,9 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
               status: 0,
               customerName: textName.text.trim(),
               numberCancel: 0,
-              uidFixer: accFixer,
-              latitude: accFixer.latitude,
-              longitude: accFixer.longitude,
+              uidFixer: fixerModel,
+              latitude: accountModel.latitude,
+              longitude: accountModel.longitude,
               describe: textDescribe.text.trim(),
               note: textNote.text.trim(),
               imgFix: "",

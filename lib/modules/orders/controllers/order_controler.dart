@@ -15,7 +15,7 @@ abstract class OrderController extends BaseGetxController {
     "Đã huỷ"
   ];
 
-  List<RegistrationScheduleModel> listRegistrationSchedule = [];
+  RxList<RegistrationScheduleModel> listRegistrationSchedule = <RegistrationScheduleModel>[].obs;
 
 
   Future<void> getDataRegistrationSchedule();

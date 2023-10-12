@@ -68,7 +68,8 @@ class OdersView extends BaseGetWidget {
                   height: Get.height,
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return _buildItemOrder(controller.listRegistrationSchedule[index]);
+                      return _buildItemOrder(
+                          controller.listRegistrationSchedule[index]);
                     },
                     itemCount: controller.listRegistrationSchedule.length,
                   ),
@@ -117,7 +118,12 @@ class OdersView extends BaseGetWidget {
   Widget _buildItemOrder(RegistrationScheduleModel registrationScheduleModel) {
     return InkWell(
       onTap: () {
-        Get.toNamed(AppPages.orderDetails);
+        Get.toNamed(AppPages.orderDetails, arguments: registrationScheduleModel)
+            ?.then((value) async {
+          if (value != null) {
+            await controller.getDataRegistrationSchedule();
+          }
+        });
       },
       child: Container(
         width: Get.width,
@@ -209,7 +215,7 @@ class OdersView extends BaseGetWidget {
         Row(
           children: [
             Text(
-              "Thợ: ${registrationScheduleModel.numberPhone} ",
+              "Thợ: ${registrationScheduleModel.uidFixer?.name ?? ""} ",
               style: FontStyleUI.fontPlusJakartaSans().copyWith(
                   color: AppColors.textTitleColor,
                   fontSize: 15,
@@ -219,7 +225,7 @@ class OdersView extends BaseGetWidget {
               width: 20,
             ),
             Text(
-              "0356814233",
+              registrationScheduleModel.uidFixer?.numberPhone ?? "",
               style: FontStyleUI.fontPlusJakartaSans().copyWith(
                 color: Colors.black,
                 fontSize: 14,
@@ -229,7 +235,7 @@ class OdersView extends BaseGetWidget {
           ],
         ).paddingSymmetric(vertical: 8),
         Text(
-          "Đia chỉ: 54 Triều khúc Thanh Xuân",
+          registrationScheduleModel.uidFixer?.address ?? "",
           style: FontStyleUI.fontPlusJakartaSans().copyWith(
               color: Colors.black, fontSize: 12, fontWeight: FontWeight.normal),
         ),
@@ -237,7 +243,7 @@ class OdersView extends BaseGetWidget {
           height: 15,
         ),
         Text(
-          "Miêu tả: Máy giặt bật không lên",
+          "Miêu tả: ${registrationScheduleModel.describe}",
           style: FontStyleUI.fontPlusJakartaSans().copyWith(
             color: Colors.black,
             fontSize: 12,
@@ -255,7 +261,7 @@ class OdersView extends BaseGetWidget {
               borderRadius: BorderRadius.circular(8)),
           child: Center(
             child: Text(
-              controller.getStatus(0),
+              controller.getStatus(registrationScheduleModel.status ?? 0),
             ),
           ),
         ).paddingOnly(left: 10)

@@ -8,16 +8,20 @@ class FixerModel {
     required this.numberPhone,
     required this.status,
     required this.uid,
+    required this.address,
+    required this.imgAcc
   });
 
-  final int? age;
-  final String? email;
-  final double? latitude;
-  final double? longitude;
-  final String? name;
-  final String? numberPhone;
-  final bool? status;
-  final String? uid;
+  int? age;
+  String? email;
+  double? latitude;
+  double? longitude;
+  String? name;
+  String? numberPhone;
+  bool? status;
+  String? uid;
+  String address;
+  String imgAcc;
 
   factory FixerModel.fromJson(Map<String, dynamic> json){
     return FixerModel(
@@ -29,6 +33,8 @@ class FixerModel {
       numberPhone: json["NumberPhone"],
       status: json["Status"],
       uid: json["UID"],
+      address: json["Address"],
+      imgAcc: json["ImgAcc"]
     );
   }
 
@@ -42,6 +48,8 @@ class FixerModel {
       "NumberPhone": numberPhone,
       "Status": status,
       "UID": uid,
+      "Address": address,
+      "ImgAcc": imgAcc,
     };
   }
 

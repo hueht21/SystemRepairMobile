@@ -48,6 +48,7 @@ class OrderControllerImp extends OrderController {
   @override
   Future<void> getDataRegistrationSchedule() async  {
     // TODO: implement getDataRegistrationSchedule
+    listRegistrationSchedule.value = [];
     AccountModel accountModel = HIVE_APP.get(AppConst.keyAccount);
 
     final documentSnapshot = await FirebaseFirestore.instance

@@ -45,15 +45,28 @@ abstract class ScheduleRepairController extends BaseGetxController {
 
   var uuid = const Uuid();
 
-  AccountModel accFixer = AccountModel(
-    auth: 1,
-    latitude: 0,
-    longitude: 0,
-    nameAccout: "",
-    numberPhone: "",
-    uid: "",
-    email: "",
-    address: "",
+  // AccountModel accFixer = AccountModel(
+  //   auth: 1,
+  //   latitude: 0,
+  //   longitude: 0,
+  //   nameAccout: "",
+  //   numberPhone: "",
+  //   uid: "",
+  //   email: "",
+  //   address: "",
+  // );
+
+  FixerModel fixerModel = FixerModel(
+    age: 0,
+    email: '',
+    latitude: null,
+    longitude: null,
+    name: '',
+    numberPhone: '',
+    status: null,
+    uid: '',
+    address: '',
+    imgAcc: ''
   );
 
   void setIndexHead(int index);
