@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -15,9 +17,15 @@ class OderDetailControllerImp extends OderDetailController {
     registrationScheduleModel = Get.arguments;
     indexHead.value = registrationScheduleModel.status ?? 0;
 
-    final storage = FirebaseStorage.instance;
-    imageUrlFix.value = await storage.ref().child('fixer/${registrationScheduleModel.uidFixer?.imgAcc}').getDownloadURL();
-    imageUrlSchedule.value = await storage.ref().child('ImageScheduleFixer/${registrationScheduleModel.imgFix}').getDownloadURL();
+
+    try {
+      final storage = FirebaseStorage.instance;
+      imageUrlFix.value = await storage.ref().child('fixer/${registrationScheduleModel.uidFixer?.imgAcc}').getDownloadURL();
+      imageUrlSchedule.value = await storage.ref().child('ImageScheduleFixer/${registrationScheduleModel.imgFix}').getDownloadURL();
+    } catch(e) {
+      log("$e");
+    }
+
     super.onInit();
   }
 

@@ -14,6 +14,7 @@ import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
 import 'package:systemrepair/cores/const/const.dart';
 import 'package:systemrepair/modules/schedule_repair/controllers/schedule_repair_controller.dart';
 import 'package:systemrepair/modules/schedule_repair/models/fixer_model.dart';
+import 'package:systemrepair/router/app_pages.dart';
 
 import '../../../base_utils/base_widget/base_show_notification.dart';
 import '../../../shared/utils/date_utils.dart';
@@ -178,6 +179,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
         log("$e");
         hideLoadingOverlay();
       }
+      Get.offNamed(AppPages.completeRegistration, arguments: fixerModel);
     } else {
       BaseShowNotification.showNotification(
         Get.context!,
