@@ -13,8 +13,6 @@ import '../../schedule_repair/models/registration_schedule_model.dart';
 import 'order_controler.dart';
 
 class OrderControllerImp extends OrderController {
-
-
   @override
   Future<void> onInit() async {
     // TODO: implement onInit
@@ -25,40 +23,43 @@ class OrderControllerImp extends OrderController {
   @override
   void setIndexOption(int index) {
     // TODO: implement setIndexOption
-
   }
 
   @override
   String getStatus(int index) {
     // TODO: implement getStatus
-    switch(index) {
-      case 0:
-        return EnumStatusOder.waitingStatus;
+    switch (index) {
       case 1:
-        return EnumStatusOder.confirmedStatus;
+        return EnumStatusOder.waitingStatus;
       case 2:
-        return EnumStatusOder.completeStatus;
+        return EnumStatusOder.confirmedStatus;
       case 3:
+        return EnumStatusOder.completeStatus;
+      case 4:
         return EnumStatusOder.canceledStatus;
     }
     return "";
-
   }
 
   @override
-  Future<void> getDataRegistrationSchedule() async  {
+  Future<void> getDataRegistrationSchedule() async {
     // TODO: implement getDataRegistrationSchedule
     listRegistrationSchedule.value = [];
+    listRegistrationScheduleSearch = [];
     AccountModel accountModel = HIVE_APP.get(AppConst.keyAccount);
 
     final documentSnapshot = await FirebaseFirestore.instance
-        .collection('RegistrationSchedule') // Thay 'your_collection_name' bằng tên collection của bạn
-        .where("UIDClient", isEqualTo: accountModel.uid) // UID của tài khoản bạn muốn truy vấn
+        .collection(
+            'RegistrationSchedule') // Thay 'your_collection_name' bằng tên collection của bạn
+        .where("UIDClient",
+            isEqualTo: accountModel.uid) // UID của tài khoản bạn muốn truy vấn
         .get();
 
     if (documentSnapshot.docs.isNotEmpty) {
       for (final dataFixerModel in documentSnapshot.docs) {
-        listRegistrationSchedule.add(RegistrationScheduleModel.fromJson(dataFixerModel.data()));
+        listRegistrationScheduleSearch
+            .add(RegistrationScheduleModel.fromJson(dataFixerModel.data()));
+        listRegistrationSchedule.value = listRegistrationScheduleSearch;
       }
     } else {
       BaseShowNotification.showNotification(
@@ -67,5 +68,34 @@ class OrderControllerImp extends OrderController {
         QuickAlertType.error,
       );
     }
+  }
+
+  @override
+  Future<void> onLoadMore() async {
+    log("Load xuong nay");
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    showLoading();
+    indexOption.value = 0;
+    await getDataRegistrationSchedule();
+    hideLoading();
+    refreshController.refreshCompleted();
+  }
+
+  @override
+  void optionType(int indexType) {
+
+    listRegistrationSchedule.value = [];
+    if(indexType == 0) {
+
+      listRegistrationSchedule.value = listRegistrationScheduleSearch;
+    }else {
+      listRegistrationSchedule.value = listRegistrationScheduleSearch
+          .where((element) => element.status == indexType)
+          .toList();
+    }
+
   }
 }

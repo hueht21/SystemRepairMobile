@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
+import 'package:systemrepair/base_utils/base_controllers/base_refresh_controller.dart';
 
 import '../../schedule_repair/models/registration_schedule_model.dart';
 
-abstract class OrderController extends BaseGetxController {
+abstract class OrderController extends BaseRefreshGetxController {
 
   RxInt indexOption = 0.obs;
 
@@ -16,6 +16,7 @@ abstract class OrderController extends BaseGetxController {
   ];
 
   RxList<RegistrationScheduleModel> listRegistrationSchedule = <RegistrationScheduleModel>[].obs;
+  List<RegistrationScheduleModel> listRegistrationScheduleSearch = [];
 
 
   Future<void> getDataRegistrationSchedule();
@@ -23,4 +24,6 @@ abstract class OrderController extends BaseGetxController {
   void setIndexOption(int index);
 
   String getStatus(int index);
+
+  void optionType(int indexType);
 }

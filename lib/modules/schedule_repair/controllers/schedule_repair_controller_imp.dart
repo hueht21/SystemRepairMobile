@@ -137,7 +137,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
               address: textAddress.text.trim(),
               numberPhone: textNumberPhone.text.trim(),
               email: textEmail.text.trim(),
-              status: 0,
+              status: 1,
               customerName: textName.text.trim(),
               numberCancel: 0,
               uidFixer: fixerModel,

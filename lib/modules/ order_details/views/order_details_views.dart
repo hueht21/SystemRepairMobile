@@ -75,14 +75,15 @@ class OrderDetails extends BaseGetWidget {
             ),
           ),
         ),
-        bottomNavigationBar: (controller.indexHead.value != 2 && controller.indexHead.value != 3)
-            ? BaseGetWidget.buildButton("Huỷ đơn", () async {
-                await controller.cancelOrder();
-              },
-                    isLoading: controller.isShowLoading.value,
-                    colors: AppColors.colorButton)
-                .paddingSymmetric(horizontal: 10)
-            : SizedBox(),
+        bottomNavigationBar:
+            (controller.indexHead.value != 3 && controller.indexHead.value != 4)
+                ? BaseGetWidget.buildButton("Huỷ đơn", () async {
+                    await controller.cancelOrder();
+                  },
+                        isLoading: controller.isShowLoading.value,
+                        colors: AppColors.colorButton)
+                    .paddingSymmetric(horizontal: 10)
+                : const SizedBox(),
       ),
     );
   }
@@ -94,36 +95,37 @@ class OrderDetails extends BaseGetWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: BaseWidget().buildItemHead(EnumStatusOder.waitingStatus, "1", true),
+            child: BaseWidget()
+                .buildItemHead(EnumStatusOder.waitingStatus, "1", true),
           ),
           Expanded(
-              child:
-                  BaseWidget().buildItemBar(controller.indexHead.value >= 2)),
+            child: BaseWidget().buildItemBar(controller.indexHead.value >= 0),
+          ),
           Expanded(
             child: BaseWidget().buildItemHead(
               EnumStatusOder.confirmedStatus,
               "2",
-              controller.indexHead.value >= 1 ? true : false,
+              controller.indexHead.value > 1 ? true : false,
             ),
           ),
           Expanded(
-            child: BaseWidget().buildItemBar(controller.indexHead.value >= 2),
+            child: BaseWidget().buildItemBar(controller.indexHead.value > 1),
           ),
           Expanded(
             child: BaseWidget().buildItemHead(
               EnumStatusOder.completeStatus,
               "3",
-              controller.indexHead.value >= 2,
+              controller.indexHead.value > 2,
             ),
           ),
           Expanded(
-            child: BaseWidget().buildItemBar(controller.indexHead.value >= 3),
+            child: BaseWidget().buildItemBar(controller.indexHead.value > 2),
           ),
           Expanded(
             child: BaseWidget().buildItemHead(
               EnumStatusOder.canceledStatus,
               "4",
-              controller.indexHead.value >= 3,
+              controller.indexHead.value > 2,
             ),
           ),
         ],

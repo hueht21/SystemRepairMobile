@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:loading_overlay_pro/loading_overlay_pro.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../cores/const/app_colors.dart';
+import '../../cores/values/defaul_theme.dart';
+import '../../cores/values/string_values.dart';
 import '../utils/font_ui.dart';
 
 class BaseWidget {
@@ -113,6 +117,65 @@ class BaseWidget {
     return LoadingOverlayPro(
       isLoading: isLoading,
       child: widget,
+    );
+  }
+
+  /// Widget cài đặt việc refresh page
+  static Widget buildSmartRefresher({
+    required RefreshController refreshController,
+    required Widget child,
+    ScrollController? scrollController,
+    Function()? onRefresh,
+    Function()? onLoadMore,
+    bool enablePullUp = false,
+    bool enablePullDown = false,
+  }) {
+    return SmartRefresher(
+      enablePullDown: enablePullDown,
+      enablePullUp: enablePullUp,
+      scrollController: scrollController,
+      // header: const MaterialClassicHeader(),
+      controller: refreshController,
+      onRefresh: onRefresh,
+      onLoading: onLoadMore,
+      footer: BaseWidget.buildSmartRefresherCustomFooter(),
+      child: child,
+    );
+  }
+
+  static Widget buildSmartRefresherCustomFooter() {
+    return CustomFooter(
+      builder: (context, mode) {
+        if (mode == LoadStatus.loading) {
+          return const CupertinoActivityIndicator();
+        } else {
+          return const Opacity(
+            opacity: 0.0,
+            child: CupertinoActivityIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+  Widget listEmpty() {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        FaIcon(
+          FontAwesomeIcons.circleExclamation,
+          size: 30,
+          color: DefaultTheme.greyText,
+        ),
+        Text(
+          AppStr.emptyList,
+          style: TextStyle(
+            fontSize: 20,
+            color: DefaultTheme.greyText,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }
