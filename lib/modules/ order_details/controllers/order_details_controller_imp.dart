@@ -15,14 +15,14 @@ class OderDetailControllerImp extends OderDetailController {
     registrationScheduleModel = Get.arguments;
     indexHead.value = registrationScheduleModel.status ?? 0;
 
+
     try {
       final storage = FirebaseStorage.instance;
       imageUrlFix.value = await storage.ref().child('fixer/${registrationScheduleModel.uidFixer?.imgAcc}').getDownloadURL();
       imageUrlSchedule.value = await storage.ref().child('ImageScheduleFixer/${registrationScheduleModel.imgFix}').getDownloadURL();
-    }catch(e) {
-      print(e);
+    } catch(e) {
+      log("$e");
     }
-
 
     super.onInit();
   }

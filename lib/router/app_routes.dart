@@ -12,6 +12,7 @@ abstract class Routes {
   static const scheduleRepair = _Paths.scheduleRepair;
   static const updateProfile = _Paths.updateProfile;
   static const orderDetails = _Paths.orderDetails;
+  static const completeRegistration = _Paths.completeRegistration;
 }
 
 abstract class _Paths {
@@ -26,4 +27,5 @@ abstract class _Paths {
   static const scheduleRepair = '/scheduleRepair';
   static const updateProfile = '/updateProfile';
   static const orderDetails = '/orderDetails';
+  static const completeRegistration = '/completeRegistration';
 }
