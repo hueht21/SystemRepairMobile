@@ -1,4 +1,5 @@
 
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,7 @@ class OderDetailControllerImp extends OderDetailController {
     // await FirebaseFirestore.instance.collection("RegistrationSchedule").w
 
     showLoadingOverlay();
-    registrationScheduleModel.status = 3;/// 3 Là huỷ
+    registrationScheduleModel.status = 4;/// 4 Là huỷ
     final CollectionReference collectionReference = FirebaseFirestore.instance.collection('RegistrationSchedule');
     await collectionReference.where('ID', isEqualTo: registrationScheduleModel.id).get().then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {

@@ -9,6 +9,7 @@ import 'package:systemrepair/modules/profile/views/profile_view.dart';
 
 import '../../../cores/const/const.dart';
 import '../../orders/views/oders_view.dart';
+import '../../voucher/views/voucher_view.dart';
 
 class HomeView extends BaseGetWidget {
   @override
@@ -16,7 +17,7 @@ class HomeView extends BaseGetWidget {
 
   @override
   Widget buildWidgets(BuildContext context) {
-    final Facment = [HomePage(), OdersView(), HomePage(), ProfileView()];
+    final Facment = [HomePage(), OdersView(), VoucherView(), ProfileView()];
     return Obx(()
       => Scaffold(
         body: SafeArea(

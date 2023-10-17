@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -97,10 +98,27 @@ class ProfileView extends BaseGetWidget {
                           child: Column(
                             children: [
                               Center(
-                                child: SizedBox(
-                                  width: 106,
-                                  height: 106,
-                                  child: Image.asset(AppConst.userUser),
+                                child: Obx(
+                                  () => SizedBox(
+                                    width: 106,
+                                    height: 106,
+                                    child: controller.imgLinkUser.isEmpty
+                                        ? Image.asset(AppConst.userUser)
+                                        : ClipOval(
+                                          child: CachedNetworkImage(
+                                            width: 106, // Điều chỉnh kích thước theo ý muốn
+                                            height: 106, // Điều chỉnh kích thước theo ý muốn
+                                            fit: BoxFit.cover, // Điều chỉnh cách ảnh sẽ hiển thị
+                                              imageUrl:
+                                                  controller.imgLinkUser.value,
+                                              placeholder: (context, url) =>
+                                                  const CircularProgressIndicator(),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
+                                            ),
+                                        ),
+                                  ),
                                 ),
                               ),
                               const SizedBox(
@@ -138,7 +156,11 @@ class ProfileView extends BaseGetWidget {
                                 icon1: AppConst.userSvg,
                                 name1: "Thông tin cá nhân",
                                 icon2: AppConst.payUser,
-                                name2: "Thanh toán"),
+                                name2: "Thanh toán",
+                                functionHeader: () {
+                                  Get.toNamed(AppPages.updateProfile);
+                                },
+                                functionBottom: () {}),
                           ),
                         ),
                       )
@@ -148,12 +170,19 @@ class ProfileView extends BaseGetWidget {
                     height: 30,
                   ),
                   _panerOption(
-                      icon1: AppConst.setting,
-                      name1: "Cài đặt",
-                      icon2: AppConst.help,
-                      name2: "Trợ giúp",
-                      icon4: AppConst.logout,
-                      name4: "Đăng xuất")
+                    icon1: AppConst.setting,
+                    name1: "Cài đặt",
+                    icon2: AppConst.help,
+                    name2: "Trợ giúp",
+                    icon4: AppConst.logout,
+                    name4: "Đăng xuất",
+                    functionHeader: () {
+                      // Get.offAllNamed(AppPages.login);
+                    },
+                    functionBottom: () {
+                      Get.offAllNamed(AppPages.login);
+                    },
+                  )
                 ],
               ),
             ),
@@ -168,6 +197,8 @@ class ProfileView extends BaseGetWidget {
     required String name1,
     required String icon2,
     required String name2,
+    required Function functionHeader,
+    required Function functionBottom,
     String? icon4,
     String? name4,
   }) {
@@ -184,7 +215,7 @@ class ProfileView extends BaseGetWidget {
             ),
             InkWell(
               onTap: () {
-                Get.toNamed(AppPages.updateProfile);
+                functionHeader();
               },
               child: itemOption(
                 icon: icon1,
@@ -204,7 +235,9 @@ class ProfileView extends BaseGetWidget {
               ),
             if (icon4 != null)
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  functionBottom();
+                },
                 child: itemOption(
                   icon: icon4,
                   name: name4!,

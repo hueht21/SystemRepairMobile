@@ -7,4 +7,5 @@ class AccountModelFields {
 	static const int uid = 5;
 	static const int email = 6;
 	static const int address = 7;
+	static const int imgUser = 8;
 }

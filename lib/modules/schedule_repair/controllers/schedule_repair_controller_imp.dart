@@ -124,62 +124,45 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
     showLoadingOverlay();
 
     if (isNullTime()) {
-      await searchLocation(
-        textAddress.text.trim().isEmpty
-            ? accountModel.address
-            : textAddress.text.trim(),
-      );
-      getFixer();
-      fixAccNull();
-      String id = uuid.v4();
-      RegistrationScheduleModel registrationScheduleModel =
-          RegistrationScheduleModel(
-              id: id,
-              address: textAddress.text.trim(),
-              numberPhone: textNumberPhone.text.trim(),
-              email: textEmail.text.trim(),
-              status: 1,
-              customerName: textName.text.trim(),
-              numberCancel: 0,
-              uidFixer: fixerModel,
-              latitude: accountModel.latitude,
-              longitude: accountModel.longitude,
-              describe: textDescribe.text.trim(),
-              note: textNote.text.trim(),
-              imgFix: "",
-                  // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
-              timeSet: timeSelect.value,
-              dateSet: dateSelect.value,
-              uidClient: accountModel.uid);
+      if(checkFileType(image.value.path)){
+        await searchLocation(
+          textAddress.text.trim().isEmpty
+              ? accountModel.address
+              : textAddress.text.trim(),
+        );
+        getFixer();
+        fixAccNull();
+        String id = uuid.v4();
+        RegistrationScheduleModel registrationScheduleModel =
+        RegistrationScheduleModel(
+            id: id,
+            address: textAddress.text.trim(),
+            numberPhone: textNumberPhone.text.trim(),
+            email: textEmail.text.trim(),
+            status: 1,
+            customerName: textName.text.trim(),
+            numberCancel: 0,
+            uidFixer: fixerModel,
+            latitude: accountModel.latitude,
+            longitude: accountModel.longitude,
+            describe: textDescribe.text.trim(),
+            note: textNote.text.trim(),
+            imgFix: "",
+            // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
+            timeSet: timeSelect.value,
+            dateSet: dateSelect.value,
+            uidClient: accountModel.uid);
 
-      try {
-        final storage = FirebaseStorage.instance;
-        var updateImg = storage.ref().child("ImageScheduleFixer").child("${id}imageScheduleFixer.jpg");
-
-        await updateImg.putFile(image.value); // Tải lên ảnh
-
-      }catch(e) {
-        log("$e");
-        hideLoadingOverlay();
-      }
-
-      registrationScheduleModel.imgFix = "${id}imageScheduleFixer.jpg";
-      CollectionReference users =
-          FirebaseFirestore.instance.collection('RegistrationSchedule');
-      try {
-        await users.add(registrationScheduleModel.toJson());
-        log('Dữ liệu đã được thêm vào Firestore.');
-        // Get.back();
-      } catch (e) {
+        await insertData(registrationScheduleModel, id);
+        Get.offNamed(AppPages.completeRegistration, arguments: fixerModel);
+      } else {
         BaseShowNotification.showNotification(
           Get.context!,
-          'Lỗi khi thêm dữ liệu vào Firestore: $e',
-          QuickAlertType.error,
+          'Định dạng không được hỗ trợ',
+          QuickAlertType.warning,
         );
-        log("$e");
-        hideLoadingOverlay();
       }
-      Get.offNamed(AppPages.completeRegistration, arguments: fixerModel);
+
     } else {
       BaseShowNotification.showNotification(
         Get.context!,
@@ -189,6 +172,47 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
     }
 
     hideLoadingOverlay();
+  }
+
+  Future<void> insertData(RegistrationScheduleModel registrationScheduleModel,String id) async {
+    try {
+      final storage = FirebaseStorage.instance;
+      var updateImg = storage.ref().child("ImageScheduleFixer").child("${id}imageScheduleFixer.jpg");
+
+      await updateImg.putFile(image.value); // Tải lên ảnh
+
+    }catch(e) {
+      log("$e");
+      hideLoadingOverlay();
+    }
+
+    registrationScheduleModel.imgFix = "${id}imageScheduleFixer.jpg";
+    CollectionReference users =
+    FirebaseFirestore.instance.collection('RegistrationSchedule');
+    try {
+      await users.add(registrationScheduleModel.toJson());
+      log('Dữ liệu đã được thêm vào Firestore.');
+      // Get.back();
+    } catch (e) {
+      BaseShowNotification.showNotification(
+        Get.context!,
+        'Lỗi khi thêm dữ liệu vào Firestore: $e',
+        QuickAlertType.error,
+      );
+      log("$e");
+      hideLoadingOverlay();
+    }
+  }
+
+  bool checkFileType(String filePath) {
+    String fileExtension = filePath.split('.').last;
+    if (fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'png' || fileExtension == 'gif') {
+      return true;
+    } else if (fileExtension == 'mp4' || fileExtension == 'avi' || fileExtension == 'mkv') {
+      return false;
+    } else {
+      return false;
+    }
   }
 
   @override

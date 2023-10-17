@@ -11,7 +11,6 @@ import 'package:systemrepair/modules/register_account/model/account_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:systemrepair/router/app_pages.dart';
 
-import '../../../cores/const/app_colors.dart';
 
 class RegisterAccountControllerImp extends RegisterAccountController {
   @override
@@ -61,6 +60,7 @@ class RegisterAccountControllerImp extends RegisterAccountController {
           uid: user.uid,
           email: textEmail.text.trim(),
           address: textAddress.text.trim(),
+          imgUser: ""
         );
 
         try {

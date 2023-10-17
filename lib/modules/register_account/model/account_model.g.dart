@@ -25,13 +25,14 @@ class AccountModelAdapter extends TypeAdapter<AccountModel> {
       uid: fields[5] as String?,
       email: fields[6] as String,
       address: fields[7] as String,
+      imgUser: fields[8] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, AccountModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.auth)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class AccountModelAdapter extends TypeAdapter<AccountModel> {
       ..writeByte(6)
       ..write(obj.email)
       ..writeByte(7)
-      ..write(obj.address);
+      ..write(obj.address)
+      ..writeByte(8)
+      ..write(obj.imgUser);
   }
 
   @override
