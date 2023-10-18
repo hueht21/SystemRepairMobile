@@ -8,4 +8,12 @@ class FontStyleUI {
         fontWeight: FontWeight.w400,
         color: Colors.black);
   }
+
+  static TextStyle fontNunito() {
+    return GoogleFonts.nunito().copyWith(
+      fontSize: 20,
+      fontWeight: FontWeight.w700,
+      color: Colors.white,
+    );
+  }
 }

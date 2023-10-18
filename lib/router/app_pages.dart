@@ -1,17 +1,36 @@
 import 'package:get/get.dart';
-import 'package:systemrepair/main.dart';
-import 'package:systemrepair/modules/onboarding/views/splash_screen_view.dart';
+
+import '../modules/login/views/login_view.dart';
+import '../modules/onboarding/views/splash_screen_view.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SCREEN;
+  static const initial = Routes.screen;
+  static const walkTroughs = Routes.walkTroughs;
+  static const login = Routes.login;
+  static const register = Routes.register;
+  static const otp = Routes.otp;
+  static const finishRegister = Routes.finishRegister;
+  static const home = Routes.home;
+  static const scheduleRepair = Routes.scheduleRepair;
+  static const updateProfile = Routes.updateProfile;
+  static const orderDetails = Routes.orderDetails;
+  static const completeRegistration = Routes.completeRegistration;
 
   static final routes = [
     GetPage(
-      name: _Paths.SCREEN,
+      name: _Paths.screen,
       page: () => SplashScreenView(),
     ),
+
+    GetPage(
+      name: _Paths.login,
+      page: () => LoginView(),
+    ),
+
   ];
+
 }
