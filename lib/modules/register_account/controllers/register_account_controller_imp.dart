@@ -27,7 +27,7 @@ class RegisterAccountControllerImp extends RegisterAccountController {
         // Thay thế bằng URL của ứng dụng của bạn
         handleCodeInApp: true,
         // Mở ứng dụng để xác minh mã code
-        androidPackageName: "com.cudevnb.systemrepair");
+        androidPackageName: "com.cudevnb.systemrepairclient");
     await FirebaseAuth.instance
         .sendSignInLinkToEmail(email: email, actionCodeSettings: actionCode)
         .catchError(
