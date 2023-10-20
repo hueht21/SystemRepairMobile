@@ -6,6 +6,8 @@ import 'package:hive/hive.dart';
 import 'package:systemrepair/base_utils/repository_base/base_request.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
+import '../../modules/login/models/account_model.dart';
+
 
 late Box HIVE_APP;
 class AppController extends GetxController {
@@ -32,10 +34,9 @@ class AppController extends GetxController {
 
     Hive.init(appDocumentDirectory.path);
 
-    // Hive.registerAdapter(AccountModelAdapter());
+    Hive.registerAdapter(AccountModelAdapter());
     HIVE_APP = await Hive.openBox("hive_app_project",
         encryptionCipher: HiveAesCipher(encryptionKey));
-
 
     Get.put(BaseRequest(), permanent: true);
     super.onInit();

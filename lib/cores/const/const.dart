@@ -6,4 +6,8 @@ class AppConst {
   static const String emailSvg = "assets/images/gmail.svg";
   static const String passSvg = "assets/images/pass_svg.svg";
 
+  // hive
+
+  static const String keyAccount = "keyAccount";
+
 }
