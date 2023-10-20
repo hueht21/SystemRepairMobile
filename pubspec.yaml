@@ -12,26 +12,41 @@ dependencies:
     sdk: flutter
   auto_size_text: ^3.0.0
   cupertino_icons: ^1.0.2
+  cached_network_image: ^3.3.0
   dio: ^4.0.6
   get: ^4.6.5
   hive: ^2.2.3
+  hive_flutter: ^1.0.0
   google_fonts: ^5.1.0
+  geocoding: ^2.0.1
+  geolocator: ^7.6.2
+  image_picker: ^1.0.4
   loading_overlay_pro: ^2.1.1
   font_awesome_flutter: ^10.5.0
   firebase_auth: ^4.0.2
   firebase_core: ^2.15.0
   firebase_database: ^10.0.2
   firebase_messaging: ^14.2.1
+  firebase_storage: ^11.2.5
   firebase_remote_config: ^4.2.4
+  flutter_secure_storage: ^5.0.2
+  cloud_firestore: ^4.9.2
   flutter_svg: ^1.1.0
   flutter_localizations:
     sdk: flutter
   pull_to_refresh: ^2.0.0
+  path_provider: ^2.0.2
+  permission_handler: ^10.4.3
+  quickalert: ^1.0.2
+  uuid: ^4.0.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.4
 
 flutter:
 

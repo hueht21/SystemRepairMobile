@@ -61,29 +61,11 @@ class BaseWidgetLogin {
             const SizedBox(
               width: 10,
             ),
-            Text(
-              "Đăng nhập bằng ",
-              style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                color: AppColors.textColorDNBang,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Container(
-              height: 1,
-              width: 94,
-              decoration: BoxDecoration(
-                  color: AppColors.colorThanh,
-                  borderRadius: BorderRadius.circular(1)),
-            ),
           ],
         ),
-        const SizedBox(
-          height: 20,
-        ),
+        // const SizedBox(
+        //   height: 20,
+        // ),
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.center,
         //   children: [

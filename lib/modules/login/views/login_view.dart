@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
 import 'package:systemrepair/cores/const/app_colors.dart';
-import 'package:systemrepair/router/app_pages.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../shared/widget/base_widget_login.dart';
@@ -49,6 +48,7 @@ class LoginView extends BaseGetWidget {
                     () => BaseWidgetLogin().buttonView(
                   "Đăng nhập",
                       () async {
+                   await controller.loginAcc();
                   },
                   controller.isShowLoading.value,
                 ),
@@ -63,7 +63,7 @@ class LoginView extends BaseGetWidget {
               const SizedBox(
                 height: 30,
               ),
-              BaseWidgetLogin().buildLoginSocialNetwork()
+              // BaseWidgetLogin().buildLoginSocialNetwork()
             ],
           ).paddingSymmetric(horizontal: 20),
         ),
