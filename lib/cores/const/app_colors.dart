@@ -17,9 +17,13 @@ class AppColors {
   static const textColorDNBang = Color(0xff4E4D5F);
   static const textColorForgot = Color(0xff2EB4FF);
   static const colorIcon = Color(0xff888888);
+  static const colorDonHang = Color(0xff495057);
+  static const colorBackgroundIcon = Color(0xff45CB85);
+  static const colorIconDuyet = Color(0xff299CDB);
   static const colorNen= Color(0xffF4F4F4);
   static const colorCam= Color(0xffFFBC42);
   static const colorXamWarning= Color(0xff5F5F5F);
+  static const colorIconCancel=  Color(0xFFff5f6d);
   static const Color backgroundGrey = Color.fromARGB(255, 235, 234, 240);
   static const Color backgroundGreyT = Color.fromARGB(255, 255, 255, 245);
 

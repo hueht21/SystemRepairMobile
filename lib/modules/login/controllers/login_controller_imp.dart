@@ -7,6 +7,7 @@ import 'package:quickalert/models/quickalert_type.dart';
 import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
 import 'package:systemrepair/cores/const/const.dart';
 import 'package:systemrepair/modules/login/controllers/login_controller.dart';
+import 'package:systemrepair/modules/login/models/fixer_account_model.dart';
 import 'package:systemrepair/router/app_pages.dart';
 
 import '../../../base_utils/base_widget/base_show_notification.dart';
@@ -53,17 +54,19 @@ class LoginControllerImp extends LoginController {
   Future<void> getData(String uid) async {
     try {
       final documentSnapshot = await FirebaseFirestore.instance
-          .collection('User') // Thay 'your_collection_name' bằng tên collection của bạn
+          .collection('Fixer') // Thay 'your_collection_name' bằng tên collection của bạn
           .where("UID", isEqualTo: uid) // UID của tài khoản bạn muốn truy vấn
           .get();
 
       if (documentSnapshot.docs.isNotEmpty) {
         var doc =  documentSnapshot.docs.first;
-        AccountModel accountModel = AccountModel.fromJson(doc.data());
+        FixerAccountModel fixerAccountModel = FixerAccountModel.fromJson(doc.data());
 
-        await HIVE_APP.put(AppConst.keyAccount, accountModel);
+        await HIVE_APP.put(AppConst.keyFixerAccount, fixerAccountModel);
+
 
         Get.offAllNamed(AppPages.home);
+        log('Thành công ${fixerAccountModel.name}');
 
       } else {
         log('Dữ liệu không tồn tại cho UID này.');

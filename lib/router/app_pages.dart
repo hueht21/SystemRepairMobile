@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../modules/home/views/home_view.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/onboarding/views/splash_screen_view.dart';
 
@@ -30,6 +31,12 @@ class AppPages {
       name: _Paths.login,
       page: () => LoginView(),
     ),
+
+    GetPage(
+      name: _Paths.home,
+      page: () => HomeView(),
+    ),
+
 
   ];
 
