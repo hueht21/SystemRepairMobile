@@ -37,7 +37,7 @@ abstract class BaseGetWidget<T extends BaseGetxController> extends GetView<T> {
   static Widget buildButton(String btnTitle, Function function,
       {List<Color> colors = AppColors.colorGradientOrange,
         bool isLoading = false,
-        bool showLoading = true}) {
+        bool showLoading = true, Color colorText = Colors.white}) {
     return Container(
       width: double.infinity,
       height: 50,
@@ -59,8 +59,8 @@ abstract class BaseGetWidget<T extends BaseGetxController> extends GetView<T> {
             children: [
               Center(
                 child: Text(btnTitle.tr,
-                    style: const TextStyle(
-                        fontSize: 16, color: Colors.white)),
+                    style: TextStyle(
+                        fontSize: 16, color: colorText)),
               ),
               Align(
                 alignment: Alignment.centerRight,

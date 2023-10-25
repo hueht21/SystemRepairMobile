@@ -102,6 +102,44 @@ class BaseWidget {
     );
   }
 
+  Widget buildItemHeadSelect(String title, String number, bool isSelect) {
+    return Column(
+      children: [
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+              color: isSelect
+                  ? AppColors.textTitleColor
+                  : AppColors.textColorXam88,
+              borderRadius: BorderRadius.circular(50)),
+          child: Center(
+            child: Text(
+              number,
+              style: FontStyleUI.fontNunito().copyWith(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 102,
+          child: Text(
+            title,
+            style: FontStyleUI.fontPlusJakartaSans().copyWith(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: isSelect ? AppColors.textTim : AppColors.textColorXam88,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ).paddingOnly(top: 5)
+      ],
+    );
+  }
+
   Widget buildItemBar(bool isSelect) {
     return Container(
       width: 50,

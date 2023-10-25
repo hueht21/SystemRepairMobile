@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/onboarding/views/splash_screen_view.dart';
+import '../modules/order_detail/views/order_details_views.dart';
 
 part 'app_routes.dart';
 
@@ -37,6 +38,10 @@ class AppPages {
       page: () => HomeView(),
     ),
 
+    GetPage(
+      name: _Paths.orderDetails,
+      page: () => OrderDetails(),
+    ),
 
   ];
 

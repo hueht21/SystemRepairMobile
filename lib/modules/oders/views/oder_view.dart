@@ -7,9 +7,9 @@ import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../base_utils/base_widget/base_widget_page.dart';
 import '../../../shared/widget/base_widget.dart';
-import '../../schedule_repair/models/registration_schedule_model.dart';
-import '../controllers/order_controler.dart';
+import '../controllers/oder_controller.dart';
 import '../controllers/order_controller_imp.dart';
+import '../models/registration_schedule_model.dart';
 
 class OdersView extends BaseGetWidget {
   @override
@@ -26,62 +26,64 @@ class OdersView extends BaseGetWidget {
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
         child: SafeArea(
-          child: Obx(()
-          => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  "Đơn đặt của bạn",
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Đơn đặt của bạn",
+                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                        color: AppColors.textTim,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: Get.width,
+                      height: 35,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (context, index) {
+                          return optionOder(
+                              controller.listTitleOption[index], index);
+                        },
+                      ),
+                    )
+                  ],
+                ).paddingSymmetric(vertical: 30),
+                Text(
+                  "Danh sách đơn đặt của bạn",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                      color: AppColors.textTim,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: Get.width,
-                    height: 35,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 5,
-                      itemBuilder: (context, index) {
-                        return optionOder(
-                            controller.listTitleOption[index], index);
-                      },
-                    ),
-                  )
-                ],
-              ).paddingSymmetric(vertical: 30),
-              Text(
-                "Danh sách đơn đặt của bạn",
-                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                  color: AppColors.textTim,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ).paddingOnly(left: 10),
-              (controller.listRegistrationSchedule.isNotEmpty)
-                  ? Expanded(
-                child: SizedBox(
-                    width: Get.width,
-                    height: Get.height,
-                    child: BaseWidget.buildSmartRefresher(
-                      child: _buildListOder(),
-                      onRefresh: controller.onRefresh,
-                      onLoadMore: controller.onLoadMore,
-                      enablePullUp: true,
-                      enablePullDown: true,
-                      refreshController: controller.refreshController,
-                    )),
-              )
-                  : Center(child: BaseWidget().listEmpty()).paddingSymmetric(vertical: 70)
-              // _buildItemOrder()
-            ],
-          ),
+                    color: AppColors.textTim,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ).paddingOnly(left: 10),
+                (controller.listRegistrationSchedule.isNotEmpty)
+                    ? Expanded(
+                        child: SizedBox(
+                          width: Get.width,
+                          height: Get.height,
+                          child: BaseWidget.buildSmartRefresher(
+                            child: _buildListOder(),
+                            onRefresh: controller.onRefresh,
+                            onLoadMore: controller.onLoadMore,
+                            enablePullUp: true,
+                            enablePullDown: true,
+                            refreshController: controller.refreshController,
+                          ),
+                        ),
+                      )
+                    : Center(child: BaseWidget().listEmpty())
+                        .paddingSymmetric(vertical: 70)
+                // _buildItemOrder()
+              ],
+            ),
           ),
         ),
       ),
@@ -104,7 +106,7 @@ class OdersView extends BaseGetWidget {
         controller.optionType(controller.indexOption.value);
       },
       child: Obx(
-            () => Container(
+        () => Container(
           width: 100,
           height: 35,
           decoration: BoxDecoration(

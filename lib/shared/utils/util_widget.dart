@@ -5,6 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:systemrepair/cores/const/app_colors.dart';
 
@@ -205,6 +206,103 @@ class UtilWidget {
   //   );
   // }
 
+
+  static Widget buildButton(
+      String btnTitle,
+      Function function, {
+        List<Color> colors = AppColors.colorGradientBlue,
+        Color? backgroundColor,
+        bool isLoading = false,
+        bool showLoading = true,
+        IconData? icon,
+        Color? iconColor,
+        double? iconSize,
+        double? width,
+        double? height,
+        Color? colorText,
+        BorderRadiusGeometry? borderRadius,
+      }) {
+    return Container(
+      width: width ?? double.infinity,
+      height: height ?? 50,
+      decoration: BoxDecoration(
+          color: backgroundColor,
+          gradient:
+          backgroundColor != null ? null : LinearGradient(colors: colors),
+          borderRadius: borderRadius ?? BorderRadius.circular(8)),
+      child: baseOnAction(
+        onTap: !isLoading ? function : () {},
+        child: ElevatedButton(
+          onPressed: null,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(8.0)),
+          ),
+          child: Stack(
+            children: [
+              if (icon != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(
+                    icon,
+                    size: iconSize,
+                    color: iconColor,
+                  ),
+                ),
+              Center(
+                child: Text(btnTitle.tr,
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: colorText ?? Colors.white)),
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Visibility(
+                  visible: isLoading && showLoading,
+                  child: const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      backgroundColor: Colors.white,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.colorError,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  /// Sử dụng để tránh trường hợp click liên tiếp khi thực hiện function
+  static Widget baseOnAction({
+    required Function onTap,
+    required Widget child,
+  }) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        DateTime now = DateTime.now();
+        if (_dateTime == null ||
+            now.difference(_dateTime ?? DateTime.now()) > 2.seconds ||
+            onTap.hashCode != _oldFunc) {
+          _dateTime = now;
+          _oldFunc = onTap.hashCode;
+          onTap();
+        }
+      },
+      child: child,
+    );
+  }
   static const Widget buildLoading = CupertinoActivityIndicator();
 
   static Widget buildSmartRefresher({
