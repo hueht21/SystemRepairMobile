@@ -1,4 +1,4 @@
-package com.cudevnb.systemrepairclient
+package com.cudevnb.systemrepair
 
 import io.flutter.embedding.android.FlutterActivity
 
