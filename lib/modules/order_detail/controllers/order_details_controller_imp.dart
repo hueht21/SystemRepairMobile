@@ -44,6 +44,7 @@ class OderDetailControllerImp extends OderDetailController {
     // await FirebaseFirestore.instance.collection("RegistrationSchedule").w
 
     registrationScheduleModel.status = 4;
+
     /// 4 Là huỷ
     final CollectionReference collectionReference =
         FirebaseFirestore.instance.collection('RegistrationSchedule');
@@ -60,18 +61,24 @@ class OderDetailControllerImp extends OderDetailController {
 
   @override
   Future<void> cancelOrderBtn() async {
-    Get.bottomSheet(
-      FilterCancelOderView.buildPageStatus(),
-      isScrollControlled: true,
-    ).then((value) async {
-      if (value != null) {
-        log(value);
-        showLoading();
-        await insertCancel(value);
-        await cancelOrder();
-        hideLoading();
-      }
-    });
+    if (isCancelOder()) {
+      BaseShowNotification.showNotification(
+          Get.context!, "Thời gian huỷ đã gần với thời gian đến", QuickAlertType.error);
+    } else {
+      Get.bottomSheet(
+        FilterCancelOderView.buildPageStatus(),
+        isScrollControlled: true,
+      ).then((value) async {
+        if (value != null) {
+          log(value);
+          showLoading();
+          await insertCancel(value);
+          await cancelOrder();
+          hideLoading();
+        }
+      });
+    }
+
   }
 
   @override
@@ -104,9 +111,10 @@ class OderDetailControllerImp extends OderDetailController {
   Future<void> confirmStatus() async {
     showLoading();
     registrationScheduleModel.status = 2;
+
     /// 2 Xác nhận
     final CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection('RegistrationSchedule');
+        FirebaseFirestore.instance.collection('RegistrationSchedule');
     await collectionReference
         .where('ID', isEqualTo: registrationScheduleModel.id)
         .get()
@@ -117,15 +125,22 @@ class OderDetailControllerImp extends OderDetailController {
     });
     hideLoading();
     BaseShowNotification.showNotification(
-      Get.context!,
-      'Đơn đã được bạn xác nhận! ',
-      QuickAlertType.confirm,
-      confirm: () {
-
-        Get.back();
-        Get.back(result: registrationScheduleModel);
-      }
-    );
+        Get.context!, 'Đơn đã được bạn xác nhận! ', QuickAlertType.confirm,
+        confirm: () {
+      Get.back();
+      Get.back(result: registrationScheduleModel);
+    });
     // Get.back(result: registrationScheduleModel);
+  }
+
+  @override
+  bool isCancelOder() {
+    if (convertStringToDate(
+            registrationScheduleModel.dateSet ?? DateTime.now().toString(),
+            PATTERN_17) ==
+        convertStringToDate(DateTime.now().toString(), PATTERN_17)) {
+      return true;
+    }
+    return false;
   }
 }

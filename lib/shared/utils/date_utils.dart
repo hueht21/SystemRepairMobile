@@ -16,6 +16,7 @@ const String PATTERN_10 = "dd/MM/yyyy HH:mm:ss";
 const String PATTERN_11 = "MM/yyyy";
 const String PATTERN_14 = "-MMyyyy";
 const String PATTERN_16 = "HH:mm:ss - dd/MM/yyyy";
+const String PATTERN_17 = "HH";
 const String PATTERN_DEFAULT = "yyyy-MM-dd";
 
 String formatDateTimeToString(DateTime dateTime) {

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:systemrepair/modules/pay_order/views/pay_oder_views.dart';
 
 import '../modules/home/views/home_view.dart';
 import '../modules/login/views/login_view.dart';
@@ -21,6 +22,7 @@ class AppPages {
   static const updateProfile = Routes.updateProfile;
   static const orderDetails = Routes.orderDetails;
   static const completeRegistration = Routes.completeRegistration;
+  static const payOder = Routes.payOder;
 
   static final routes = [
     GetPage(
@@ -43,6 +45,10 @@ class AppPages {
       page: () => OrderDetails(),
     ),
 
+    GetPage(
+      name: _Paths.payOder,
+      page: () => PayOderView(),
+    ),
   ];
 
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
 import 'package:systemrepair/modules/order_detail/controllers/order_details_controller_imp.dart';
+import 'package:systemrepair/router/app_pages.dart';
 
 import '../../../cores/const/app_colors.dart';
 import '../../../cores/enum/enum_status.dart';
@@ -372,13 +373,28 @@ class OrderDetails extends BaseGetWidget {
                   ),
                 ],
               )
-            : BaseGetWidget.buildButton("Từ chối",
-                    colorText: AppColors.colorNext, () async {
-                await controller.cancelOrder();
-              },
-                    isLoading: controller.isShowLoading.value,
-                    colors: AppColors.xamHuy)
-                .paddingSymmetric(horizontal: 10))
+            : Row(
+                children: [
+                  Expanded(
+                    child: BaseGetWidget.buildButton("Huỷ đơn",
+                            colorText: AppColors.colorNext, () async {
+                      await controller.cancelOrderBtn();
+                    },
+                            isLoading: controller.isShowLoading.value,
+                            colors: AppColors.xamHuy)
+                        .paddingSymmetric(horizontal: 10),
+                  ),
+                  Expanded(
+                    child: BaseGetWidget.buildButton("Thanh toán", () async {
+
+                      Get.toNamed(AppPages.payOder);
+                    },
+                            isLoading: controller.isShowLoading.value,
+                            colors: AppColors.colorButton)
+                        .paddingSymmetric(horizontal: 10),
+                  ),
+                ],
+              ))
         : const SizedBox();
   }
 }

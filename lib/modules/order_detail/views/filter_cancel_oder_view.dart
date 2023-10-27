@@ -20,7 +20,7 @@ class FilterCancelOderView {
             height: Get.height * 0.44,
             child: Column(
               children: [
-                _buildHead(),
+                _buildHead("Lý do huỷ"),
                 _buildStatus(controller),
               ],
             ),
@@ -30,7 +30,7 @@ class FilterCancelOderView {
     );
   }
 
-  static Widget _buildHead() {
+  static Widget _buildHead(String title) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -50,7 +50,7 @@ class FilterCancelOderView {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Lý do huỷ",
+              title,
               style: FontStyleUI.fontPlusJakartaSans().copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.normal,
@@ -139,7 +139,7 @@ class FilterCancelOderView {
       height: kBottomNavigationBarHeight + 12,
       child: UtilWidget.buildButton("Xác nhận", () {
         Get.back(result: controller.textNote.text);
-      }, colors: AppColors.colorGradientIconHome, showLoading: true)
+      }, colors: AppColors.colorGradientBlue, showLoading: true)
           .paddingSymmetric(
         horizontal: 16,
         vertical: 8,
@@ -160,8 +160,8 @@ class FilterCancelOderView {
             height: Get.height * 0.3,
             child: Column(
               children: [
-                _buildHead(),
-                buildFormNote(controller.textNote, "Lý do", "Lý do huỷ đơn")
+                _buildHead("Lý do khác"),
+                buildFormNote(controller.textNote, "Lý do khác", "Lý do huỷ đơn")
                     .paddingOnly(left: 25),
                 const SizedBox(
                   height: 20,

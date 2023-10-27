@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import '../../cores/const/app_colors.dart';
 import '../../cores/values/defaul_theme.dart';
 import '../../cores/values/string_values.dart';
 import '../utils/font_ui.dart';
+import '../utils/limit_textfield.dart';
 
 class BaseWidget {
   static DateTime? _dateTime;
@@ -215,5 +217,126 @@ class BaseWidget {
         ),
       ],
     );
+  }
+
+  Widget buildItemInforNote(
+      TextEditingController textEditingController, String title) {
+    return Container(
+      width: Get.width,
+      height: 60,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: TextField(
+          maxLines: 5,
+          controller: textEditingController,
+          decoration: InputDecoration(
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                  Colors.transparent), // Đặt màu trong suốt cho underline
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .transparent), // Đặt màu trong suốt cho underline khi focus
+            ),
+            hintText: title,
+            hintStyle: FontStyleUI.fontPlusJakartaSans()
+                .copyWith(color: AppColors.textColorXam88, fontSize: 14),
+          ),
+          style: FontStyleUI.fontPlusJakartaSans()
+              .copyWith(color: AppColors.textColorXam88, fontSize: 14),
+          keyboardType: TextInputType.text,
+        ).paddingSymmetric(horizontal: 20),
+      ),
+    );
+  }
+
+  Widget buildInputTotal(
+      TextEditingController textEditingController, String title) {
+    return Container(
+      width: Get.width,
+      height: 50,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: TextField(
+          maxLines: 5,
+          controller: textEditingController,
+          decoration: InputDecoration(
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color:
+                  Colors.transparent), // Đặt màu trong suốt cho underline
+            ),
+            focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Colors
+                      .transparent), // Đặt màu trong suốt cho underline khi focus
+            ),
+            hintText: title,
+            hintStyle: FontStyleUI.fontPlusJakartaSans()
+                .copyWith(color: AppColors.textColorXam88, fontSize: 14),
+          ),
+          style: FontStyleUI.fontPlusJakartaSans()
+              .copyWith(color: AppColors.textColorXam88, fontSize: 14),
+          keyboardType: TextInputType.number,
+        ).paddingSymmetric(horizontal: 20),
+      ),
+    );
+  }
+
+  Widget buildProductTextFormField({
+    required String title,
+    required TextEditingController textEditingController,
+    int maxLength = 80,
+    int maxLines = 1,
+    bool isValidate = false,
+    bool enable = true,
+    TextAlign textAlign = TextAlign.start,
+    TextInputAction textInputAction = TextInputAction.next,
+    bool isProductCode = false,
+  }) {
+    return TextFormField(
+      keyboardAppearance: Brightness.light,
+      validator: (val) {
+        if (isValidate) {
+          // if (val!.isStringEmpty) {
+          //   return "AppStr.productDetailNotEmpty.tr";
+          // }
+          return null;
+        }
+        return null;
+      },
+      inputFormatters: isProductCode
+          ? [
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9-_\.]')),
+        LengthLimitingTextFieldFormatterFixed(maxLength),
+      ]
+          : [
+        LengthLimitingTextFieldFormatterFixed(maxLength),
+      ],
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      keyboardType: TextInputType.multiline,
+      style: Get.textTheme.bodyMedium,
+      controller: textEditingController,
+      maxLength: maxLength,
+      maxLines: maxLines,
+      enabled: enable,
+      textAlign: textAlign,
+      textInputAction: textInputAction,
+      decoration: InputDecoration(
+        labelText: title,
+        labelStyle: Get.textTheme.bodyMedium,
+        errorStyle: const TextStyle(color: AppColors.errorTextColor),
+        border: InputBorder.none,
+        contentPadding: const EdgeInsets.all(12),
+      ),
+    ).paddingAll(1.0);
   }
 }

@@ -1,6 +1,8 @@
 class AppConst {
   static const int requestTimeOut = 15000; //ms
 
+  static const int currencyUtilsMaxLength = 12;
+
   /// IMG
   static const String imgLogoScreen = "assets/images/logo_screen.png";
   static const String imgWalkTroughs = "assets/images/img_walktroughs.png";

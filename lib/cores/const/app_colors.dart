@@ -25,10 +25,12 @@ class AppColors {
   static const colorNen= Color(0xffF4F4F4);
   static const colorCam= Color(0xffFFBC42);
   static const colorXamWarning= Color(0xff5F5F5F);
+  static const keyBoardColor= Color(0xFFff7e5f);
   static const colorIconCancel=  Color(0xFFff5f6d);
   static const Color backgroundGrey = Color.fromARGB(255, 235, 234, 240);
   static const Color backgroundGreyT = Color.fromARGB(255, 255, 255, 245);
   static const Color colorError = Color(0xFFff5f6d);
+  static const Color errorTextColor = Color(0xFFFFD54F);
 
   static const List<Color> colorGradientOrange = [
     Color(0xFFff7e5f),
@@ -52,7 +54,7 @@ class AppColors {
 
 
   static const List<Color> colorGradientBlue = [
-    Color(0xFF58a0ff),
+    Color(0xFF6B46D6),
     Color(0xFF5967ff),
   ];
 }
