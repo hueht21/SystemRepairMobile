@@ -386,8 +386,14 @@ class OrderDetails extends BaseGetWidget {
                   ),
                   Expanded(
                     child: BaseGetWidget.buildButton("Thanh toán", () async {
+                      Get.toNamed(AppPages.payOder,
+                              arguments: controller.registrationScheduleModel)
+                          ?.then((value) async {
+                        if (value != null) {
 
-                      Get.toNamed(AppPages.payOder);
+                          await controller.confirmPayOder();
+                        }
+                      });
                     },
                             isLoading: controller.isShowLoading.value,
                             colors: AppColors.colorButton)

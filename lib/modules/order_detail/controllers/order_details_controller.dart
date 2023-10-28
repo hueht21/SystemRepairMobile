@@ -23,6 +23,8 @@ abstract class OderDetailController extends BaseGetxController {
 
   Future<void> confirmStatus();
 
+  Future<void> confirmPayOder();
+
   bool isCancelOder();
 
 

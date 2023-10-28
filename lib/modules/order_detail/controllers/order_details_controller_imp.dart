@@ -143,4 +143,25 @@ class OderDetailControllerImp extends OderDetailController {
     }
     return false;
   }
+
+  @override
+  Future<void> confirmPayOder() async {
+    showLoading();
+    registrationScheduleModel.status = 3;
+
+    /// 2 Xác nhận
+    final CollectionReference collectionReference =
+    FirebaseFirestore.instance.collection('RegistrationSchedule');
+    await collectionReference
+        .where('ID', isEqualTo: registrationScheduleModel.id)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      for (var doc in querySnapshot.docs) {
+        doc.reference.update(registrationScheduleModel.toJson());
+      }
+    });
+    hideLoading();
+    Get.back(result: registrationScheduleModel);
+    // Get.back(result: registrationScheduleModel);
+  }
 }
