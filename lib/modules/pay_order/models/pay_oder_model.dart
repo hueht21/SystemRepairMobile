@@ -8,7 +8,7 @@ class PayOderModel {
     required this.imgPay,
   });
 
-  int? amount;
+  int amount;
   String? createDate;
   String? idOder;
   String? uidCustomer;

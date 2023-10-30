@@ -7,6 +7,7 @@ import 'package:systemrepair/router/app_pages.dart';
 
 import '../../../cores/const/app_colors.dart';
 import '../../../cores/enum/enum_status.dart';
+import '../../../shared/utils/currency_utils.dart';
 import '../../../shared/utils/font_ui.dart';
 import '../../../shared/widget/base_widget.dart';
 import '../controllers/order_details_controller.dart';
@@ -73,7 +74,22 @@ class OrderDetails extends BaseGetWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  _buildRepairPhoto()
+                  _buildRepairPhoto(),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Container(
+                    width: Get.width,
+                    height: 1,
+                    decoration:
+                        const BoxDecoration(color: AppColors.colorThanh),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  controller.registrationScheduleModel.status == 3
+                      ? buildPayOder()
+                      : const SizedBox()
                 ],
               ),
             ),
@@ -390,7 +406,6 @@ class OrderDetails extends BaseGetWidget {
                               arguments: controller.registrationScheduleModel)
                           ?.then((value) async {
                         if (value != null) {
-
                           await controller.confirmPayOder();
                         }
                       });
@@ -402,5 +417,79 @@ class OrderDetails extends BaseGetWidget {
                 ],
               ))
         : const SizedBox();
+  }
+
+  Widget buildPayOder() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          "Thông tin thanh toán",
+          style: FontStyleUI.fontPlusJakartaSans().copyWith(
+            color: AppColors.textTitleColor,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        _buildCustom("Thuế VAT", "0 %"),
+        _buildCustom("Tiền trước thuế", "${CurrencyUtils().formatNumber(controller.payOderModel.value.amount.toString().replaceAll(',', ''))} VND"),
+        _buildCustom("Tổng tiền", "${CurrencyUtils().formatNumber(controller.payOderModel.value.amount.toString().replaceAll(',', ''))} VND"),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          "Hình ảnh hoá đơn",
+          style: FontStyleUI.fontPlusJakartaSans().copyWith(
+            color: AppColors.textTitleColor,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        controller.imageUrlPayOder.value.isNotEmpty
+            ? CachedNetworkImage(
+                imageUrl: controller.imageUrlPayOder.value,
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              )
+            : const SizedBox(),
+        const SizedBox(
+          height: 10,
+        )
+      ],
+    ).paddingSymmetric(horizontal: 10);
+  }
+
+  Widget _buildCustom(String title, String content) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: FontStyleUI.fontPlusJakartaSans().copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.colorTextLogin,
+          ),
+        ),
+        Text(
+          content,
+          style: FontStyleUI.fontPlusJakartaSans().copyWith(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: AppColors.colorTextLogin,
+          ),
+        ),
+      ],
+    ).paddingSymmetric(horizontal: 10, vertical: 5);
   }
 }

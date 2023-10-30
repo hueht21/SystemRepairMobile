@@ -4,6 +4,14 @@ import 'package:intl/intl.dart';
 import '../../cores/const/const.dart';
 
 class CurrencyUtils {
+
+  static const _locale = 'en';
+
+  String formatNumber(String s) =>
+      NumberFormat.decimalPattern(_locale).format(int.parse(s));
+
+
+
   static String formatMoney(int money) {
     if (money == 0) return "0";
     String m = money.toString();
