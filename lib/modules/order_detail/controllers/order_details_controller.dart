@@ -5,6 +5,7 @@ import '../../oders/models/registration_schedule_model.dart';
 import '../../pay_order/models/pay_oder_model.dart';
 
 
+
 abstract class OderDetailController extends BaseGetxController {
 
   RxInt indexHead = 0.obs;
@@ -17,7 +18,7 @@ abstract class OderDetailController extends BaseGetxController {
 
   RxString imageUrlPayOder = ''.obs;
 
-  late Rx<PayOderModel> payOderModel;
+  Rx<PayOderModel> payOderModel = PayOderModel(amount: 0, createDate: '', idOder: '', uidCustomer: '', uidFixer: '', imgPay: '').obs;
 
 
   Future<void> cancelOrderBtn();

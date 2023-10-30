@@ -26,24 +26,24 @@ class OderDetailControllerImp extends OderDetailController {
 
     final storage = FirebaseStorage.instance;
 
-    if(registrationScheduleModel.status == 3) {
-
-      final documentSnapshot = await FirebaseFirestore.instance
-          .collection('PayOder') // Thay 'your_collection_name' bằng tên collection của bạn
-          .where("IDOder", isEqualTo: registrationScheduleModel.id) // UID của tài khoản bạn muốn truy vấn
-          .get();
-
-      if (documentSnapshot.docs.isNotEmpty) {
-        var doc =  documentSnapshot.docs.first;
-        payOderModel.value = PayOderModel.fromJson(doc.data());
-      }
-
-      imageUrlPayOder.value = await storage
-          .ref()
-          .child('PayOder/${payOderModel.value.imgPay}')
-          .getDownloadURL();
-    }
     try {
+      if(registrationScheduleModel.status == 3) {
+
+        final documentSnapshot = await FirebaseFirestore.instance
+            .collection('PayOder') // Thay 'your_collection_name' bằng tên collection của bạn
+            .where("IDOder", isEqualTo: registrationScheduleModel.id) // UID của tài khoản bạn muốn truy vấn
+            .get();
+
+        if (documentSnapshot.docs.isNotEmpty) {
+          var doc =  documentSnapshot.docs.first;
+          payOderModel.value = PayOderModel.fromJson(doc.data());
+        }
+
+        imageUrlPayOder.value = await storage
+            .ref()
+            .child('PayOder/${payOderModel.value.imgPay}')
+            .getDownloadURL();
+      }
       imageUrlFix.value = await storage
           .ref()
           .child('fixer/${registrationScheduleModel.uidFixer?.imgAcc}')

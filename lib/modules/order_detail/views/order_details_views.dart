@@ -87,7 +87,7 @@ class OrderDetails extends BaseGetWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  controller.registrationScheduleModel.status == 3
+                  controller.payOderModel.value.idOder != ""
                       ? buildPayOder()
                       : const SizedBox()
                 ],
