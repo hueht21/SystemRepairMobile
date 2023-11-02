@@ -27,13 +27,14 @@ class FixerAccountModelAdapter extends TypeAdapter<FixerAccountModel> {
       numberPhone: fields[7] as String?,
       status: fields[8] as bool?,
       uid: fields[9] as String?,
+      token: fields[10] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, FixerAccountModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.address)
       ..writeByte(1)
@@ -53,7 +54,9 @@ class FixerAccountModelAdapter extends TypeAdapter<FixerAccountModel> {
       ..writeByte(8)
       ..write(obj.status)
       ..writeByte(9)
-      ..write(obj.uid);
+      ..write(obj.uid)
+      ..writeByte(10)
+      ..write(obj.token);
   }
 
   @override

@@ -62,12 +62,11 @@ class LoginControllerImp extends LoginController {
         var doc =  documentSnapshot.docs.first;
         FixerAccountModel fixerAccountModel = FixerAccountModel.fromJson(doc.data());
 
+
+
         await HIVE_APP.put(AppConst.keyFixerAccount, fixerAccountModel);
 
-
         Get.offAllNamed(AppPages.home);
-        log('Thành công ${fixerAccountModel.name}');
-
       } else {
         log('Dữ liệu không tồn tại cho UID này.');
         BaseShowNotification.showNotification(
