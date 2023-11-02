@@ -45,7 +45,7 @@ class FixerAccountModel extends HiveObject{
 	@HiveField(FixerAccountModelFields.uid)
   final String? uid;
   @HiveField(FixerAccountModelFields.token)
-  final String? token;
+  String? token;
 
 
   factory FixerAccountModel.fromJson(Map<String, dynamic> json){
@@ -64,4 +64,19 @@ class FixerAccountModel extends HiveObject{
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      "Address": address,
+      "Age": age,
+      "Email": email,
+      "ImgAcc": imgAcc,
+      "Latitude": latitude,
+      "Longitude": longitude,
+      "Name": name,
+      "NumberPhone": numberPhone,
+      "Status": status,
+      "UID": uid,
+      "Token": token,
+    };
+  }
 }
