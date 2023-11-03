@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
@@ -40,6 +42,11 @@ class AppController extends GetxController {
 
 
     Get.put(BaseRequest(), permanent: true);
+
+    await FirebaseMessaging.instance.getToken().then((token) {
+
+      log(token??"");
+    });
     super.onInit();
   }
 }

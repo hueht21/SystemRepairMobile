@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/router/app_pages.dart';
@@ -12,10 +14,34 @@ import 'cores/values/string_values.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  initFirebaseMessaging();
   runApp(
       const Application()
   );
 }
+
+void initFirebaseMessaging() {
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+    if (notification != null && android != null) {
+      FlutterLocalNotificationsPlugin().show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          const NotificationDetails(
+            android: AndroidNotificationDetails(
+              'channel id',
+              'channel name',
+              icon: '@mipmap/ic_launcher',
+              importance: Importance.max,
+            ),
+          ));
+    }
+    // Xử lý thông báo ở đây
+  });
+}
+
 
 class Application extends StatefulWidget {
   const Application({super.key});
