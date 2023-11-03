@@ -1,6 +1,6 @@
 import 'package:systemrepair/base_utils/base_controllers/base_controller.dart';
 
-class HomePageController extends BaseGetxController {
+abstract class HomePageController extends BaseGetxController {
 
 
   List<String> listTitleNews = [];
@@ -8,6 +8,8 @@ class HomePageController extends BaseGetxController {
   List<String> listImgNews = [];
 
   List<String> listBanner = [];
+
+  void sendMessageToDevice2(String device2Token, String message);
 
 
 

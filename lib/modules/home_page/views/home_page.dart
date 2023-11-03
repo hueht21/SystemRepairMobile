@@ -50,10 +50,15 @@ class HomePage extends BaseGetWidget {
                   const SizedBox(
                     width: 21,
                   ),
-                  _viewOption(
-                    color: 0xff6DB2DE,
-                    name: "Chuyển đồ",
-                    icon: AppConst.truckCar,
+                  InkWell(
+                    onTap: () {
+                      controller.sendMessageToDevice2("device2Token", "message");
+                    },
+                    child: _viewOption(
+                      color: 0xff6DB2DE,
+                      name: "Chuyển đồ",
+                      icon: AppConst.truckCar,
+                    ),
                   )
                 ],
               ),
