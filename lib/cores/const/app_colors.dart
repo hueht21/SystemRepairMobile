@@ -18,6 +18,7 @@ class AppColors {
   static const colorIcon = Color(0xff888888);
   static const colorNen= Color(0xffF4F4F4);
   static const colorCam= Color(0xffFFBC42);
+  static const colorDen = Colors.black;
   static const colorXamWarning= Color(0xff5F5F5F);
   static const Color backgroundGrey = Color.fromARGB(255, 235, 234, 240);
   static const Color backgroundGreyT = Color.fromARGB(255, 255, 255, 245);

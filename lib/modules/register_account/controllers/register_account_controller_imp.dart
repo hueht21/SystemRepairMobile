@@ -60,7 +60,8 @@ class RegisterAccountControllerImp extends RegisterAccountController {
           uid: user.uid,
           email: textEmail.text.trim(),
           address: textAddress.text.trim(),
-          imgUser: ""
+          imgUser: "",
+          token: ""
         );
 
         try {

@@ -274,10 +274,15 @@ class HomePage extends BaseGetWidget {
         const SizedBox(
           width: 18,
         ),
-        optionCircle(
-          width: 46,
-          height: 46,
-          icon: AppConst.notification,
+        InkWell(
+          onTap: () {
+            Get.toNamed(AppPages.notificationPage);
+          },
+          child: optionCircle(
+            width: 46,
+            height: 46,
+            icon: AppConst.notification,
+          ),
         )
       ],
     );

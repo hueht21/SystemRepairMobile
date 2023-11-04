@@ -20,6 +20,7 @@ class AccountModel extends HiveObject{
     required this.email,
     required this.address,
     required this.imgUser,
+    required this.token
   });
 
 	@HiveField(AccountModelFields.auth)
@@ -40,6 +41,8 @@ class AccountModel extends HiveObject{
   String address;
   @HiveField(AccountModelFields.imgUser)
   String imgUser;
+  @HiveField(AccountModelFields.token)
+  String? token;
 
   factory AccountModel.fromJson(Map<String, dynamic> json){
     return AccountModel(
@@ -52,6 +55,7 @@ class AccountModel extends HiveObject{
       email: json["Email"],
       address: json["Address"],
       imgUser: json["ImgAcc"],
+      token: json["Token"]
     );
   }
 
@@ -66,6 +70,7 @@ class AccountModel extends HiveObject{
       "Email": email,
       "Address": address,
       "ImgAcc": imgUser,
+      "Token": token,
     };
   }
 
