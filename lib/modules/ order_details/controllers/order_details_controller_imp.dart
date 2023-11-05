@@ -66,14 +66,14 @@ class OderDetailControllerImp extends OderDetailController {
       ).then((value) async {
         if (value != null) {
           showLoadingOverlay();
-          // registrationScheduleModel.status = 4;/// 4 Là huỷ
-          // final CollectionReference collectionReference = FirebaseFirestore.instance.collection('RegistrationSchedule');
-          // await collectionReference.where('ID', isEqualTo: registrationScheduleModel.id).get().then((QuerySnapshot querySnapshot) {
-          //   for (var doc in querySnapshot.docs) {
-          //     doc.reference.update(registrationScheduleModel.toJson());
-          //   }
-          // });
-          // await insertCancel(value);
+          registrationScheduleModel.status = 4;/// 4 Là huỷ
+          final CollectionReference collectionReference = FirebaseFirestore.instance.collection('RegistrationSchedule');
+          await collectionReference.where('ID', isEqualTo: registrationScheduleModel.id).get().then((QuerySnapshot querySnapshot) {
+            for (var doc in querySnapshot.docs) {
+              doc.reference.update(registrationScheduleModel.toJson());
+            }
+          });
+          await insertCancel(value);
           await sentNotification(registrationScheduleModel, value);
           hideLoadingOverlay();
           Get.back(result: registrationScheduleModel);

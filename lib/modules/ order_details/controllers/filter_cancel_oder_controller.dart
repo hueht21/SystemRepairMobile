@@ -23,9 +23,9 @@ class FilterCancelOderController extends BaseGetxController {
 
   void initDataStatus() {
     listStatus.value = [
-      FilterCancelOderModel("Tôi bận không nhận được", 0,false),
-      FilterCancelOderModel("Có lý do đột xuất", 1,false),
-      FilterCancelOderModel("Không sửa được", 2,false),
+      FilterCancelOderModel("Tôi cảm thấy không cần phải sửa", 0,false),
+      FilterCancelOderModel("Tôi đã tìm thấy thợ sửa khác", 1,false),
+      FilterCancelOderModel("Tôi đã tự sửa được", 2,false),
       FilterCancelOderModel("Khác", 3,false),
     ];
   }
