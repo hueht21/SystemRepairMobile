@@ -5,12 +5,12 @@ class NotificationModel {
   });
 
   final String? to;
-  final Notification? notification;
+  final NotificationChild? notification;
 
   factory NotificationModel.fromJson(Map<String, dynamic> json){
     return NotificationModel(
       to: json["to"],
-      notification: json["notification"] == null ? null : Notification.fromJson(json["notification"]),
+      notification: json["notification"] == null ? null : NotificationChild.fromJson(json["notification"]),
     );
   }
 
@@ -23,8 +23,8 @@ class NotificationModel {
 
 }
 
-class Notification {
-  Notification({
+class NotificationChild {
+  NotificationChild({
     required this.title,
     required this.body,
   });
@@ -32,8 +32,8 @@ class Notification {
   final String? title;
   final String? body;
 
-  factory Notification.fromJson(Map<String, dynamic> json){
-    return Notification(
+  factory NotificationChild.fromJson(Map<String, dynamic> json){
+    return NotificationChild(
       title: json["title"],
       body: json["body"],
     );

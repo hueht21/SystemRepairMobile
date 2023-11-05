@@ -25,5 +25,15 @@ class NotificationGetModel {
       title: json["title"],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      "CreateDate": createDate,
+      "UID_Receiver": uidReceiver,
+      "UID_Send": uidSend,
+      "content": content,
+      "id": id,
+      "title": title,
+    };
+  }
 
 }

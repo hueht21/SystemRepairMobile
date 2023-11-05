@@ -66,7 +66,8 @@ abstract class ScheduleRepairController extends BaseGetxController {
     status: null,
     uid: '',
     address: '',
-    imgAcc: ''
+    imgAcc: '',
+    token: ""
   );
 
   void setIndexHead(int index);

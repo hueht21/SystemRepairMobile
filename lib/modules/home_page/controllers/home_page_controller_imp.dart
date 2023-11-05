@@ -56,7 +56,7 @@ class HomePageControllerImp extends HomePageController {
   void sendMessageToDevice2(String device2Token, String message) async {
     NotificationModel notificationModel = NotificationModel(
         to: "eIb-4-DBRmG9Xl0iVmG7HX:APA91bEObPYB1NP6h1iQYON_4oAl-wOpBXWJvC4dH8R_qwghRAABR_jL0taGQhLE0MJZ_b1ir4msZWxxKqL_wJGxapCiM1xNJX8hvwY6lHmyb8qcDiMXuFmz8GXt9oRkY_kbFvGJucsD",
-        notification: Notification(title: "Thong Bao", body: "Noi Dung"));
+        notification: NotificationChild(title: "Thong Bao", body: "Noi Dung"));
 
     NotificationResponse().sentNotification(notificationModel.toJson());
   }

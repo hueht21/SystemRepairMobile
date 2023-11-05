@@ -10,6 +10,7 @@ import '../../cores/const/app_colors.dart';
 import '../../cores/values/defaul_theme.dart';
 import '../../cores/values/string_values.dart';
 import '../utils/font_ui.dart';
+import '../utils/util_widget.dart';
 
 class BaseWidget {
   static DateTime? _dateTime;
@@ -177,5 +178,11 @@ class BaseWidget {
         ),
       ],
     );
+  }
+
+  Widget baseShowOverlayLoading(Widget child, bool isLoadingOverlay) {
+    return isLoadingOverlay
+        ? const Center(child: UtilWidget.buildLoading)
+        : child;
   }
 }

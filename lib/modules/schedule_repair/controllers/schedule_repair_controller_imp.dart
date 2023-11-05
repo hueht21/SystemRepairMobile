@@ -18,6 +18,9 @@ import 'package:systemrepair/router/app_pages.dart';
 
 import '../../../base_utils/base_widget/base_show_notification.dart';
 import '../../../shared/utils/date_utils.dart';
+import '../../home_page/models/notification_model.dart';
+import '../../home_page/response/notification_response.dart';
+import '../../notifications/models/notification_get_model.dart';
 import '../models/registration_schedule_model.dart';
 
 class ScheduleRepairControllerImp extends ScheduleRepairController {
@@ -79,7 +82,6 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
         // .where("UID", isEqualTo: uid) // UID của tài khoản bạn muốn truy vấn
         .get();
 
-
     if (result.docs.isNotEmpty) {
       for (final dataFixerModel in result.docs) {
         listFixerModel.add(FixerModel.fromJson(dataFixerModel.data()));
@@ -108,11 +110,6 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
         // So sánh khoảng cách với vị trí gần tôi nhất hiện tại
         if (nearestDistance == 0.0 || distance < nearestDistance) {
           nearestDistance = distance;
-          // latitudeFixer = item.latitude ?? 0.0;
-          // longitudeFixer = item.longitude ?? 0.0;
-          // accFixer.latitude = item.latitude ?? 0.0;
-          // accFixer.longitude = item.longitude ?? 0.0;
-          // accFixer.uid = item.uid;
           fixerModel = item;
         }
       }
@@ -124,7 +121,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
     showLoadingOverlay();
 
     if (isNullTime()) {
-      if(checkFileType(image.value.path)){
+      if (checkFileType(image.value.path) || image.value.path.isEmpty) {
         await searchLocation(
           textAddress.text.trim().isEmpty
               ? accountModel.address
@@ -134,26 +131,28 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
         fixAccNull();
         String id = uuid.v4();
         RegistrationScheduleModel registrationScheduleModel =
-        RegistrationScheduleModel(
-            id: id,
-            address: textAddress.text.trim(),
-            numberPhone: textNumberPhone.text.trim(),
-            email: textEmail.text.trim(),
-            status: 1,
-            customerName: textName.text.trim(),
-            numberCancel: 0,
-            uidFixer: fixerModel,
-            latitude: accountModel.latitude,
-            longitude: accountModel.longitude,
-            describe: textDescribe.text.trim(),
-            note: textNote.text.trim(),
-            imgFix: "",
-            // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
-            timeSet: timeSelect.value,
-            dateSet: dateSelect.value,
-            uidClient: accountModel.uid);
+            RegistrationScheduleModel(
+                id: id,
+                address: textAddress.text.trim(),
+                numberPhone: textNumberPhone.text.trim(),
+                email: textEmail.text.trim(),
+                status: 1,
+                customerName: textName.text.trim(),
+                numberCancel: 0,
+                uidFixer: fixerModel,
+                latitude: accountModel.latitude,
+                longitude: accountModel.longitude,
+                describe: textDescribe.text.trim(),
+                note: textNote.text.trim(),
+                imgFix: "",
+                // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
+                timeSet: timeSelect.value,
+                dateSet: dateSelect.value,
+                uidClient: accountModel.uid);
 
         await insertData(registrationScheduleModel, id);
+        await sentNotification(registrationScheduleModel);
+
         Get.offNamed(AppPages.completeRegistration, arguments: fixerModel);
       } else {
         BaseShowNotification.showNotification(
@@ -162,7 +161,6 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
           QuickAlertType.warning,
         );
       }
-
     } else {
       BaseShowNotification.showNotification(
         Get.context!,
@@ -174,21 +172,29 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
     hideLoadingOverlay();
   }
 
-  Future<void> insertData(RegistrationScheduleModel registrationScheduleModel,String id) async {
-    try {
-      final storage = FirebaseStorage.instance;
-      var updateImg = storage.ref().child("ImageScheduleFixer").child("${id}imageScheduleFixer.jpg");
+  Future<void> insertData(
+      RegistrationScheduleModel registrationScheduleModel, String id) async {
 
-      await updateImg.putFile(image.value); // Tải lên ảnh
+    if(image.value.path.isNotEmpty) {
+      try {
+        final storage = FirebaseStorage.instance;
+        var updateImg = storage
+            .ref()
+            .child("ImageScheduleFixer")
+            .child("${id}imageScheduleFixer.jpg");
 
-    }catch(e) {
-      log("$e");
-      hideLoadingOverlay();
+        await updateImg.putFile(image.value); // Tải lên ảnh
+      } catch (e) {
+        log("$e");
+        hideLoadingOverlay();
+      }
+      registrationScheduleModel.imgFix = "${id}imageScheduleFixer.jpg";
+    }else {
+      registrationScheduleModel.imgFix = "";
     }
 
-    registrationScheduleModel.imgFix = "${id}imageScheduleFixer.jpg";
     CollectionReference users =
-    FirebaseFirestore.instance.collection('RegistrationSchedule');
+        FirebaseFirestore.instance.collection('RegistrationSchedule');
     try {
       await users.add(registrationScheduleModel.toJson());
       log('Dữ liệu đã được thêm vào Firestore.');
@@ -206,9 +212,14 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
 
   bool checkFileType(String filePath) {
     String fileExtension = filePath.split('.').last;
-    if (fileExtension == 'jpg' || fileExtension == 'jpeg' || fileExtension == 'png' || fileExtension == 'gif') {
+    if (fileExtension == 'jpg' ||
+        fileExtension == 'jpeg' ||
+        fileExtension == 'png' ||
+        fileExtension == 'gif') {
       return true;
-    } else if (fileExtension == 'mp4' || fileExtension == 'avi' || fileExtension == 'mkv') {
+    } else if (fileExtension == 'mp4' ||
+        fileExtension == 'avi' ||
+        fileExtension == 'mkv') {
       return false;
     } else {
       return false;
@@ -254,6 +265,40 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
       BaseShowNotification.showNotification(
         Get.context!,
         "Không lấy được vị trí $e",
+        QuickAlertType.error,
+      );
+    }
+  }
+
+  Future<void> sentNotification(
+      RegistrationScheduleModel registrationScheduleModel) async {
+    NotificationModel notificationModel = NotificationModel(
+        to: registrationScheduleModel.uidFixer!.token ?? "",
+        notification: NotificationChild(
+            title: "Thông báo mới",
+            body:
+                'Bạn có nhiệm vụ mới ngày ${registrationScheduleModel.dateSet} thời gian ${registrationScheduleModel.timeSet} tại đại chỉ ${registrationScheduleModel.address}, khách hàng cần ${registrationScheduleModel.describe}'));
+
+    var response = await NotificationResponse()
+        .sentNotification(notificationModel.toJson());
+
+    CollectionReference notificationSend =
+        FirebaseFirestore.instance.collection('Notification');
+    NotificationGetModel notificationGetModel = NotificationGetModel(
+      createDate: convertDateToString(DateTime.now(), PATTERN_1),
+      uidReceiver: registrationScheduleModel.uidFixer!.uid,
+      uidSend: registrationScheduleModel.uidClient,
+      content:
+          'Bạn có nhiệm vụ mới ngày ${registrationScheduleModel.dateSet} thời gian ${registrationScheduleModel.timeSet} tại đại chỉ ${registrationScheduleModel.address}, khách hàng cần ${registrationScheduleModel.describe}',
+      id: response.results[0].messageId,
+      title: 'Thông báo mới',
+    );
+    try{
+      await notificationSend.add(notificationGetModel.toJson());
+    }catch (e) {
+      BaseShowNotification.showNotification(
+        Get.context!,
+        'Lỗi khi thêm dữ liệu vào Firestore: $e',
         QuickAlertType.error,
       );
     }

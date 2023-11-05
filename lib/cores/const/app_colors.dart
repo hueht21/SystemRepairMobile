@@ -18,6 +18,7 @@ class AppColors {
   static const colorIcon = Color(0xff888888);
   static const colorNen= Color(0xffF4F4F4);
   static const colorCam= Color(0xffFFBC42);
+  static const Color colorError = Color(0xFFff5f6d);
   static const colorDen = Colors.black;
   static const colorXamWarning= Color(0xff5F5F5F);
   static const Color backgroundGrey = Color.fromARGB(255, 235, 234, 240);
@@ -31,5 +32,15 @@ class AppColors {
   static const List<Color> colorButton = [
     Color(0xFF6B46D6),
     Color(0xFF6B46D6),
+  ];
+
+  static const List<Color> colorGradientBlue = [
+    Color(0xFF6B46D6),
+    Color(0xFF5967ff),
+  ];
+
+  static const List<Color> xamHuy = [
+    Color(0xFFE8E8E8),
+    Color(0xFFE8E8E8),
   ];
 }

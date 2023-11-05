@@ -6,6 +6,7 @@ import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
 import '../../../cores/const/app_colors.dart';
 import '../../../cores/const/const.dart';
 import '../../../cores/enum/enum_status.dart';
+import '../../../router/app_pages.dart';
 import '../../../shared/utils/font_ui.dart';
 import '../../../shared/widget/base_widget.dart';
 import '../controllers/order_details_controller.dart';
@@ -352,4 +353,58 @@ class OrderDetails extends BaseGetWidget {
       ],
     ).paddingSymmetric(horizontal: 10);
   }
+
+  // Widget _buildItemConfirm() {
+  //   return (controller.indexHead.value != 3 && controller.indexHead.value != 4)
+  //       ? ((controller.indexHead.value == 1)
+  //           ? Row(
+  //               children: [
+  //                 Expanded(
+  //                   child: BaseGetWidget.buildButton("Từ chối",
+  //                            () async {
+  //                     // await controller.cancelOrderBtn();
+  //                   },
+  //                           isLoading: controller.isShowLoading.value,
+  //                           colors: AppColors.xamHuy)
+  //                       .paddingSymmetric(horizontal: 10),
+  //                 ),
+  //                 Expanded(
+  //                   child: BaseGetWidget.buildButton("Xác nhận", () async {
+  //                     // await controller.confirmStatus();
+  //                   },
+  //                           isLoading: controller.isShowLoading.value,
+  //                           colors: AppColors.colorButton)
+  //                       .paddingSymmetric(horizontal: 10),
+  //                 ),
+  //               ],
+  //             )
+  //           : Row(
+  //               children: [
+  //                 Expanded(
+  //                   child: BaseGetWidget.buildButton("Huỷ đơn",
+  //                            () async {
+  //                     // await controller.cancelOrderBtn();
+  //                   },
+  //                           isLoading: controller.isShowLoading.value,
+  //                           colors: AppColors.xamHuy)
+  //                       .paddingSymmetric(horizontal: 10),
+  //                 ),
+  //                 Expanded(
+  //                   child: BaseGetWidget.buildButton("Thanh toán", () async {
+  //                     Get.toNamed(AppPages.payOder,
+  //                             arguments: controller.registrationScheduleModel)
+  //                         ?.then((value) async {
+  //                       if (value != null) {
+  //                         await controller.confirmPayOder();
+  //                       }
+  //                     });
+  //                   },
+  //                           isLoading: controller.isShowLoading.value,
+  //                           colors: AppColors.colorButton)
+  //                       .paddingSymmetric(horizontal: 10),
+  //                 ),
+  //               ],
+  //             ))
+  //       : const SizedBox();
+  // }
 }
