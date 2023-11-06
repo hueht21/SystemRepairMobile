@@ -12,6 +12,7 @@ import '../../cores/values/defaul_theme.dart';
 import '../../cores/values/string_values.dart';
 import '../utils/font_ui.dart';
 import '../utils/limit_textfield.dart';
+import '../utils/util_widget.dart';
 
 class BaseWidget {
   static DateTime? _dateTime;
@@ -338,5 +339,11 @@ class BaseWidget {
         contentPadding: const EdgeInsets.all(12),
       ),
     ).paddingAll(1.0);
+  }
+
+  Widget baseShowOverlayLoading(Widget child, bool isLoadingOverlay) {
+    return isLoadingOverlay
+        ? const Center(child: UtilWidget.buildLoading)
+        : child;
   }
 }

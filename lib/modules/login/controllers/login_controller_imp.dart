@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
@@ -61,13 +62,9 @@ class LoginControllerImp extends LoginController {
       if (documentSnapshot.docs.isNotEmpty) {
         var doc =  documentSnapshot.docs.first;
         FixerAccountModel fixerAccountModel = FixerAccountModel.fromJson(doc.data());
-
         await HIVE_APP.put(AppConst.keyFixerAccount, fixerAccountModel);
 
-
         Get.offAllNamed(AppPages.home);
-        log('Thành công ${fixerAccountModel.name}');
-
       } else {
         log('Dữ liệu không tồn tại cho UID này.');
         BaseShowNotification.showNotification(

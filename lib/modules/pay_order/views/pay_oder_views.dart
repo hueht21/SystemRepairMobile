@@ -7,8 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
 import 'package:systemrepair/cores/const/app_colors.dart';
 import 'package:systemrepair/modules/pay_order/controllers/pay_oder_controller_imp.dart';
-import 'package:systemrepair/shared/widget/base_widget.dart';
 import '../../../cores/const/const.dart';
+import '../../../shared/utils/currency_utils.dart';
 import '../../../shared/utils/font_ui.dart';
 import '../../../shared/widget/base_widget_login.dart';
 import '../controllers/pay_oder_controller.dart';
@@ -16,10 +16,7 @@ import '../controllers/pay_oder_controller.dart';
 class PayOderView extends BaseGetWidget {
   @override
   PayOderController controller = Get.put(PayOderControllerImp());
-  static const _locale = 'en';
 
-  String _formatNumber(String s) =>
-      NumberFormat.decimalPattern(_locale).format(int.parse(s));
 
   @override
   Widget buildWidgets(BuildContext context) {
@@ -246,7 +243,7 @@ class PayOderView extends BaseGetWidget {
         child: TextField(
           onChanged: (string) {
             if (string != '') {
-              string = _formatNumber(string.replaceAll(',', ''));
+              string = CurrencyUtils().formatNumber(string.replaceAll(',', ''));
               controller.textTotalOder.text = string;
               controller.textTotalOder.selection = TextSelection.fromPosition(
                 TextPosition(offset: textEditingController.text.length),

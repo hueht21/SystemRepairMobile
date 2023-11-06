@@ -10,6 +10,7 @@ import 'package:systemrepair/modules/login/models/fixer_account_model.dart';
 import 'package:systemrepair/shared/utils/date_utils.dart';
 
 import '../../../base_utils/base_widget/base_show_notification.dart';
+import '../../pay_order/models/pay_oder_model.dart';
 import '../models/cancel_oder_model.dart';
 import '../views/filter_cancel_oder_view.dart';
 import 'order_details_controller.dart';
@@ -19,22 +20,44 @@ class OderDetailControllerImp extends OderDetailController {
   Future<void> onInit() async {
     // TODO: implement onInit
 
+    showLoading();
     registrationScheduleModel = Get.arguments;
     indexHead.value = registrationScheduleModel.status ?? 0;
 
+    final storage = FirebaseStorage.instance;
+
     try {
-      final storage = FirebaseStorage.instance;
+      if(registrationScheduleModel.status == 3) {
+
+        final documentSnapshot = await FirebaseFirestore.instance
+            .collection('PayOder') // Thay 'your_collection_name' bằng tên collection của bạn
+            .where("IDOder", isEqualTo: registrationScheduleModel.id) // UID của tài khoản bạn muốn truy vấn
+            .get();
+
+        if (documentSnapshot.docs.isNotEmpty) {
+          var doc =  documentSnapshot.docs.first;
+          payOderModel.value = PayOderModel.fromJson(doc.data());
+        }
+
+        imageUrlPayOder.value = await storage
+            .ref()
+            .child('PayOder/${payOderModel.value.imgPay}')
+            .getDownloadURL();
+      }
       imageUrlFix.value = await storage
           .ref()
           .child('fixer/${registrationScheduleModel.uidFixer?.imgAcc}')
           .getDownloadURL();
+
       imageUrlSchedule.value = await storage
           .ref()
           .child('ImageScheduleFixer/${registrationScheduleModel.imgFix}')
           .getDownloadURL();
-    } catch (e) {
-      log("$e");
+
+    } catch(e) {
+      // hideLoading();
     }
+    hideLoading();
 
     super.onInit();
   }
