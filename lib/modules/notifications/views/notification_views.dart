@@ -38,7 +38,7 @@ class NotificationView extends BaseGetWidget {
         child: Column(
           children: [
             Obx(
-                  () => BaseWidget().baseShowOverlayLoading(
+              () => BaseWidget().baseShowOverlayLoading(
                 buildList(),
                 controller.isShowLoading.value,
               ),
@@ -55,52 +55,55 @@ class NotificationView extends BaseGetWidget {
         width: Get.width,
         child: controller.listNotificationModel.isNotEmpty
             ? ListView.separated(
-            itemBuilder: (context, index) {
-              return _buildItemNotification(
-                  controller.listNotificationModel[index]);
-            },
-            separatorBuilder: (context, index) => const Divider(height: 2),
-            itemCount:  controller.listNotificationModel.length).paddingSymmetric(vertical: 10)
+                    itemBuilder: (context, index) {
+                      return _buildItemNotification(
+                          controller.listNotificationModel[index]);
+                    },
+                    separatorBuilder: (context, index) =>
+                        const Divider(height: 2),
+                    itemCount: controller.listNotificationModel.length)
+                .paddingSymmetric(vertical: 10)
             : BaseWidget().listEmpty());
   }
 
   Widget _buildItemNotification(NotificationGetModel notificationGetModel) {
     return Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            onTap: () {
-              // FirebaseMessaging.instance.getToken().then((token) {
-              //   print("Device Token: $token");
-              //   // Sử dụng token này để gửi thông báo đến thiết bị cần nhận
-              // });
-            },
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                    text: 'Hệ thống:',
-                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                      fontSize: 16,
-                      color: AppColors.colorTextLogin,
-                      fontWeight: FontWeight.w600,
-                    ),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InkWell(
+          onTap: () {
+            // FirebaseMessaging.instance.getToken().then((token) {
+            //   print("Device Token: $token");
+            //   // Sử dụng token này để gửi thông báo đến thiết bị cần nhận
+            // });
+          },
+          child: RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Hệ thống:',
+                  style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                    fontSize: 16,
+                    color: AppColors.colorTextLogin,
+                    fontWeight: FontWeight.w600,
                   ),
-                  TextSpan(
-                    text: notificationGetModel.content,
-                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                      fontSize: 16,
-                      color: AppColors.colorDen,
-                      fontWeight: FontWeight.normal,
-                    ),
+                ),
+                TextSpan(
+                  text: notificationGetModel.content,
+                  style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                    fontSize: 16,
+                    color: AppColors.colorDen,
+                    fontWeight: FontWeight.normal,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

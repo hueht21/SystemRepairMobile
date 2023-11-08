@@ -373,17 +373,21 @@ class OrderDetails extends BaseGetWidget {
                   Expanded(
                     child: BaseGetWidget.buildButton("Từ chối",
                             colorText: AppColors.colorNext, () async {
+                          controller.showLoadingOverlay();
                       await controller.cancelOrderBtn();
+                          controller.hideLoadingOverlay();
                     },
-                            isLoading: controller.isShowLoading.value,
+                            isLoading: controller.isLoadingOverlay.value,
                             colors: AppColors.xamHuy)
                         .paddingSymmetric(horizontal: 10),
                   ),
                   Expanded(
                     child: BaseGetWidget.buildButton("Xác nhận", () async {
+                      controller.showLoadingOverlay();
                       await controller.confirmStatus();
+                      controller.hideLoadingOverlay();
                     },
-                            isLoading: controller.isShowLoading.value,
+                            isLoading: controller.isLoadingOverlay.value,
                             colors: AppColors.colorButton)
                         .paddingSymmetric(horizontal: 10),
                   ),

@@ -6,10 +6,15 @@ import 'package:hive/hive.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
 import 'package:systemrepair/cores/const/const.dart';
+import 'package:systemrepair/modules/login/models/account_model.dart';
 import 'package:systemrepair/modules/login/models/fixer_account_model.dart';
 import 'package:systemrepair/shared/utils/date_utils.dart';
 
 import '../../../base_utils/base_widget/base_show_notification.dart';
+import '../../notifications/models/notification_get_model.dart';
+import '../../notifications/models/notification_model.dart';
+import '../../notifications/response/notification_response.dart';
+import '../../oders/models/registration_schedule_model.dart';
 import '../../pay_order/models/pay_oder_model.dart';
 import '../models/cancel_oder_model.dart';
 import '../views/filter_cancel_oder_view.dart';
@@ -93,10 +98,10 @@ class OderDetailControllerImp extends OderDetailController {
         isScrollControlled: true,
       ).then((value) async {
         if (value != null) {
-          log(value);
           showLoading();
           await insertCancel(value);
           await cancelOrder();
+          await sentNotification(registrationScheduleModel, value);
           hideLoading();
         }
       });
@@ -187,4 +192,60 @@ class OderDetailControllerImp extends OderDetailController {
     Get.back(result: registrationScheduleModel);
     // Get.back(result: registrationScheduleModel);
   }
+
+  Future<void> sentNotification(
+      RegistrationScheduleModel registrationScheduleModel, String cancel) async {
+
+    try{
+      String token = "";
+      final documentSnapshot = await FirebaseFirestore.instance
+          .collection('User') // Thay 'your_collection_name' bằng tên collection của bạn
+          .where("UID", isEqualTo: registrationScheduleModel.uidClient) // UID của tài khoản bạn muốn truy vấn
+          .get();
+
+      if (documentSnapshot.docs.isNotEmpty) {
+        var doc =  documentSnapshot.docs.first;
+        AccountModel accountModel = AccountModel.fromJson(doc.data());
+        token = accountModel.token ?? "";
+
+      } else {
+        log('Dữ liệu không tồn tại cho UID này.');
+        BaseShowNotification.showNotification(
+          Get.context!,
+          "Dữ liệu không tồn tại cho UID này.",
+          QuickAlertType.error,
+        );
+      }
+
+      NotificationModel notificationModel = NotificationModel(
+          to: token,
+          notification: NotificationChild(
+              title: "Thông báo mới",
+              body:
+              'Nhiệm vụ mới ngày ${registrationScheduleModel.dateSet} thời gian ${registrationScheduleModel.timeSet} tại đại chỉ ${registrationScheduleModel.address} đã bị huỷ bởi khách hàng với lý do $cancel'));
+
+      var response = await NotificationResponse()
+          .sentNotification(notificationModel.toJson());
+
+      CollectionReference notificationSend =
+      FirebaseFirestore.instance.collection('Notification');
+      NotificationGetModel notificationGetModel = NotificationGetModel(
+        createDate: convertDateToString(DateTime.now(), PATTERN_1),
+        uidReceiver: registrationScheduleModel.uidFixer!.uid,
+        uidSend: registrationScheduleModel.uidClient,
+        content:
+        'Nhiệm vụ mới ngày ${registrationScheduleModel.dateSet} thời gian ${registrationScheduleModel.timeSet} tại đại chỉ ${registrationScheduleModel.address} đã bị huỷ bởi khách hàng với lý do $cancel',
+        id: response.results[0].messageId,
+        title: 'Thông báo mới',
+      );
+      await notificationSend.add(notificationGetModel.toJson());
+    }catch (e) {
+      BaseShowNotification.showNotification(
+        Get.context!,
+        'Lỗi khi thêm dữ liệu vào Firestore: $e',
+        QuickAlertType.error,
+      );
+    }
+  }
+
 }
