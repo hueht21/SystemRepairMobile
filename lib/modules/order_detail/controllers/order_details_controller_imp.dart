@@ -6,6 +6,7 @@ import 'package:hive/hive.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
 import 'package:systemrepair/cores/const/const.dart';
+import 'package:systemrepair/cores/values/string_values.dart';
 import 'package:systemrepair/modules/login/models/account_model.dart';
 import 'package:systemrepair/modules/login/models/fixer_account_model.dart';
 import 'package:systemrepair/shared/utils/date_utils.dart';
@@ -32,15 +33,17 @@ class OderDetailControllerImp extends OderDetailController {
     final storage = FirebaseStorage.instance;
 
     try {
-      if(registrationScheduleModel.status == 3) {
-
+      if (registrationScheduleModel.status == 3) {
         final documentSnapshot = await FirebaseFirestore.instance
-            .collection('PayOder') // Thay 'your_collection_name' bằng tên collection của bạn
-            .where("IDOder", isEqualTo: registrationScheduleModel.id) // UID của tài khoản bạn muốn truy vấn
+            .collection(
+                'PayOder') // Thay 'your_collection_name' bằng tên collection của bạn
+            .where("IDOder",
+                isEqualTo: registrationScheduleModel
+                    .id) // UID của tài khoản bạn muốn truy vấn
             .get();
 
         if (documentSnapshot.docs.isNotEmpty) {
-          var doc =  documentSnapshot.docs.first;
+          var doc = documentSnapshot.docs.first;
           payOderModel.value = PayOderModel.fromJson(doc.data());
         }
 
@@ -58,8 +61,7 @@ class OderDetailControllerImp extends OderDetailController {
           .ref()
           .child('ImageScheduleFixer/${registrationScheduleModel.imgFix}')
           .getDownloadURL();
-
-    } catch(e) {
+    } catch (e) {
       // hideLoading();
     }
     hideLoading();
@@ -90,8 +92,8 @@ class OderDetailControllerImp extends OderDetailController {
   @override
   Future<void> cancelOrderBtn() async {
     if (isCancelOder()) {
-      BaseShowNotification.showNotification(
-          Get.context!, "Thời gian huỷ đã gần với thời gian đến", QuickAlertType.error);
+      BaseShowNotification.showNotification(Get.context!,
+          "Thời gian huỷ đã gần với thời gian đến", QuickAlertType.error);
     } else {
       Get.bottomSheet(
         FilterCancelOderView.buildPageStatus(),
@@ -106,7 +108,6 @@ class OderDetailControllerImp extends OderDetailController {
         }
       });
     }
-
   }
 
   @override
@@ -179,7 +180,7 @@ class OderDetailControllerImp extends OderDetailController {
 
     /// 2 Xác nhận
     final CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection('RegistrationSchedule');
+        FirebaseFirestore.instance.collection('RegistrationSchedule');
     await collectionReference
         .where('ID', isEqualTo: registrationScheduleModel.id)
         .get()
@@ -194,20 +195,22 @@ class OderDetailControllerImp extends OderDetailController {
   }
 
   Future<void> sentNotification(
-      RegistrationScheduleModel registrationScheduleModel, String cancel) async {
-
-    try{
+      RegistrationScheduleModel registrationScheduleModel,
+      String cancel) async {
+    try {
       String token = "";
       final documentSnapshot = await FirebaseFirestore.instance
-          .collection('User') // Thay 'your_collection_name' bằng tên collection của bạn
-          .where("UID", isEqualTo: registrationScheduleModel.uidClient) // UID của tài khoản bạn muốn truy vấn
+          .collection(
+              'User') // Thay 'your_collection_name' bằng tên collection của bạn
+          .where("UID",
+              isEqualTo: registrationScheduleModel
+                  .uidClient) // UID của tài khoản bạn muốn truy vấn
           .get();
 
       if (documentSnapshot.docs.isNotEmpty) {
-        var doc =  documentSnapshot.docs.first;
+        var doc = documentSnapshot.docs.first;
         AccountModel accountModel = AccountModel.fromJson(doc.data());
         token = accountModel.token ?? "";
-
       } else {
         log('Dữ liệu không tồn tại cho UID này.');
         BaseShowNotification.showNotification(
@@ -218,28 +221,30 @@ class OderDetailControllerImp extends OderDetailController {
       }
 
       NotificationModel notificationModel = NotificationModel(
-          to: token,
-          notification: NotificationChild(
-              title: "Thông báo mới",
-              body:
-              'Nhiệm vụ mới ngày ${registrationScheduleModel.dateSet} thời gian ${registrationScheduleModel.timeSet} tại đại chỉ ${registrationScheduleModel.address} đã bị huỷ bởi khách hàng với lý do $cancel'));
+        to: token,
+        notification: NotificationChild(
+          title: "Thông báo mới",
+          body:
+              AppStr.getNotificationnCancel(registrationScheduleModel.dateSet ?? "", registrationScheduleModel.timeSet ?? "", registrationScheduleModel.address ?? "", cancel)
+        ),
+      );
 
       var response = await NotificationResponse()
           .sentNotification(notificationModel.toJson());
 
       CollectionReference notificationSend =
-      FirebaseFirestore.instance.collection('Notification');
+          FirebaseFirestore.instance.collection('Notification');
       NotificationGetModel notificationGetModel = NotificationGetModel(
         createDate: convertDateToString(DateTime.now(), PATTERN_1),
         uidReceiver: registrationScheduleModel.uidFixer!.uid,
         uidSend: registrationScheduleModel.uidClient,
         content:
-        'Nhiệm vụ mới ngày ${registrationScheduleModel.dateSet} thời gian ${registrationScheduleModel.timeSet} tại đại chỉ ${registrationScheduleModel.address} đã bị huỷ bởi khách hàng với lý do $cancel',
+        AppStr.getNotificationnCancel(registrationScheduleModel.dateSet ?? "", registrationScheduleModel.timeSet ?? "", registrationScheduleModel.address ?? "", cancel),
         id: response.results[0].messageId,
         title: 'Thông báo mới',
       );
       await notificationSend.add(notificationGetModel.toJson());
-    }catch (e) {
+    } catch (e) {
       BaseShowNotification.showNotification(
         Get.context!,
         'Lỗi khi thêm dữ liệu vào Firestore: $e',
@@ -247,5 +252,4 @@ class OderDetailControllerImp extends OderDetailController {
       );
     }
   }
-
 }
