@@ -8,4 +8,5 @@ class AccountModelFields {
 	static const int email = 6;
 	static const int address = 7;
 	static const int imgUser = 8;
+	static const int token = 9;
 }
