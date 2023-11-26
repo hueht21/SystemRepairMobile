@@ -37,7 +37,8 @@ class AppController extends GetxController {
 
     // Hive.registerAdapter(AccountModelAdapter());
     Hive.registerAdapter(FixerAccountModelAdapter());
-    HIVE_APP = await Hive.openBox("hive_app_project_fixer",
+    Hive.registerAdapter(AccountModelAdapter());
+    HIVE_APP = await Hive.openBox("hive_app_project_manage",
         encryptionCipher: HiveAesCipher(encryptionKey));
 
     Get.put(BaseRequest(), permanent: true);

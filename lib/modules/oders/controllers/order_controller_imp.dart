@@ -48,13 +48,11 @@ class OrderControllerImp extends OrderController {
     listRegistrationScheduleSearch = [];
     // AccountModel accountModel = HIVE_APP.get(AppConst.keyAccount);
 
-    FixerAccountModel fixerAccountModel = HIVE_APP.get(AppConst.keyFixerAccount);
+    // FixerAccountModel fixerAccountModel = HIVE_APP.get(AppConst.keyFixerAccount);
 
     final documentSnapshot = await FirebaseFirestore.instance
         .collection(
         'RegistrationSchedule') // Thay 'your_collection_name' bằng tên collection của bạn
-        .where("UIDFixer.UID",
-        isEqualTo: fixerAccountModel.uid) // UID của tài khoản bạn muốn truy vấn
         .get();
 
     if (documentSnapshot.docs.isNotEmpty) {

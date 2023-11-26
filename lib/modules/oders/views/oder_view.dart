@@ -1,3 +1,4 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,8 @@ import 'package:systemrepair/router/app_pages.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../base_utils/base_widget/base_widget_page.dart';
+import '../../../cores/const/const.dart';
+import '../../../shared/utils/date_utils.dart';
 import '../../../shared/widget/base_widget.dart';
 import '../controllers/oder_controller.dart';
 import '../controllers/order_controller_imp.dart';
@@ -70,7 +73,7 @@ class OdersView extends BaseGetWidget {
                           width: Get.width,
                           height: Get.height,
                           child: BaseWidget.buildSmartRefresher(
-                            child: _buildListOder(),
+                            child: _buildDataTable(),
                             onRefresh: controller.onRefresh,
                             onLoadMore: controller.onLoadMore,
                             enablePullUp: true,
@@ -96,6 +99,84 @@ class OdersView extends BaseGetWidget {
         return _buildItemOrder(controller.listRegistrationSchedule[index]);
       },
       itemCount: controller.listRegistrationSchedule.length,
+    );
+  }
+
+  Widget _buildDataTable() {
+    return Container(
+      color: Colors.white,
+      child: DataTable2(
+        dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white10),
+        showCheckboxColumn: false,
+        columnSpacing: 10,
+        headingTextStyle: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ), // Kiểu chữ của tiêu đề
+        dividerThickness: 1,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blue), // Màu sắc của thanh kẻ,
+          color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
+        ),
+        // rowDecoration: BoxDecoration(
+        //   color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
+        // ),
+        minWidth: 1000,
+        columns: [
+          DataColumn2(
+            size: ColumnSize.S,
+            label: Text("ID", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),),
+          ),
+          DataColumn(
+            label: Text("Tên khách hàng",style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black,fontSize: 14),),
+          ),
+          DataColumn(
+            label: Text("Số điện thoại",style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black,fontSize: 14),),
+          ),
+          DataColumn(
+            label: Text("Địa chỉ",style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black,fontSize: 14),),
+          ),
+          DataColumn(
+            label: Text("Tình trạng lỗi",style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black,fontSize: 14),),
+          ),
+          DataColumn2(
+            size: ColumnSize.S,
+            label: Center(child: Text("Thợ sửa",style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black,fontSize: 14),)),
+          ),
+          DataColumn(
+            label: Center(child: Text("Thời gian yêu cầu",style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black,fontSize: 14),)),
+          ),
+          DataColumn(
+            label: Center(child: Text("Trạng thái",style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black,fontSize: 14),)),
+          ),
+        ],
+        rows: List.generate(
+          controller.listRegistrationSchedule.length,
+              (index) => recentFileDataRow(controller.listRegistrationSchedule[index]),
+        ),
+
+      ),
+    );
+  }
+
+  DataRow recentFileDataRow(RegistrationScheduleModel registrationScheduleModel) {
+    return DataRow(
+      onSelectChanged: (bool? select) {
+      },
+      color: MaterialStateColor.resolveWith((states) => Colors.black12),
+      cells: [
+        DataCell(Text("${registrationScheduleModel.id}", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),)),
+        DataCell(Text("${registrationScheduleModel.uidClient}", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),)),
+        DataCell(Text(registrationScheduleModel.numberPhone ?? "", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),)),
+        DataCell(
+            Text(registrationScheduleModel.address ?? "", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),)),
+        DataCell(Center(child: Text(registrationScheduleModel.describe ?? "", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),))),
+        DataCell(Center(child: Text(registrationScheduleModel.uidFixer?.name ?? "", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),))),
+        DataCell(Center(child: Text("${registrationScheduleModel.timeSet}:${registrationScheduleModel.dateSet}", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),))),
+        DataCell(Center(child: Text("${registrationScheduleModel.status}", style: FontStyleUI.fontPlusJakartaSans().copyWith(color: Colors.black, fontSize: 14),))),
+        // const DataCell(Center(child: Text("..."))),
+      ],
     );
   }
 
