@@ -339,4 +339,6 @@ class BaseWidget {
       ),
     ).paddingAll(1.0);
   }
+
+  static const Widget buildLoading = CupertinoActivityIndicator();
 }

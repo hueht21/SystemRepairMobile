@@ -27,15 +27,17 @@ class OderDetailControllerImp extends OderDetailController {
     final storage = FirebaseStorage.instance;
 
     try {
-      if(registrationScheduleModel.status == 3) {
-
+      if (registrationScheduleModel.status == 3) {
         final documentSnapshot = await FirebaseFirestore.instance
-            .collection('PayOder') // Thay 'your_collection_name' bằng tên collection của bạn
-            .where("IDOder", isEqualTo: registrationScheduleModel.id) // UID của tài khoản bạn muốn truy vấn
+            .collection(
+                'PayOder') // Thay 'your_collection_name' bằng tên collection của bạn
+            .where("IDOder",
+                isEqualTo: registrationScheduleModel
+                    .id) // UID của tài khoản bạn muốn truy vấn
             .get();
 
         if (documentSnapshot.docs.isNotEmpty) {
-          var doc =  documentSnapshot.docs.first;
+          var doc = documentSnapshot.docs.first;
           payOderModel.value = PayOderModel.fromJson(doc.data());
         }
 
@@ -53,8 +55,7 @@ class OderDetailControllerImp extends OderDetailController {
           .ref()
           .child('ImageScheduleFixer/${registrationScheduleModel.imgFix}')
           .getDownloadURL();
-
-    } catch(e) {
+    } catch (e) {
       // hideLoading();
     }
     hideLoading();
@@ -85,8 +86,8 @@ class OderDetailControllerImp extends OderDetailController {
   @override
   Future<void> cancelOrderBtn() async {
     if (isCancelOder()) {
-      BaseShowNotification.showNotification(
-          Get.context!, "Thời gian huỷ đã gần với thời gian đến", QuickAlertType.error);
+      BaseShowNotification.showNotification(Get.context!,
+          "Thời gian huỷ đã gần với thời gian đến", QuickAlertType.error);
     } else {
       Get.bottomSheet(
         FilterCancelOderView.buildPageStatus(),
@@ -101,7 +102,6 @@ class OderDetailControllerImp extends OderDetailController {
         }
       });
     }
-
   }
 
   @override
@@ -132,7 +132,7 @@ class OderDetailControllerImp extends OderDetailController {
 
   @override
   Future<void> confirmStatus() async {
-    showLoading();
+    showLoadingOverlay();
     registrationScheduleModel.status = 2;
 
     /// 2 Xác nhận
@@ -145,8 +145,8 @@ class OderDetailControllerImp extends OderDetailController {
       for (var doc in querySnapshot.docs) {
         doc.reference.update(registrationScheduleModel.toJson());
       }
-    });
-    hideLoading();
+    }).whenComplete(() => hideLoadingOverlay());
+
     BaseShowNotification.showNotification(
         Get.context!, 'Đơn đã được bạn xác nhận! ', QuickAlertType.confirm,
         confirm: () {
@@ -174,7 +174,7 @@ class OderDetailControllerImp extends OderDetailController {
 
     /// 2 Xác nhận
     final CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection('RegistrationSchedule');
+        FirebaseFirestore.instance.collection('RegistrationSchedule');
     await collectionReference
         .where('ID', isEqualTo: registrationScheduleModel.id)
         .get()

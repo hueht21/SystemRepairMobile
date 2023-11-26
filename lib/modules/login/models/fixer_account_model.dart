@@ -41,7 +41,7 @@ class FixerAccountModel extends HiveObject{
 	@HiveField(FixerAccountModelFields.numberPhone)
   final String? numberPhone;
 	@HiveField(FixerAccountModelFields.status)
-  final bool? status;
+  bool? status;
 	@HiveField(FixerAccountModelFields.uid)
   final String? uid;
   @HiveField(FixerAccountModelFields.token)
