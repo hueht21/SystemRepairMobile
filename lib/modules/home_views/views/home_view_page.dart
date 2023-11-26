@@ -19,43 +19,6 @@ class HomeViewPage extends BaseGetWidget {
   Widget buildWidgets(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.colorNen,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Obx(
-          () => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                "Trạng thái hoạt động",
-                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textTitleColor,
-                ),
-              ),
-              Transform.scale(
-                scale: 1.3, // Điều chỉnh tỷ lệ để làm cho Switch lớn hơn
-                child: Switch(
-                  value: controller.isOperatingStatus.value,
-                  onChanged: (value) async {
-                    controller.isOperatingStatus.value =
-                        !controller.isOperatingStatus.value;
-                    await controller.setStatus();
-                  },
-                  activeColor: AppColors.textTitleColor,
-                ),
-              ),
-              Text(
-                controller.isOperatingStatus.value ? "Bật" : "Tắt",
-                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                  color: AppColors.textTitleColor,
-                  fontSize: 16,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
       body: Obx(
         () => Container(
           child: controller.isShowLoading.value

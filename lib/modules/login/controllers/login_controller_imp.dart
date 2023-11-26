@@ -30,10 +30,7 @@ class LoginControllerImp extends LoginController {
         pass: textPass.text.trim(),
       );
       if (user != null) {
-
         await getData(user.uid);
-
-
       } else {
         BaseShowNotification.showNotification(
           Get.context!,
@@ -55,18 +52,17 @@ class LoginControllerImp extends LoginController {
   Future<void> getData(String uid) async {
     try {
       final documentSnapshot = await FirebaseFirestore.instance
-          .collection('Fixer') // Thay 'your_collection_name' bằng tên collection của bạn
+          .collection('User') // Thay 'your_collection_name' bằng tên collection của bạn
           .where("UID", isEqualTo: uid) // UID của tài khoản bạn muốn truy vấn
+          .where("Auth", isEqualTo: 1)// Kiểm tra quyền
           .get();
 
       if (documentSnapshot.docs.isNotEmpty) {
         var doc =  documentSnapshot.docs.first;
-        FixerAccountModel fixerAccountModel = FixerAccountModel.fromJson(doc.data());
-        await HIVE_APP.put(AppConst.keyFixerAccount, fixerAccountModel);
-
+        AccountModel accountModel = AccountModel.fromJson(doc.data());
+        await HIVE_APP.put(AppConst.keyAccount, accountModel);
         Get.offAllNamed(AppPages.home);
       } else {
-        log('Dữ liệu không tồn tại cho UID này.');
         BaseShowNotification.showNotification(
           Get.context!,
           "Dữ liệu không tồn tại cho UID này.",

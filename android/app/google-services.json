@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:290961475555:android:47cc6117678e8fe0ce82d6",
         "android_client_info": {
-          "package_name": "com.cudevnb.systemrepairfixer"
+          "package_name": "com.cudevnb.systemrepair"
         }
       },
       "oauth_client": [],
@@ -28,7 +28,26 @@
       "client_info": {
         "mobilesdk_app_id": "1:290961475555:android:e714cdbdff8874d5ce82d6",
         "android_client_info": {
-          "package_name": "com.cudevnb.systemrepairfixerfixer"
+          "package_name": "com.cudevnb.systemrepairfixer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKK3v9FjMuX4hDuw0jVH94OCDe0mxMFM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290961475555:android:ef1c2c422f62ffebce82d6",
+        "android_client_info": {
+          "package_name": "com.cudevnb.systemrepairmanage"
         }
       },
       "oauth_client": [],

@@ -58,13 +58,13 @@ class HomeViewControllerImp extends HomeViewController {
       }
       for(var item in listDataSchedule){
         if(item.status == 1){
-          numberWaiting++;
+          numberWaiting ++;
         }else if(item.status == 2){
-          numberConfirmedStatus++;
+          numberConfirmedStatus ++;
         }else if(item.status == 3){
           numberFinish++;
         }else if(item.status == 4){
-          numberCanceledStatus++;
+          numberCanceledStatus ++;
         }
       }
       // if(indexOption.value == 0) {
