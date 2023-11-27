@@ -153,7 +153,6 @@ class OderDetailControllerImp extends OderDetailController {
       }
     }).whenComplete(() => hideLoadingOverlay());
 
-    });
     sentNotification(registrationScheduleModel);
     // hideLoading();
     BaseShowNotification.showNotification(
