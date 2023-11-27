@@ -103,7 +103,7 @@ class OderDetailControllerImp extends OderDetailController {
           showLoading();
           await insertCancel(value);
           await cancelOrder();
-          await sentNotification(registrationScheduleModel, value);
+          await sentNotification(registrationScheduleModel, cancel: value);
           hideLoading();
         }
       });
@@ -152,6 +152,7 @@ class OderDetailControllerImp extends OderDetailController {
         doc.reference.update(registrationScheduleModel.toJson());
       }
     });
+    sentNotification(registrationScheduleModel);
     hideLoading();
     BaseShowNotification.showNotification(
         Get.context!, 'Đơn đã được bạn xác nhận! ', QuickAlertType.confirm,
@@ -189,6 +190,7 @@ class OderDetailControllerImp extends OderDetailController {
         doc.reference.update(registrationScheduleModel.toJson());
       }
     });
+    await sentNotification(registrationScheduleModel, );
     hideLoading();
     Get.back(result: registrationScheduleModel);
     // Get.back(result: registrationScheduleModel);
@@ -196,7 +198,7 @@ class OderDetailControllerImp extends OderDetailController {
 
   Future<void> sentNotification(
       RegistrationScheduleModel registrationScheduleModel,
-      String cancel) async {
+      {String? cancel, bool isCancel = false}) async {
     try {
       String token = "";
       final documentSnapshot = await FirebaseFirestore.instance
@@ -225,7 +227,7 @@ class OderDetailControllerImp extends OderDetailController {
         notification: NotificationChild(
           title: "Thông báo mới",
           body:
-              AppStr.getNotificationnCancel(registrationScheduleModel.dateSet ?? "", registrationScheduleModel.timeSet ?? "", registrationScheduleModel.address ?? "", cancel)
+              AppStr.getNotificationnConfirm(registrationScheduleModel.dateSet ?? "", registrationScheduleModel.timeSet ?? "", registrationScheduleModel.address ?? "", registrationScheduleModel.uidFixer?.name ?? "")
         ),
       );
 
@@ -239,7 +241,7 @@ class OderDetailControllerImp extends OderDetailController {
         uidReceiver: registrationScheduleModel.uidFixer!.uid,
         uidSend: registrationScheduleModel.uidClient,
         content:
-        AppStr.getNotificationnCancel(registrationScheduleModel.dateSet ?? "", registrationScheduleModel.timeSet ?? "", registrationScheduleModel.address ?? "", cancel),
+        AppStr.getNotificationnCancel(registrationScheduleModel.dateSet ?? "", registrationScheduleModel.timeSet ?? "", registrationScheduleModel.address ?? "", cancel ?? ""),
         id: response.results[0].messageId,
         title: 'Thông báo mới',
       );
