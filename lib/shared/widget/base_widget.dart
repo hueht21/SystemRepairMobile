@@ -346,4 +346,6 @@ class BaseWidget {
         ? const Center(child: UtilWidget.buildLoading)
         : child;
   }
+
+  static const Widget buildLoading = CupertinoActivityIndicator();
 }

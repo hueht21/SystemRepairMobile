@@ -138,7 +138,7 @@ class OderDetailControllerImp extends OderDetailController {
 
   @override
   Future<void> confirmStatus() async {
-    showLoading();
+    showLoadingOverlay();
     registrationScheduleModel.status = 2;
 
     /// 2 Xác nhận
@@ -151,9 +151,11 @@ class OderDetailControllerImp extends OderDetailController {
       for (var doc in querySnapshot.docs) {
         doc.reference.update(registrationScheduleModel.toJson());
       }
+    }).whenComplete(() => hideLoadingOverlay());
+
     });
     sentNotification(registrationScheduleModel);
-    hideLoading();
+    // hideLoading();
     BaseShowNotification.showNotification(
         Get.context!, 'Đơn đã được bạn xác nhận! ', QuickAlertType.confirm,
         confirm: () {
