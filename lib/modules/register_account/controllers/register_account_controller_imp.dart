@@ -66,7 +66,6 @@ class RegisterAccountControllerImp extends RegisterAccountController {
 
         try {
           await users.add(accountModel.toMap());
-          log('Dữ liệu đã được thêm vào Firestore.');
         } catch (e) {
           BaseShowNotification.showNotification(
             Get.context!,
@@ -151,6 +150,7 @@ class RegisterAccountControllerImp extends RegisterAccountController {
           email: textEmail.text.trim(),
           password: textPass.text.trim(),
         );
+        Get.toNamed(AppPages.finishRegister);
         // await sendSignInLink(textNumberPhone.text);
         // Get.back();
       }
