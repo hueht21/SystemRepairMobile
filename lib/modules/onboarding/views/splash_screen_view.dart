@@ -39,7 +39,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
           ),
           const SizedBox(height: 16.0), // Khoảng cách giữa logo và văn bản
           Text(
-            "Repairer",
+            "Repairer Manage",
             style: FontStyleUI.fontPlusJakartaSans().copyWith(
                 fontSize: 36,
                 color: AppColors.textTitleColor,
