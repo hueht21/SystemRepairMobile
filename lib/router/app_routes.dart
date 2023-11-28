@@ -14,6 +14,7 @@ abstract class Routes {
   static const orderDetails = _Paths.orderDetails;
   static const completeRegistration = _Paths.completeRegistration;
   static const notificationPage = _Paths.notificationPage;
+  static const fixerMapPage = _Paths.fixerMapPage;
 }
 
 abstract class _Paths {
@@ -30,4 +31,5 @@ abstract class _Paths {
   static const orderDetails = '/orderDetails';
   static const completeRegistration = '/completeRegistration';
   static const notificationPage = '/notificationPage';
+  static const fixerMapPage = '/fixerMap';
 }

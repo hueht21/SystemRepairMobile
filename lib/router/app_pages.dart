@@ -8,6 +8,7 @@ import 'package:systemrepair/modules/register_account/views/finish_regiter_view.
 import 'package:systemrepair/modules/register_account/views/register_account_view.dart';
 
 import '../modules/ order_details/views/order_details_views.dart';
+import '../modules/fixer_map/views/fixer_map_view.dart';
 import '../modules/notifications/views/notification_views.dart';
 import '../modules/register_account/views/otp_view.dart';
 import '../modules/schedule_repair/views/complete_registration_view.dart';
@@ -30,6 +31,7 @@ class AppPages {
   static const orderDetails = Routes.orderDetails;
   static const completeRegistration = Routes.completeRegistration;
   static const notificationPage = Routes.notificationPage;
+  static const fixerMapPage = Routes.fixerMapPage;
 
   static final routes = [
     GetPage(
@@ -81,6 +83,10 @@ class AppPages {
     GetPage(
       name: _Paths.notificationPage,
       page: () => const NotificationView(),
+    ),
+    GetPage(
+      name: _Paths.fixerMapPage,
+      page: () => FixerMapView(),
     ),
   ];
 

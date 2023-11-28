@@ -17,10 +17,10 @@ class HomePage extends BaseGetWidget {
 
   @override
   Widget buildWidgets(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundGreyT,
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundGreyT,
+        body: SingleChildScrollView(
           child: Column(
             children: [
               const SizedBox(
@@ -52,7 +52,8 @@ class HomePage extends BaseGetWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      controller.sendMessageToDevice2("device2Token", "message");
+                      controller.sendMessageToDevice2(
+                          "device2Token", "message");
                     },
                     child: _viewOption(
                       color: 0xff6DB2DE,
@@ -70,7 +71,12 @@ class HomePage extends BaseGetWidget {
                   const SizedBox(
                     width: 24,
                   ),
-                  _iconNameOption(name: "Thợ sửa", icon: AppConst.listRepair),
+                  InkWell(
+                      onTap: () {
+                        Get.toNamed(AppPages.fixerMapPage);
+                      },
+                      child: _iconNameOption(
+                          name: "Thợ sửa", icon: AppConst.listRepair)),
                   const SizedBox(
                     width: 37,
                   ),
@@ -99,32 +105,31 @@ class HomePage extends BaseGetWidget {
                   color: Color(0xff888888),
                 ),
               ),
-              introducingInformation(
-                "Giới thiệu về chúng tôi ",
-                widget: CarouselSlider(
-                    items: [0,1,2,3].map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(8), // Đặt bán kính bo tròn, giá trị 50 để tạo hình tròn
-                            child: Image.asset(
-                              width: Get.width,
-                              height: 120,
-                              controller.listBanner[i],
-                              fit: BoxFit.cover,
-                            ),
-                          ).paddingSymmetric(horizontal: 5,vertical: 10);
-                        },
-                      );
-                    }).toList(),
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 3),
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
-                      scrollDirection: Axis.horizontal,
-                    )
-                ).paddingSymmetric(horizontal: 15)
-              ),
+              introducingInformation("Giới thiệu về chúng tôi ",
+                  widget: CarouselSlider(
+                      items: [0, 1, 2, 3].map((i) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              // Đặt bán kính bo tròn, giá trị 50 để tạo hình tròn
+                              child: Image.asset(
+                                width: Get.width,
+                                height: 120,
+                                controller.listBanner[i],
+                                fit: BoxFit.cover,
+                              ),
+                            ).paddingSymmetric(horizontal: 5, vertical: 10);
+                          },
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        scrollDirection: Axis.horizontal,
+                      )).paddingSymmetric(horizontal: 15)),
               const SizedBox(
                 height: 15,
               ),

@@ -63,6 +63,10 @@ class AppConst {
   static const String iconEverybody = "assets/images/every_body_icon.svg";
   static const String iconUpdateImg = "assets/images/update_img.svg";
 
+  //
+  static const String iconFixer = "assets/images/icon_repair.png";
+  static const String iconMapUser = "assets/images/icon_map_user.png";
+
 
   // hive
 
