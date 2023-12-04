@@ -13,8 +13,6 @@ class NotificationControllerImp extends NotificationController {
 
   @override
   Future<void> onInit() async {
-    // TODO: implement onInit
-
     showLoading();
     await getDataNotification();
     hideLoading();
@@ -23,9 +21,7 @@ class NotificationControllerImp extends NotificationController {
 
   @override
   Future<void> getDataNotification() async {
-
     AccountModel accountModel = HIVE_APP.get(AppConst.keyAccount);
-
     final documentSnapshot = await FirebaseFirestore.instance
         .collection(
         'Notification') // Thay 'your_collection_name' bằng tên collection của bạn

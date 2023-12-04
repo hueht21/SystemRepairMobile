@@ -206,7 +206,7 @@ class UtilWidget {
   //   );
   // }
 
-  static const Widget buildLoading = CupertinoActivityIndicator();
+  static const Widget buildLoading = CupertinoActivityIndicator(color: Colors.black, );
 
   static Widget buildSmartRefresher({
     required RefreshController refreshController,

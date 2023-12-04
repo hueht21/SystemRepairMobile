@@ -36,33 +36,27 @@ class NotificationView extends BaseGetWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(
-              () => BaseWidget().baseShowOverlayLoading(
-                buildList(),
-                controller.isShowLoading.value,
-              ),
-            )
-          ],
-        ),
+        child: baseShowLoading(() => buildList()),
       ),
     );
   }
 
   Widget buildList() {
     return SizedBox(
-        height: Get.height,
-        width: Get.width,
-        child: controller.listNotificationModel.isNotEmpty
-            ? ListView.separated(
-                itemBuilder: (context, index) {
-                  return _buildItemNotification(
-                      controller.listNotificationModel[index]);
-                },
-                separatorBuilder: (context, index) => const Divider(height: 2),
-                itemCount:  controller.listNotificationModel.length).paddingSymmetric(vertical: 10)
-            : BaseWidget().listEmpty());
+      height: Get.height,
+      width: Get.width,
+      child: controller.listNotificationModel.isNotEmpty
+          ? ListView.separated(
+                  itemBuilder: (context, index) {
+                    return _buildItemNotification(
+                        controller.listNotificationModel[index]);
+                  },
+                  separatorBuilder: (context, index) =>
+                      const Divider(height: 2),
+                  itemCount: controller.listNotificationModel.length)
+              .paddingSymmetric(vertical: 10)
+          : BaseWidget().listEmpty(),
+    );
   }
 
   Widget _buildItemNotification(NotificationGetModel notificationGetModel) {

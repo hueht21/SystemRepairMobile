@@ -19,22 +19,20 @@ class FixerMapView extends BaseGetWidget {
   Widget buildWidgets(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: Text(
-              "Vị trí thợ sửa",
-              style: FontStyleUI.fontPlusJakartaSans(),
-            ),
-            iconTheme: const IconThemeData(
-              color: AppColors.colorTextLogin, // Đặt màu cho icon ở đây
-            ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            "Vị trí thợ sửa",
+            style: FontStyleUI.fontPlusJakartaSans(),
           ),
-          body: Obx(
-            () => BaseWidget().baseLoading(
-              isLoading: controller.isShowLoading.value,
-              widget: _body(),
-            ),
-          )),
+          iconTheme: const IconThemeData(
+            color: AppColors.colorTextLogin, // Đặt màu cho icon ở đây
+          ),
+        ),
+        body: baseShowLoading(
+          () => _body(),
+        ),
+      ),
     );
   }
 

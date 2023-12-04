@@ -11,9 +11,11 @@ class FixerMapControllerImp extends FixerMapController {
   @override
   Future<void> onInit() async {
     showLoading();
+    await Future.delayed(const Duration(seconds: 1));
     await loadDataFixer();
     await getLocation();
-    await addListLocationFixer().whenComplete(() => hideLoading());
+    await addListLocationFixer();
+    hideLoading();
     super.onInit();
   }
 
@@ -38,14 +40,15 @@ class FixerMapControllerImp extends FixerMapController {
   Future<void> addListLocationFixer() async {
 
     for(var item in listFixer){
-
+      addMarker(item.uid ?? "", LatLng(item.latitude ?? 0.0 , item.longitude ?? 0.0),
+          await loadIconFixer());
     }
-    addMarker("1", const LatLng(20.98927217500758, 105.81164038126636),
-        await loadIconFixer());
-    addMarker("2", const LatLng(20.973398887754904, 105.80126721532376),
-        await loadIconFixer());
-    addMarker("3", const LatLng(20.996804670288185, 105.78585153815906),
-        await loadIconFixer());
+    // addMarker("1", const LatLng(20.98927217500758, 105.81164038126636),
+    //     await loadIconFixer());
+    // addMarker("2", const LatLng(20.973398887754904, 105.80126721532376),
+    //     await loadIconFixer());
+    // addMarker("3", const LatLng(20.996804670288185, 105.78585153815906),
+    //     await loadIconFixer());
     addMarker(
         "Test3", LatLng(latitude.value, longitude.value), await loadIconUser());
   }
