@@ -109,7 +109,7 @@ class OdersView extends BaseGetWidget {
         dataRowColor: MaterialStateColor.resolveWith((states) => Colors.white10),
         showCheckboxColumn: false,
         columnSpacing: 10,
-        headingTextStyle: TextStyle(
+        headingTextStyle: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.bold,
           color: Colors.black,
