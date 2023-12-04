@@ -96,7 +96,7 @@ class OrderDetails extends BaseGetWidget {
           ),
         ),
       ),
-      bottomNavigationBar: _buildItemConfirm(),
+      bottomSheet: _buildItemConfirm().paddingOnly(bottom: 10),
     );
   }
 

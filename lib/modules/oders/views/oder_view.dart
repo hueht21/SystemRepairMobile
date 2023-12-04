@@ -33,7 +33,7 @@ class OdersView extends BaseGetWidget {
                 Container(
                   alignment: Alignment.center,
                   child: Text(
-                    "Đơn đặt của bạn",
+                    "Nhiệm vụ của bạn",
                     style: FontStyleUI.fontPlusJakartaSans().copyWith(
                         color: AppColors.textTim,
                         fontSize: 20,

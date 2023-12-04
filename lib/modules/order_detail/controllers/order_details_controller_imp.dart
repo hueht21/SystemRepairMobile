@@ -103,7 +103,7 @@ class OderDetailControllerImp extends OderDetailController {
           showLoading();
           await insertCancel(value);
           await cancelOrder();
-          await sentNotification(registrationScheduleModel, cancel: value);
+          await sentNotification(registrationScheduleModel, cancel: value, isCancel: true);
           hideLoading();
         }
       });
@@ -191,22 +191,26 @@ class OderDetailControllerImp extends OderDetailController {
         doc.reference.update(registrationScheduleModel.toJson());
       }
     });
-    await sentNotification(registrationScheduleModel, );
+    await sentNotification(
+      registrationScheduleModel,
+    );
     hideLoading();
     Get.back(result: registrationScheduleModel);
     // Get.back(result: registrationScheduleModel);
   }
 
   Future<void> sentNotification(
-      RegistrationScheduleModel registrationScheduleModel,
-      {String? cancel, bool isCancel = false}) async {
+    RegistrationScheduleModel registrationSchedule, {
+    String? cancel,
+    bool isCancel = false,
+  }) async {
     try {
       String token = "";
       final documentSnapshot = await FirebaseFirestore.instance
           .collection(
               'User') // Thay 'your_collection_name' bằng tên collection của bạn
           .where("UID",
-              isEqualTo: registrationScheduleModel
+              isEqualTo: registrationSchedule
                   .uidClient) // UID của tài khoản bạn muốn truy vấn
           .get();
 
@@ -215,38 +219,38 @@ class OderDetailControllerImp extends OderDetailController {
         AccountModel accountModel = AccountModel.fromJson(doc.data());
         token = accountModel.token ?? "";
       } else {
-        log('Dữ liệu không tồn tại cho UID này.');
         BaseShowNotification.showNotification(
           Get.context!,
           "Dữ liệu không tồn tại cho UID này.",
           QuickAlertType.error,
         );
       }
+      String idNotification = "";
+      String contentNotification = "";
+      if (isCancel) {
+        idNotification = await cancelSchedule(registrationSchedule, token);
+        contentNotification = AppStr.getNotificationnCancel(
+          registrationSchedule.dateSet ?? "",
+          registrationSchedule.timeSet ?? "",
+          registrationSchedule.address ?? "",
+          cancel ?? "",
+          "Tên thợ sửa",
+        );
+      } else {
+        idNotification = await sentConfirm(registrationSchedule, token);
+        contentNotification = AppStr.getNotificationnConfirm(
+          registrationSchedule.timeSet ?? "",
+          registrationSchedule.dateSet ?? "",
+          registrationSchedule.address ?? "",
+          registrationSchedule.uidFixer!.name ?? "",
+        );
+      }
 
-      NotificationModel notificationModel = NotificationModel(
-        to: token,
-        notification: NotificationChild(
-          title: "Thông báo mới",
-          body:
-              AppStr.getNotificationnConfirm(registrationScheduleModel.dateSet ?? "", registrationScheduleModel.timeSet ?? "", registrationScheduleModel.address ?? "", registrationScheduleModel.uidFixer?.name ?? "")
-        ),
+      await saveNotification(
+        registrationSchedule,
+        contentNotification,
+        idNotification,
       );
-
-      var response = await NotificationResponse()
-          .sentNotification(notificationModel.toJson());
-
-      CollectionReference notificationSend =
-          FirebaseFirestore.instance.collection('Notification');
-      NotificationGetModel notificationGetModel = NotificationGetModel(
-        createDate: convertDateToString(DateTime.now(), PATTERN_1),
-        uidReceiver: registrationScheduleModel.uidFixer!.uid,
-        uidSend: registrationScheduleModel.uidClient,
-        content:
-        AppStr.getNotificationnCancel(registrationScheduleModel.dateSet ?? "", registrationScheduleModel.timeSet ?? "", registrationScheduleModel.address ?? "", cancel ?? ""),
-        id: response.results[0].messageId,
-        title: 'Thông báo mới',
-      );
-      await notificationSend.add(notificationGetModel.toJson());
     } catch (e) {
       BaseShowNotification.showNotification(
         Get.context!,
@@ -254,5 +258,60 @@ class OderDetailControllerImp extends OderDetailController {
         QuickAlertType.error,
       );
     }
+  }
+
+  Future<String> sentConfirm(
+      RegistrationScheduleModel registrationSchedule, String token) async {
+    NotificationModel notificationModel = NotificationModel(
+      to: token,
+      notification: NotificationChild(
+          title: "Thông báo mới",
+          body: AppStr.getNotificationnConfirm(
+              registrationSchedule.dateSet ?? "",
+              registrationSchedule.timeSet ?? "",
+              registrationSchedule.address ?? "",
+              registrationSchedule.uidFixer?.name ?? "")),
+    );
+
+    var response = await NotificationResponse()
+        .sentNotification(notificationModel.toJson());
+    return response.results[0].messageId ?? "";
+  }
+
+  Future<String> cancelSchedule(
+      RegistrationScheduleModel registrationSchedule, String token) async {
+    NotificationModel notificationModel = NotificationModel(
+      to: token,
+      notification: NotificationChild(
+          title: "Thông báo mới",
+          body: AppStr.getNotificationnConfirm(
+              registrationSchedule.dateSet ?? "",
+              registrationSchedule.timeSet ?? "",
+              registrationSchedule.address ?? "",
+              registrationSchedule.uidFixer?.name ?? "")),
+    );
+
+    var response = await NotificationResponse()
+        .sentNotification(notificationModel.toJson());
+    return response.results[0].messageId ?? "";
+  }
+
+  Future<void> saveNotification(
+    RegistrationScheduleModel registrationSchedule,
+    String content,
+    String idNotification,
+  ) async {
+    CollectionReference notificationSend =
+        FirebaseFirestore.instance.collection('Notification');
+
+    NotificationGetModel notificationGetModel = NotificationGetModel(
+      createDate: convertDateToString(DateTime.now(), PATTERN_1),
+      uidReceiver: registrationSchedule.uidFixer!.uid,
+      uidSend: registrationSchedule.uidClient,
+      content: content,
+      id: idNotification,
+      title: 'Thông báo mới',
+    );
+    await notificationSend.add(notificationGetModel.toJson());
   }
 }
