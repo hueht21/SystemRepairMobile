@@ -7,13 +7,13 @@ import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../base_utils/base_widget/base_widget_page.dart';
 import '../../../shared/widget/base_widget.dart';
-import '../controllers/oder_controller.dart';
-import '../controllers/order_controller_imp.dart';
-import '../models/registration_schedule_model.dart';
 
-class OdersView extends BaseGetWidget {
+
+class CancelView extends BaseGetWidget {
   @override
   OrderController controller = Get.put(OrderControllerImp());
+
+  CancelView({super.key});
 
   @override
   Widget buildWidgets(BuildContext context) {
@@ -27,13 +27,13 @@ class OdersView extends BaseGetWidget {
         ),
         child: SafeArea(
           child: Obx(
-            () => Column(
+                () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   alignment: Alignment.center,
                   child: Text(
-                    "Đơn đặt của bạn",
+                    "Quản lý đơn huỷ",
                     style: FontStyleUI.fontPlusJakartaSans().copyWith(
                         color: AppColors.textTim,
                         fontSize: 20,
@@ -57,7 +57,7 @@ class OdersView extends BaseGetWidget {
                   ],
                 ).paddingSymmetric(vertical: 30),
                 Text(
-                  "Danh sách đơn đặt của bạn",
+                  "Danh sách đơn huỷ",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
                     color: AppColors.textTim,
                     fontSize: 16,
@@ -78,21 +78,21 @@ class OdersView extends BaseGetWidget {
   Widget _buildData() {
     return (controller.listRegistrationSchedule.isNotEmpty)
         ? Expanded(
-            child: SizedBox(
-              width: Get.width,
-              height: Get.height,
-              child: BaseWidget.buildSmartRefresher(
-                child: _buildDataTable(),
-                onRefresh: controller.onRefresh,
-                onLoadMore: controller.onLoadMore,
-                enablePullUp: true,
-                enablePullDown: true,
-                refreshController: controller.refreshController,
-              ),
-            ),
-          )
+      child: SizedBox(
+        width: Get.width,
+        height: Get.height,
+        child: BaseWidget.buildSmartRefresher(
+          child: _buildDataTable(),
+          onRefresh: controller.onRefresh,
+          onLoadMore: controller.onLoadMore,
+          enablePullUp: true,
+          enablePullDown: true,
+          refreshController: controller.refreshController,
+        ),
+      ),
+    )
         : Center(child: BaseWidget().listEmpty())
-            .paddingSymmetric(vertical: 70);
+        .paddingSymmetric(vertical: 70);
   }
 
   Widget _buildDataTable() {
@@ -159,31 +159,31 @@ class OdersView extends BaseGetWidget {
             size: ColumnSize.S,
             label: Center(
                 child: Text(
-              "Thợ sửa",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            )),
+                  "Thợ sửa",
+                  style: FontStyleUI.fontPlusJakartaSans()
+                      .copyWith(color: Colors.black, fontSize: 14),
+                )),
           ),
           DataColumn(
             label: Center(
                 child: Text(
-              "Thời gian yêu cầu",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            )),
+                  "Thời gian yêu cầu",
+                  style: FontStyleUI.fontPlusJakartaSans()
+                      .copyWith(color: Colors.black, fontSize: 14),
+                )),
           ),
           DataColumn(
             label: Center(
                 child: Text(
-              "Trạng thái",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            )),
+                  "Trạng thái",
+                  style: FontStyleUI.fontPlusJakartaSans()
+                      .copyWith(color: Colors.black, fontSize: 14),
+                )),
           ),
         ],
         rows: List.generate(
           controller.listRegistrationSchedule.length,
-          (index) =>
+              (index) =>
               recentFileDataRow(controller.listRegistrationSchedule[index]),
         ),
       ),
@@ -255,8 +255,8 @@ class OdersView extends BaseGetWidget {
           Center(
             child: Container(
               decoration: BoxDecoration(
-                color: controller.colorStatus(registrationScheduleModel.status ?? 0),
-                borderRadius: BorderRadius.circular(10)
+                  color: controller.colorStatus(registrationScheduleModel.status ?? 0),
+                  borderRadius: BorderRadius.circular(10)
               ),
               // width: 70,
               height: 25,
@@ -283,7 +283,7 @@ class OdersView extends BaseGetWidget {
         controller.optionType(controller.indexOption.value);
       },
       child: Obx(
-        () => Container(
+            () => Container(
           width: 100,
           height: 35,
           decoration: BoxDecoration(
