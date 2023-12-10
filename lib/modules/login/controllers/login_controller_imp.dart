@@ -30,10 +30,7 @@ class LoginControllerImp extends LoginController {
         pass: textPass.text.trim(),
       );
       if (user != null) {
-
         await getData(user.uid);
-
-
       } else {
         BaseShowNotification.showNotification(
           Get.context!,

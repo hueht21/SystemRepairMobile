@@ -46,9 +46,7 @@ class NotificationControllerImp extends NotificationController {
   }
 
   @override
-  Future<void> onLoadMore() {
-    // TODO: implement onLoadMore
-    throw UnimplementedError();
+  Future<void> onLoadMore() async {
   }
 
   @override
