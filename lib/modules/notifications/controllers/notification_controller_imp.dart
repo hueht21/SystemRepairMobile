@@ -6,7 +6,6 @@ import '../../../cores/const/const.dart';
 import '../models/notification_get_model.dart';
 
 class NotificationControllerImp extends NotificationController {
-
   @override
   Future<void> onInit() async {
     // TODO: implement onInit
@@ -19,21 +18,21 @@ class NotificationControllerImp extends NotificationController {
 
   @override
   Future<void> getDataNotification() async {
-
-    FixerAccountModel fixerAccountModel = HIVE_APP.get(AppConst.keyFixerAccount);
+    FixerAccountModel fixerAccountModel =
+        HIVE_APP.get(AppConst.keyFixerAccount);
 
     final documentSnapshot = await FirebaseFirestore.instance
         .collection(
-        'Notification') // Thay 'your_collection_name' bằng tên collection của bạn
+            'Notification') // Thay 'your_collection_name' bằng tên collection của bạn
         .where("UID_Receiver",
-        isEqualTo: fixerAccountModel.uid) // UID của tài khoản bạn muốn truy vấn
+            isEqualTo:
+                fixerAccountModel.uid) // UID của tài khoản bạn muốn truy vấn
         .get();
 
     if (documentSnapshot.docs.isNotEmpty) {
+      listNotificationModel.value = [];
       for (final data in documentSnapshot.docs) {
-        listNotificationModel
-            .add(NotificationGetModel.fromJson(data.data()));
-
+        listNotificationModel.add(NotificationGetModel.fromJson(data.data()));
       }
       listNotificationModel.value = listNotificationModel.reversed.toList();
       // listNotificationModel.addAll(documentSnapshot.docs.map((item) {
@@ -43,7 +42,18 @@ class NotificationControllerImp extends NotificationController {
       //     return null; // Hoặc xử lý tùy theo trường hợp
       //   }
       // }).whereType<NotificationGetModel>().toList());
-
     }
+  }
+
+  @override
+  Future<void> onLoadMore() {
+    // TODO: implement onLoadMore
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    showLoading();
+    await getDataNotification().then((value) => hideLoading());
   }
 }

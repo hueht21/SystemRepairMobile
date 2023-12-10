@@ -43,9 +43,9 @@ class BaseWidget {
 
   Widget optionCircle(
       {required double width,
-        required double height,
-        required String icon,
-        int? check}) {
+      required double height,
+      required String icon,
+      int? check}) {
     return Container(
         width: width,
         height: height,
@@ -61,9 +61,9 @@ class BaseWidget {
             backgroundColor: Colors.white,
             child: check == 1
                 ? SvgPicture.asset(
-              icon,
-              color: const Color(0xff6B46D6),
-            )
+                    icon,
+                    color: const Color(0xff6B46D6),
+                  )
                 : SvgPicture.asset(icon)));
   }
 
@@ -237,7 +237,7 @@ class BaseWidget {
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
                   color:
-                  Colors.transparent), // Đặt màu trong suốt cho underline
+                      Colors.transparent), // Đặt màu trong suốt cho underline
             ),
             focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
@@ -273,7 +273,7 @@ class BaseWidget {
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
                   color:
-                  Colors.transparent), // Đặt màu trong suốt cho underline
+                      Colors.transparent), // Đặt màu trong suốt cho underline
             ),
             focusedBorder: const UnderlineInputBorder(
               borderSide: BorderSide(
@@ -316,12 +316,12 @@ class BaseWidget {
       },
       inputFormatters: isProductCode
           ? [
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9-_\.]')),
-        LengthLimitingTextFieldFormatterFixed(maxLength),
-      ]
+              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9-_\.]')),
+              LengthLimitingTextFieldFormatterFixed(maxLength),
+            ]
           : [
-        LengthLimitingTextFieldFormatterFixed(maxLength),
-      ],
+              LengthLimitingTextFieldFormatterFixed(maxLength),
+            ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.multiline,
       style: Get.textTheme.bodyMedium,
@@ -343,7 +343,13 @@ class BaseWidget {
 
   Widget baseShowOverlayLoading(Widget child, bool isLoadingOverlay) {
     return isLoadingOverlay
-        ? const Center(child: UtilWidget.buildLoading)
+        ? const Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(child: UtilWidget.buildLoading),
+          ],
+        )
         : child;
   }
 

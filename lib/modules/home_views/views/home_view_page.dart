@@ -56,14 +56,16 @@ class HomeViewPage extends BaseGetWidget {
           ),
         ),
       ),
-      body: Obx(
-        () => Container(
-          child: controller.isShowLoading.value
-              ? const SizedBox(
-                  height: 60,
-                  child: Center(child: UtilWidget.buildLoading),
-                )
-              : body(),
+      body: SafeArea(
+        child: Obx(
+          () => Container(
+            child: controller.isShowLoading.value
+                ? const SizedBox(
+                    height: 60,
+                    child: Center(child: UtilWidget.buildLoading),
+                  )
+                : body(),
+          ),
         ),
       ),
     );
@@ -249,4 +251,3 @@ class HomeViewPage extends BaseGetWidget {
     );
   }
 }
-

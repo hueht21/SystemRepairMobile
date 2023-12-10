@@ -1,31 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
+import 'package:systemrepair/modules/login/models/account_model.dart';
 import 'package:systemrepair/modules/login/models/fixer_account_model.dart';
 
 import '../../modules/notifications/models/notification_get_model.dart';
 import '../../modules/notifications/models/notification_model.dart';
 import '../../modules/notifications/response/notification_response.dart';
-import '../../modules/oders/models/registration_schedule_model.dart';
 import '../../shared/utils/date_utils.dart';
 import '../base_widget/base_show_notification.dart';
 
 class BaseShowNotificationCtr {
-  Future<void> sentNotification(
-      RegistrationScheduleModel registrationScheduleModel, String cancel) async {
-
-    try{
-      String token = "";
+  Future<String> getTokenFixer(String uid) async {
+    String token = "";
+    try {
       final documentSnapshot = await FirebaseFirestore.instance
-          .collection('User') // Thay 'your_collection_name' bằng tên collection của bạn
-          .where("UID", isEqualTo: registrationScheduleModel.uidFixer!.uid) // UID của tài khoản bạn muốn truy vấn
+          .collection("Fixer")
+          .where("UID", isEqualTo: uid)
           .get();
 
       if (documentSnapshot.docs.isNotEmpty) {
-        var doc =  documentSnapshot.docs.first;
+        var doc = documentSnapshot.docs.first;
         FixerAccountModel fixerModel = FixerAccountModel.fromJson(doc.data());
         token = fixerModel.token ?? "";
-
       } else {
         BaseShowNotification.showNotification(
           Get.context!,
@@ -33,30 +30,71 @@ class BaseShowNotificationCtr {
           QuickAlertType.error,
         );
       }
+    } catch (e) {
+      BaseShowNotification.showNotification(
+        Get.context!,
+        "Dữ liệu không tồn tại cho UID này.",
+        QuickAlertType.error,
+      );
+    }
+    return token;
+  }
 
+
+  Future<String> getTokenClient(String uid) async {
+    String token = "";
+    try {
+      final documentSnapshot = await FirebaseFirestore.instance
+          .collection("User")
+          .where("UID", isEqualTo: uid)
+          .get();
+
+      if (documentSnapshot.docs.isNotEmpty) {
+        var doc = documentSnapshot.docs.first;
+        AccountModel accountModel = AccountModel.fromJson(doc.data());
+        token = accountModel.token ?? "";
+      } else {
+        BaseShowNotification.showNotification(
+          Get.context!,
+          "Dữ liệu không tồn tại cho UID này.",
+          QuickAlertType.error,
+        );
+      }
+    } catch (e) {
+      BaseShowNotification.showNotification(
+        Get.context!,
+        "Dữ liệu không tồn tại cho UID này.",
+        QuickAlertType.error,
+      );
+    }
+    return token;
+  }
+
+  Future<void> sentNotification({
+    required String uid,
+    required String token,
+    required String uidReceiver,
+    required String content
+  }) async {
+    try {
       NotificationModel notificationModel = NotificationModel(
           to: token,
-          notification: NotificationChild(
-              title: "Thông báo mới",
-              body:
-              'Nhiệm vụ mới ngày ${registrationScheduleModel.dateSet} thời gian ${registrationScheduleModel.timeSet} tại đại chỉ ${registrationScheduleModel.address} đã bị huỷ bởi khách hàng với lý do $cancel'));
-
+          notification: NotificationChild(title: "Thông báo mới", body: content));
       var response = await NotificationResponse()
           .sentNotification(notificationModel.toJson());
-
       CollectionReference notificationSend =
-      FirebaseFirestore.instance.collection('Notification');
+          FirebaseFirestore.instance.collection('Notification');
       NotificationGetModel notificationGetModel = NotificationGetModel(
         createDate: convertDateToString(DateTime.now(), PATTERN_1),
-        uidReceiver: registrationScheduleModel.uidFixer!.uid,
-        uidSend: registrationScheduleModel.uidClient,
-        content:
-        'Nhiệm vụ mới ngày ${registrationScheduleModel.dateSet} thời gian ${registrationScheduleModel.timeSet} tại đại chỉ ${registrationScheduleModel.address} đã bị huỷ bởi khách hàng với lý do $cancel',
+        uidReceiver: uidReceiver,
+        uidSend: uid,
+        content: content,
         id: response.results[0].messageId,
         title: 'Thông báo mới',
       );
       await notificationSend.add(notificationGetModel.toJson());
-    }catch (e) {
+
+    } catch (e) {
       BaseShowNotification.showNotification(
         Get.context!,
         'Lỗi khi thêm dữ liệu vào Firestore: $e',
@@ -64,5 +102,4 @@ class BaseShowNotificationCtr {
       );
     }
   }
-
 }

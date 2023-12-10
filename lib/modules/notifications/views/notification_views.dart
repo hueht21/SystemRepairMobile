@@ -34,36 +34,46 @@ class NotificationView extends BaseGetWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(
-              () => BaseWidget().baseShowOverlayLoading(
-                buildList(),
-                controller.isShowLoading.value,
-              ),
-            )
-          ],
+      body: Obx(
+        () => BaseWidget().baseShowOverlayLoading(
+          buildList(),
+          controller.isShowLoading.value,
         ),
       ),
     );
   }
 
   Widget buildList() {
-    return SizedBox(
-        height: Get.height,
-        width: Get.width,
-        child: controller.listNotificationModel.isNotEmpty
-            ? ListView.separated(
-                    itemBuilder: (context, index) {
-                      return _buildItemNotification(
-                          controller.listNotificationModel[index]);
-                    },
-                    separatorBuilder: (context, index) =>
-                        const Divider(height: 2),
-                    itemCount: controller.listNotificationModel.length)
-                .paddingSymmetric(vertical: 10)
-            : BaseWidget().listEmpty());
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: Get.height,
+            width: Get.width,
+            child: controller.listNotificationModel.isNotEmpty
+                ? BaseWidget.buildSmartRefresher(
+                    child: _buildListItem(),
+                    onRefresh: controller.onRefresh,
+                    onLoadMore: controller.onLoadMore,
+                    enablePullUp: true,
+                    enablePullDown: true,
+                    refreshController: controller.refreshController,
+                  )
+                : BaseWidget().listEmpty(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListItem() {
+    return ListView.separated(
+      itemBuilder: (context, index) {
+        return _buildItemNotification(controller.listNotificationModel[index]);
+      },
+      separatorBuilder: (context, index) => const Divider(height: 2),
+      itemCount: controller.listNotificationModel.length,
+    );
   }
 
   Widget _buildItemNotification(NotificationGetModel notificationGetModel) {

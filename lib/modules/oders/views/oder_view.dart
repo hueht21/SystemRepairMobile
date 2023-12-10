@@ -26,67 +26,72 @@ class OdersView extends BaseGetWidget {
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
         child: SafeArea(
-          child: Obx(
-            () => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Nhiệm vụ của bạn",
-                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                        color: AppColors.textTim,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: Get.width,
-                      height: 35,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return optionOder(
-                              controller.listTitleOption[index], index);
-                        },
-                      ),
-                    )
-                  ],
-                ).paddingSymmetric(vertical: 30),
-                Text(
-                  "Danh sách đơn đặt của bạn",
-                  style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                    color: AppColors.textTim,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ).paddingOnly(left: 10),
-                (controller.listRegistrationSchedule.isNotEmpty)
-                    ? Expanded(
-                        child: SizedBox(
-                          width: Get.width,
-                          height: Get.height,
-                          child: BaseWidget.buildSmartRefresher(
-                            child: _buildListOder(),
-                            onRefresh: controller.onRefresh,
-                            onLoadMore: controller.onLoadMore,
-                            enablePullUp: true,
-                            enablePullDown: true,
-                            refreshController: controller.refreshController,
-                          ),
-                        ),
-                      )
-                    : Center(child: BaseWidget().listEmpty())
-                        .paddingSymmetric(vertical: 70)
-                // _buildItemOrder()
-              ],
-            ),
+            child: Obx(
+          () => BaseWidget().baseShowOverlayLoading(
+            body(),
+            controller.isShowLoading.value,
+          ),
+        )),
+      ),
+    );
+  }
+
+  Widget body() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          alignment: Alignment.center,
+          child: Text(
+            "Nhiệm vụ của bạn",
+            style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                color: AppColors.textTim,
+                fontSize: 20,
+                fontWeight: FontWeight.w600),
           ),
         ),
-      ),
+        Row(
+          children: [
+            SizedBox(
+              width: Get.width,
+              height: 35,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return optionOder(controller.listTitleOption[index], index);
+                },
+              ),
+            )
+          ],
+        ).paddingSymmetric(vertical: 30),
+        Text(
+          "Danh sách đơn đặt của bạn",
+          style: FontStyleUI.fontPlusJakartaSans().copyWith(
+            color: AppColors.textTim,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ).paddingOnly(left: 10),
+        (controller.listRegistrationSchedule.isNotEmpty)
+            ? Expanded(
+                child: SizedBox(
+                  width: Get.width,
+                  height: Get.height,
+                  child: BaseWidget.buildSmartRefresher(
+                    child: _buildListOder(),
+                    onRefresh: controller.onRefresh,
+                    onLoadMore: controller.onLoadMore,
+                    enablePullUp: true,
+                    enablePullDown: true,
+                    refreshController: controller.refreshController,
+                  ),
+                ),
+              )
+            : Center(child: BaseWidget().listEmpty())
+                .paddingSymmetric(vertical: 70)
+        // _buildItemOrder()
+      ],
     );
   }
 

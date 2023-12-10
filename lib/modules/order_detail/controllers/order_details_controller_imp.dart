@@ -1,14 +1,18 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
+import 'package:systemrepair/base_utils/base_send_notification/base_show_notification.dart';
 import 'package:systemrepair/cores/const/const.dart';
 import 'package:systemrepair/cores/values/string_values.dart';
 import 'package:systemrepair/modules/login/models/account_model.dart';
 import 'package:systemrepair/modules/login/models/fixer_account_model.dart';
+import 'package:systemrepair/modules/oders/models/fixer_model.dart';
 import 'package:systemrepair/shared/utils/date_utils.dart';
 
 import '../../../base_utils/base_widget/base_show_notification.dart';
@@ -24,14 +28,19 @@ import 'order_details_controller.dart';
 class OderDetailControllerImp extends OderDetailController {
   @override
   Future<void> onInit() async {
-    // TODO: implement onInit
-
     showLoading();
     registrationScheduleModel = Get.arguments;
     indexHead.value = registrationScheduleModel.status ?? 0;
+    await getDetailOder();
+    await getDataFixerModel();
 
+    hideLoading();
+
+    super.onInit();
+  }
+
+  Future<void> getDetailOder() async {
     final storage = FirebaseStorage.instance;
-
     try {
       if (registrationScheduleModel.status == 3) {
         final documentSnapshot = await FirebaseFirestore.instance
@@ -64,29 +73,46 @@ class OderDetailControllerImp extends OderDetailController {
     } catch (e) {
       // hideLoading();
     }
-    hideLoading();
-
-    super.onInit();
   }
 
   @override
   Future<void> cancelOrder() async {
-    // await FirebaseFirestore.instance.collection("RegistrationSchedule").w
+    await searchLocation(registrationScheduleModel.address ?? "")
+        .then((value) async {
+      /// 4 Là huỷ
+      registrationScheduleModel.uidFixer = fixerModelCancel;
 
-    registrationScheduleModel.status = 4;
+      final CollectionReference collectionReference =
+          FirebaseFirestore.instance.collection('RegistrationSchedule');
+      await collectionReference
+          .where('ID', isEqualTo: registrationScheduleModel.id)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          doc.reference.update(registrationScheduleModel.toJson());
+        }
+      });
+      String token = await BaseShowNotificationCtr()
+          .getTokenFixer(registrationScheduleModel.uidFixer!.uid ?? "");
 
-    /// 4 Là huỷ
-    final CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection('RegistrationSchedule');
-    await collectionReference
-        .where('ID', isEqualTo: registrationScheduleModel.id)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      for (var doc in querySnapshot.docs) {
-        doc.reference.update(registrationScheduleModel.toJson());
-      }
+      String tokenClient = await BaseShowNotificationCtr()
+          .getTokenClient(registrationScheduleModel.uidClient ?? "");
+
+      await BaseShowNotificationCtr().sentNotification(
+          uid: "uid",
+          token: token,
+          uidReceiver: registrationScheduleModel.uidFixer!.uid ?? "",
+        content: "Bạn có 1 đơn đặt được điều chuyển từ khách hàng có địa chỉ ${registrationScheduleModel.address}"
+      );
+
+      await BaseShowNotificationCtr().sentNotification(
+          uid: "uid",
+          token: tokenClient,
+          uidReceiver: registrationScheduleModel.uidClient ?? "",
+          content: "Đơn đặt của bạn đã được chuyển cho thợ ${registrationScheduleModel.uidFixer!.name}"
+      );
+      Get.back(result: registrationScheduleModel);
     });
-    Get.back(result: registrationScheduleModel);
   }
 
   @override
@@ -103,7 +129,6 @@ class OderDetailControllerImp extends OderDetailController {
           showLoading();
           await insertCancel(value);
           await cancelOrder();
-          await sentNotification(registrationScheduleModel, cancel: value, isCancel: true);
           hideLoading();
         }
       });
@@ -126,7 +151,6 @@ class OderDetailControllerImp extends OderDetailController {
 
     try {
       await users.add(cancelOderModel.toJson());
-      log('Dữ liệu đã được thêm vào Firestore.');
     } catch (e) {
       BaseShowNotification.showNotification(
         Get.context!,
@@ -313,5 +337,69 @@ class OderDetailControllerImp extends OderDetailController {
       title: 'Thông báo mới',
     );
     await notificationSend.add(notificationGetModel.toJson());
+  }
+
+  Future<void> getDataFixerModel() async {
+    FixerAccountModel fixerAccountModel =
+        HIVE_APP.get(AppConst.keyFixerAccount);
+    try {
+      var result = await FirebaseFirestore.instance
+          .collection('Fixer')
+          .where("Status", isEqualTo: true)
+          .get();
+      if (result.docs.isNotEmpty) {
+        for (final dataFixerModel in result.docs) {
+          FixerModel fixerModel = FixerModel.fromJson(dataFixerModel.data());
+          if (fixerModel.uid != fixerAccountModel.uid) {
+            listFixerModel.add(fixerModel);
+          }
+        }
+      } else {
+        BaseShowNotification.showNotification(
+          Get.context!,
+          "Dữ liệu không tồn tại cho UID này.",
+          QuickAlertType.error,
+        );
+      }
+    } catch (e) {
+      log("$e");
+    }
+  }
+
+//1
+  Future<void> searchLocation(String address) async {
+    try {
+      List<Location> locations = await locationFromAddress(address);
+      if (locations.isNotEmpty) {
+        latitudeCancel = locations[0].latitude;
+        longitudeCancel = locations[0].longitude;
+      }
+      await getFixer();
+    } catch (e) {
+      BaseShowNotification.showNotification(
+        Get.context!,
+        "Không lấy được vị trí $e",
+        QuickAlertType.error,
+      );
+    }
+  }
+
+  Future<void> getFixer() async {
+    for (var item in listFixerModel) {
+      if (item.status ?? false) {
+        // Tính khoảng cách giữa vị trí hiện tại và vị trí trong danh sách
+        double distance = Geolocator.distanceBetween(
+          latitudeCancel,
+          longitudeCancel,
+          item.latitude ?? 0,
+          item.longitude ?? 0,
+        );
+        // So sánh khoảng cách với vị trí gần tôi nhất hiện tại
+        if (nearestDistance == 0.0 || distance < nearestDistance) {
+          nearestDistance = distance;
+          fixerModelCancel = item;
+        }
+      }
+    }
   }
 }

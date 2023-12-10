@@ -35,68 +35,67 @@ class OrderDetails extends BaseGetWidget {
         ),
       ),
       body: Obx(
-        () => BaseWidget().baseLoading(
-          isLoading: controller.isShowLoading.value,
-          widget: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  _buildTitleHead(),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _buildInforOder(),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    width: Get.width,
-                    height: 1,
-                    decoration:
-                        const BoxDecoration(color: AppColors.colorThanh),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  _buildInforFixer(),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    width: Get.width,
-                    height: 1,
-                    decoration:
-                        const BoxDecoration(color: AppColors.colorThanh),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  _buildRepairPhoto(),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    width: Get.width,
-                    height: 1,
-                    decoration:
-                        const BoxDecoration(color: AppColors.colorThanh),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  controller.payOderModel.value.idOder != ""
-                      ? buildPayOder()
-                      : const SizedBox()
-                ],
-              ),
-            ),
-          ),
+        () => BaseWidget().baseShowOverlayLoading(
+          body(),
+          controller.isShowLoading.value,
         ),
       ),
       bottomSheet: _buildItemConfirm().paddingOnly(bottom: 10),
+    );
+  }
+
+  Widget body() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 15,
+          ),
+          _buildTitleHead(),
+          const SizedBox(
+            height: 10,
+          ),
+          _buildInforOder(),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: Get.width,
+            height: 1,
+            decoration: const BoxDecoration(color: AppColors.colorThanh),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          _buildInforFixer(),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: Get.width,
+            height: 1,
+            decoration: const BoxDecoration(color: AppColors.colorThanh),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          _buildRepairPhoto(),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: Get.width,
+            height: 1,
+            decoration: const BoxDecoration(color: AppColors.colorThanh),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          controller.payOderModel.value.idOder != ""
+              ? buildPayOder()
+              : const SizedBox()
+        ],
+      ),
     );
   }
 
@@ -373,9 +372,9 @@ class OrderDetails extends BaseGetWidget {
                   Expanded(
                     child: BaseGetWidget.buildButton("Từ chối",
                             colorText: AppColors.colorNext, () async {
-                          controller.showLoadingOverlay();
+                      controller.showLoadingOverlay();
                       await controller.cancelOrderBtn();
-                          controller.hideLoadingOverlay();
+                      controller.hideLoadingOverlay();
                     },
                             isLoading: controller.isLoadingOverlay.value,
                             colors: AppColors.xamHuy)
@@ -400,7 +399,7 @@ class OrderDetails extends BaseGetWidget {
                             colorText: AppColors.colorNext, () async {
                       await controller.cancelOrderBtn();
                     },
-                            isLoading: controller.isShowLoading.value,
+                            isLoading: controller.isLoadingOverlay.value,
                             colors: AppColors.xamHuy)
                         .paddingSymmetric(horizontal: 10),
                   ),
@@ -414,7 +413,7 @@ class OrderDetails extends BaseGetWidget {
                         }
                       });
                     },
-                            isLoading: controller.isShowLoading.value,
+                            isLoading: controller.isLoadingOverlay.value,
                             colors: AppColors.colorButton)
                         .paddingSymmetric(horizontal: 10),
                   ),
@@ -442,8 +441,10 @@ class OrderDetails extends BaseGetWidget {
           height: 10,
         ),
         _buildCustom("Thuế VAT", "0 %"),
-        _buildCustom("Tiền trước thuế", "${CurrencyUtils().formatNumber(controller.payOderModel.value.amount.toString().replaceAll(',', ''))} VND"),
-        _buildCustom("Tổng tiền", "${CurrencyUtils().formatNumber(controller.payOderModel.value.amount.toString().replaceAll(',', ''))} VND"),
+        _buildCustom("Tiền trước thuế",
+            "${CurrencyUtils().formatNumber(controller.payOderModel.value.amount.toString().replaceAll(',', ''))} VND"),
+        _buildCustom("Tổng tiền",
+            "${CurrencyUtils().formatNumber(controller.payOderModel.value.amount.toString().replaceAll(',', ''))} VND"),
         const SizedBox(
           height: 10,
         ),
