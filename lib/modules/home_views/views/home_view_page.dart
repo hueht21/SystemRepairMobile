@@ -191,7 +191,7 @@ class HomeViewPage extends BaseGetWidget {
           ),
         ),
         title: ChartTitle(
-          text: "Thống kê giao dịch trong tháng",
+          text: "Thống kê đơn đặt trong tháng",
           textStyle: FontStyleUI.fontPlusJakartaSans().copyWith(
             color: AppColors.colorNext,
             fontWeight: FontWeight.w400,
@@ -238,7 +238,7 @@ class HomeViewPage extends BaseGetWidget {
                 numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
           ),
           Text(
-            "Biểu đồ chi tiết chi tiêu tháng",
+            "Biểu đồ thống kê doanh thu",
             style: FontStyleUI.fontPlusJakartaSans().copyWith(
               color: AppColors.colorNext,
               fontWeight: FontWeight.w400,
