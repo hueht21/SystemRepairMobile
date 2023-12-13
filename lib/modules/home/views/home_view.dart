@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
+import 'package:systemrepair/modules/cancel/views/cancel_view.dart';
 
 import '../../../cores/const/const.dart';
 import '../../home_views/views/home_view_page.dart';
-import '../../notifications/views/notification_views.dart';
 import '../../oders/views/oder_view.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/home_controller_imp.dart';
@@ -16,7 +16,7 @@ class HomeView extends BaseGetWidget {
 
   @override
   Widget buildWidgets(BuildContext context) {
-    final Facment = [HomeViewPage(), OdersView(), HomeViewPage(), HomeViewPage()];
+    final Facment = [HomeViewPage(), OdersView(), const CancelView(), HomeViewPage(), HomeViewPage()];
     return Obx(()
     => Scaffold(
       body: SafeArea(
@@ -40,16 +40,23 @@ class HomeView extends BaseGetWidget {
                 : const Color(0xff888888),
           ),
           _bottomNavi(
+            AppConst.iconCancel,
+            "Huỷ lịch",
+            controller.selectIndex.value == 2
+                ? const Color(0xff6B46D6)
+                : const Color(0xff888888),
+          ),
+          _bottomNavi(
             AppConst.iconNotification,
             "Thông báo",
-            controller.selectIndex.value == 2
+            controller.selectIndex.value == 3
                 ? const Color(0xff6B46D6)
                 : const Color(0xff888888),
           ),
           _bottomNavi(
             AppConst.userSvg,
             "Cá nhân",
-            controller.selectIndex.value == 3
+            controller.selectIndex.value == 4
                 ? const Color(0xff6B46D6)
                 : const Color(0xff888888),
           )

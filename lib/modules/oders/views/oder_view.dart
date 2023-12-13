@@ -99,8 +99,8 @@ class OdersView extends BaseGetWidget {
     return Container(
       color: Colors.white,
       child: DataTable2(
-        dataRowColor:
-            MaterialStateColor.resolveWith((states) => Colors.white10),
+        // dataRowColor:
+        //     MaterialStateColor.resolveWith((states) => Colors.white10),
         showCheckboxColumn: false,
         columnSpacing: 10,
         headingTextStyle: const TextStyle(
@@ -110,10 +110,10 @@ class OdersView extends BaseGetWidget {
         ),
         // Kiểu chữ của tiêu đề
         dividerThickness: 1,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.blue), // Màu sắc của thanh kẻ,
-          color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
-        ),
+        // decoration: BoxDecoration(
+        //   // border: Border.all(color: Colors.blue), // Màu sắc của thanh kẻ,
+        //   color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
+        // ),
         // rowDecoration: BoxDecoration(
         //   color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
         // ),
@@ -194,7 +194,7 @@ class OdersView extends BaseGetWidget {
       RegistrationScheduleModel registrationScheduleModel) {
     return DataRow(
       onSelectChanged: (bool? select) {},
-      color: MaterialStateColor.resolveWith((states) => Colors.black12),
+      // color: MaterialStateColor.resolveWith((states) => Colors.black12),
       cells: [
         DataCell(
           Text(
@@ -302,71 +302,11 @@ class OdersView extends BaseGetWidget {
                     ? Colors.white
                     : Colors.black,
               ),
-            ),
+            ).paddingOnly(top: 5),
           ),
         ).paddingSymmetric(horizontal: 10),
       ),
     );
   }
 
-  Widget _buildFixer(RegistrationScheduleModel registrationScheduleModel) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(
-              "Thợ: ${registrationScheduleModel.uidFixer?.name ?? ""} ",
-              style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                  color: AppColors.textTitleColor,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            Text(
-              registrationScheduleModel.uidFixer?.numberPhone ?? "",
-              style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                color: Colors.black,
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-              ),
-            )
-          ],
-        ).paddingSymmetric(vertical: 8),
-        Text(
-          registrationScheduleModel.uidFixer?.address ?? "",
-          style: FontStyleUI.fontPlusJakartaSans().copyWith(
-              color: Colors.black, fontSize: 12, fontWeight: FontWeight.normal),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        Text(
-          "Miêu tả: ${registrationScheduleModel.describe}",
-          style: FontStyleUI.fontPlusJakartaSans().copyWith(
-            color: Colors.black,
-            fontSize: 12,
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Container(
-          width: 100,
-          height: 35,
-          decoration: BoxDecoration(
-              color: AppColors.colorCam,
-              borderRadius: BorderRadius.circular(8)),
-          child: Center(
-            child: Text(
-              controller.getStatus(registrationScheduleModel.status ?? 0),
-            ),
-          ),
-        ).paddingOnly(left: 10)
-      ],
-    ).paddingSymmetric(horizontal: 10);
-  }
 }

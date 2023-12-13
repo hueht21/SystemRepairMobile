@@ -19,6 +19,7 @@ class AppConst {
 
   static const String homeSvg = "assets/images/home_svg.svg";
   static const String phoneSvg = "assets/images/phone_svg.svg";
+  static const String iconCancel = "assets/images/icon_cancel.svg";
 
   static const String homeSvgPage = "assets/images/homenavi.svg";
 
