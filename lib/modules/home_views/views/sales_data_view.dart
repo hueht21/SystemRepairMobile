@@ -8,6 +8,6 @@ class SalesData {
 class MonthMoney {
   MonthMoney(this.monthMoney, this.toalMoney);
 
-  int? monthMoney;
-  String toalMoney;
+  int monthMoney;
+  double toalMoney;
 }

@@ -218,36 +218,56 @@ class HomeViewPage extends BaseGetWidget {
   }
 
   Widget chartsMoneyHeight() {
-    return SizedBox(
-      // width: MediaQuery.of(context).size.width,
-      // height: 300,
-      child: Column(
-        children: [
-          SfCartesianChart(
-            // SfCartesianChart
-            isTransposed: true,
-            series: <ChartSeries>[
-              BarSeries<MonthMoney, String>(
-                  dataSource: controller.charGetData,
-                  xValueMapper: (MonthMoney gdp, _) => gdp.toalMoney,
-                  yValueMapper: (MonthMoney gdp, _) => gdp.monthMoney,
-                  dataLabelSettings: const DataLabelSettings(isVisible: true)),
-            ],
-            primaryXAxis: CategoryAxis(),
-            primaryYAxis: NumericAxis(
-                numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Biểu đồ thống kê doanh thu",
+          style: FontStyleUI.fontPlusJakartaSans().copyWith(
+            color: AppColors.colorNext,
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
           ),
-          Text(
-            "Biểu đồ thống kê doanh thu",
-            style: FontStyleUI.fontPlusJakartaSans().copyWith(
-              color: AppColors.colorNext,
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
+        ),
+        SfCartesianChart(
+          plotAreaBorderWidth: 2.0, // Đặt độ rộng của biên khu vực vẽ
+          series: <ChartSeries<MonthMoney, int>>[
+            // Renders column chart
+            BarSeries<MonthMoney, int>(
+              width: 0.7, // Giảm kích thước của cột
+              color: AppColors.colorTextLogin,
+                dataSource: controller.charGetData,
+                xValueMapper: (MonthMoney data, _) => data.monthMoney,
+                yValueMapper: (MonthMoney data, _) => data.toalMoney,
+              dataLabelSettings: const DataLabelSettings(
+                isVisible: true,
+                textStyle: TextStyle(
+                  color: Colors.black
+                ),
+                labelAlignment: ChartDataLabelAlignment.outer,
+                // labelPosition: ChartDataLabelPosition.inside,
+                // textStyle: TextStyle(color: Colors.white),
+              ),
+              markerSettings: const MarkerSettings(isVisible: false), // Ẩn marker để tránh che phủ nhãn
+            )
+          ],
+          primaryXAxis: CategoryAxis(
+            title: AxisTitle(text: 'Tháng', textStyle: const TextStyle(color: Colors.black)),
+            labelStyle: const TextStyle(
+              color: Colors.black
             ),
-          )
-        ],
-      ),
-      // child: Subscr,
+            majorGridLines: const MajorGridLines(width: 0), // Ẩn đường lưới chính giữa cột
+          ),
+          primaryYAxis: NumericAxis(
+            numberFormat: NumberFormat.currency(locale: 'vi_VN', symbol: '₫'),
+            labelStyle: const TextStyle(
+                color: Colors.black
+            ),
+            // interval: 1, // Đặt giá trị này để hiển thị tất cả các tháng
+            labelRotation: -45, // Đặt góc quay để nhãn không bị tràn
+          ),
+        ),
+      ],
     );
   }
 }

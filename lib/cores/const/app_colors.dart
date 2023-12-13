@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
 
+  static const lightAccentColor = Color(0xFFf5f5f5);
   static const Color textTitleColor = Color(0xff6B46D6);
   static const darkAccentColor = Color(0xFF25273f);
   static const secondaryColor = Color(0xFF2A2D3E);
@@ -28,6 +29,7 @@ class AppColors {
   static const colorXamWarning= Color(0xff5F5F5F);
   static const keyBoardColor= Color(0xFFff7e5f);
   static const colorIconCancel=  Color(0xFFff5f6d);
+  static const colorItemSelect=  Color(0xFFEAEEF6);
   static const Color backgroundGrey = Color.fromARGB(255, 235, 234, 240);
   static const Color backgroundGreyT = Color.fromARGB(255, 255, 255, 245);
   static const Color colorError = Color(0xFFff5f6d);

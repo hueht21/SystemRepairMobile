@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
 import 'package:systemrepair/modules/order_detail/controllers/order_details_controller_imp.dart';
 import 'package:systemrepair/router/app_pages.dart';
+import 'package:systemrepair/shared/utils/util_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../cores/const/app_colors.dart';
 import '../../../cores/enum/enum_status.dart';
@@ -151,13 +154,39 @@ class OrderDetails extends BaseGetWidget {
         const SizedBox(
           height: 10,
         ),
-        Text(
-          "Thông tin đơn",
-          style: FontStyleUI.fontPlusJakartaSans().copyWith(
-            color: AppColors.textTitleColor,
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Thông tin đơn",
+              style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                color: AppColors.textTitleColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            InkWell(
+              onTap: () async {
+                // await launchUrlString("tel://1900565653");
+                Get.bottomSheet(
+                  UtilWidget.baseBottomSheet(
+                    backgroundColor: AppColors.lightAccentColor,
+                    noHeader: true,
+                    title: "",
+                    body: _buildBottomSheet("tel:${controller.registrationScheduleModel.numberPhone}"),
+                  ),
+                );
+              },
+              child: Text(
+                "Xem chi tiết",
+                style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                  color: AppColors.textTitleColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(
           height: 10,
@@ -238,12 +267,25 @@ class OrderDetails extends BaseGetWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Text(
-              "Xem chi tiết",
-              style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                color: AppColors.textTitleColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+            InkWell(
+              onTap: () async {
+                // await launchUrlString("tel://1900565653");
+                Get.bottomSheet(
+                  UtilWidget.baseBottomSheet(
+                    backgroundColor: AppColors.lightAccentColor,
+                    noHeader: true,
+                    title: "",
+                    body: _buildBottomSheet("tel:${controller.registrationScheduleModel.uidFixer!.numberPhone}"),
+                  ),
+                );
+              },
+              child: Text(
+                "Xem chi tiết",
+                style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                  color: AppColors.textTitleColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],
@@ -311,6 +353,88 @@ class OrderDetails extends BaseGetWidget {
         ),
       ],
     ).paddingSymmetric(horizontal: 10);
+  }
+
+  Widget _buildBottomSheet(String telephone) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () async {
+            if(Get.isDialogOpen == false){
+              Get.back();
+            }
+            await launchUrlString(telephone);
+          },
+          child: Container(
+            width: Get.width - 20,
+            height: 44,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.white),
+            child: Center(
+              child: Text(
+                "Điện thoại",
+                style: FontStyleUI.fontPlusJakartaSans()
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          width: Get.width - 20,
+          height: 44,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8), color: Colors.white),
+          child: Center(
+            child: Text(
+              "Nhắn tin",
+              style: FontStyleUI.fontPlusJakartaSans()
+                  .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          width: Get.width - 20,
+          height: 44,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8), color: Colors.white),
+          child: Center(
+              child: Text(
+                "Báo cáo",
+                style: FontStyleUI.fontPlusJakartaSans()
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+              )),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            width: Get.width - 20,
+            height: 44,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.white),
+            child: Center(
+                child: Text(
+                  "Huỷ",
+                  style: FontStyleUI.fontPlusJakartaSans()
+                      .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+                )),
+          ),
+        )
+      ],
+    );
   }
 
   Widget _buildRepairPhoto() {

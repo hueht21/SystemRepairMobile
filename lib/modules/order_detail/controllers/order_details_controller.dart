@@ -31,6 +31,8 @@ abstract class OderDetailController extends BaseGetxController {
 
   double longitudeCancel = 0.0;
 
+  RxBool hasCallSupport = false.obs;
+
   Future<void> cancelOrderBtn();
 
   Future<void> cancelOrder();

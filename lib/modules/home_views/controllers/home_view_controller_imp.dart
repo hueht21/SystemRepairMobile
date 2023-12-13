@@ -121,45 +121,22 @@ class HomeViewControllerImp extends HomeViewController {
       SalesData('Đã huỷ', numberCanceledStatus.toDouble()),
     ];
 
-    int number1 = 0;
-    // double number2 = 0;
-    // double number3 = 0;
-    // double number4 = 0;
-    // double number5 = 0;
-    // double number6 = 0;
-    // double number7 = 0;
-    // double number8 = 0;
-    // double number9 = 0;
-    // double number10 = 0;
-    // double number11 = 0;
-    // double number12 = 0;
 
     for (int i = 0; i < listPayModel.length; i++) {
       int month = convertStringToDate(listPayModel[i].createDate ?? "", PATTERN_1).month;
       if (mapAmount.containsKey(month)) {
+        int number1 = listPayModel[i].amount;
         number1 = number1 + listPayModel[i].amount;
         mapAmount[month] = number1;
+      }else {
+        mapAmount.addAll({month : listPayModel[i].amount});
       }
     }
 
-    charGetData = [
-      MonthMoney(1, mapAmount[1].toString()),
-      MonthMoney(2, mapAmount[2].toString()),
-      MonthMoney(3, mapAmount[3].toString()),
-      MonthMoney(4, mapAmount[4].toString()),
-      MonthMoney(5, mapAmount[5].toString()),
-      MonthMoney(6, mapAmount[6].toString()),
-      MonthMoney(7, mapAmount[7].toString()),
-      MonthMoney(8, mapAmount[8].toString()),
-      MonthMoney(9, mapAmount[9].toString()),
-      MonthMoney(10, mapAmount[10].toString()),
-      MonthMoney(11, mapAmount[11].toString()),
-      MonthMoney(12, mapAmount[12].toString()),
-    ];
-    // charGetData = [
-    //   MonthMoney(1, "45"),
-    //   MonthMoney(2, "90"),
-    // ];
+    List<int> listKey = mapAmount.keys.toList();
+    for(var item in listKey){
+      charGetData.add(MonthMoney(item, (mapAmount[item]!.toDouble())));
+    }
   }
 
   @override
