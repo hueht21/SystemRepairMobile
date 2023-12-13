@@ -16,7 +16,7 @@ class HomeView extends BaseGetWidget {
 
   @override
   Widget buildWidgets(BuildContext context) {
-    final Facment = [HomeViewPage(), OdersView(), const CancelView(), HomeViewPage(), HomeViewPage()];
+    final Facment = [HomeViewPage(), OdersView(), CancelView(), HomeViewPage(), HomeViewPage()];
     return Obx(()
     => Scaffold(
       body: SafeArea(

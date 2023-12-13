@@ -23,23 +23,13 @@ class CancelOderImp extends CancelController {
           .map((cancelOrder) => CancelOderModel.fromJson(cancelOrder.data())));
     }
     for (var item in listCancelOder) {
-      FixerModel fixerModel = listRegistrationSchedule
-              .firstWhere((element) => element.id == item.idOder)
-              .uidFixer ??
-          FixerModel(
-              age: 0,
-              email: "",
-              latitude: 0,
-              longitude: 0,
-              name: "",
-              numberPhone: "",
-              status: false,
-              uid: "",
-              address: "",
-              imgAcc: "");
+      RegistrationScheduleModel registrationScheduleModel = listRegistrationSchedule
+              .firstWhere((element) => element.id == item.idOder);
       CancelModel cancelModel = CancelModel(
+        idCustom: item.idCustom,
+        idFixer: item.idFixer ?? "",
         dateCancel: item.dateCancel,
-        fixerAccountModel: fixerModel,
+        registrationScheduleModel: registrationScheduleModel,
         idOder: item.idOder,
         reason: item.reason,
       );
