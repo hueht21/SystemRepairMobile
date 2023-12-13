@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
+import 'package:systemrepair/modules/cancel/views/cancel_view.dart';
 
 import '../../../cores/const/const.dart';
 import '../../home_views/views/home_view_page.dart';
@@ -15,7 +16,7 @@ class HomeView extends BaseGetWidget {
 
   @override
   Widget buildWidgets(BuildContext context) {
-    final Facment = [HomeViewPage(), OdersView(), HomeViewPage(), HomeViewPage(), HomeViewPage()];
+    final Facment = [HomeViewPage(), OdersView(), const CancelView(), HomeViewPage(), HomeViewPage()];
     return Obx(()
     => Scaffold(
       body: SafeArea(

@@ -13,9 +13,9 @@ import '../../oders/models/registration_schedule_model.dart';
 
 class CancelView extends BaseGetWidget {
   @override
-  CancelController controller = Get.put(CancelOderImp());
+  CancelController get controller => Get.put(CancelOderImp());
 
-  CancelView({super.key});
+  const CancelView({super.key});
 
   @override
   Widget buildWidgets(BuildContext context) {
@@ -28,255 +28,253 @@ class CancelView extends BaseGetWidget {
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
         child: SafeArea(
-          child: Obx(
-            () => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Quản lý đơn huỷ",
-                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                        color: AppColors.textTim,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: Get.width,
-                      height: 35,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return optionOder(
-                              controller.listCancelOder[index], index);
-                        },
-                      ),
-                    )
-                  ],
-                ).paddingSymmetric(vertical: 30),
-                Text(
-                  "Danh sách đơn huỷ",
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  "Quản lý đơn huỷ",
                   style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                    color: AppColors.textTim,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ).paddingOnly(left: 10),
-                BaseWidget().baseShowOverlayLoading(
-                    _buildData(), controller.isShowLoading.value)
-                // _buildItemOrder()
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildData() {
-    return (controller.listRegistrationSchedule.isNotEmpty)
-        ? Expanded(
-            child: SizedBox(
-              width: Get.width,
-              height: Get.height,
-              child: BaseWidget.buildSmartRefresher(
-                child: _buildDataTable(),
-                onRefresh: controller.onRefresh,
-                onLoadMore: controller.onLoadMore,
-                enablePullUp: true,
-                enablePullDown: true,
-                refreshController: controller.refreshController,
-              ),
-            ),
-          )
-        : Center(child: BaseWidget().listEmpty())
-            .paddingSymmetric(vertical: 70);
-  }
-
-  Widget _buildDataTable() {
-    return Container(
-      color: Colors.white,
-      child: DataTable2(
-        // dataRowColor:
-        //     MaterialStateColor.resolveWith((states) => Colors.white10),
-        showCheckboxColumn: false,
-        columnSpacing: 10,
-        headingTextStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-        ),
-        // Kiểu chữ của tiêu đề
-        dividerThickness: 1,
-        // decoration: BoxDecoration(
-        //   // border: Border.all(color: Colors.blue), // Màu sắc của thanh kẻ,
-        //   color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
-        // ),
-        // rowDecoration: BoxDecoration(
-        //   color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
-        // ),
-        minWidth: 1000,
-        columns: [
-          DataColumn2(
-            size: ColumnSize.S,
-            label: Text(
-              "ID",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              "Tên khách hàng",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              "Số điện thoại",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              "Địa chỉ",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              "Tình trạng lỗi",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
-          DataColumn2(
-            size: ColumnSize.S,
-            label: Center(
-                child: Text(
-              "Thợ sửa",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            )),
-          ),
-          DataColumn(
-            label: Center(
-                child: Text(
-              "Thời gian yêu cầu",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            )),
-          ),
-          DataColumn(
-            label: Center(
-                child: Text(
-              "Trạng thái",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            )),
-          ),
-        ],
-        rows: List.generate(
-          controller.listRegistrationSchedule.length,
-          (index) =>
-              recentFileDataRow(controller.listRegistrationSchedule[index]),
-        ),
-      ),
-    );
-  }
-
-  DataRow recentFileDataRow(
-      RegistrationScheduleModel registrationScheduleModel) {
-    return DataRow(
-      onSelectChanged: (bool? select) {},
-      // color: MaterialStateColor.resolveWith((states) => Colors.black12),
-      cells: [
-        DataCell(
-          Text(
-            "${registrationScheduleModel.id}",
-            style: FontStyleUI.fontPlusJakartaSans()
-                .copyWith(color: Colors.black, fontSize: 14),
-          ),
-        ),
-        DataCell(
-          Text(
-            controller.getNameUser(registrationScheduleModel.uidClient ?? ""),
-            style: FontStyleUI.fontPlusJakartaSans()
-                .copyWith(color: Colors.black, fontSize: 14),
-          ),
-        ),
-        DataCell(
-          Text(
-            registrationScheduleModel.numberPhone ?? "",
-            style: FontStyleUI.fontPlusJakartaSans()
-                .copyWith(color: Colors.black, fontSize: 14),
-          ),
-        ),
-        DataCell(
-          Text(
-            registrationScheduleModel.address ?? "",
-            style: FontStyleUI.fontPlusJakartaSans()
-                .copyWith(color: Colors.black, fontSize: 14),
-          ),
-        ),
-        DataCell(
-          Center(
-            child: Text(
-              registrationScheduleModel.describe ?? "",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
-        ),
-        DataCell(
-          Center(
-            child: Text(
-              registrationScheduleModel.uidFixer?.name ?? "",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
-        ),
-        DataCell(
-          Center(
-            child: Text(
-              "${registrationScheduleModel.timeSet}:${registrationScheduleModel.dateSet}",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
-        ),
-        DataCell(
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: controller
-                      .colorStatus(registrationScheduleModel.status ?? 0),
-                  borderRadius: BorderRadius.circular(10)),
-              // width: 70,
-              height: 25,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Text(
-                  controller.getStatus(registrationScheduleModel.status ?? 0),
-                  style: FontStyleUI.fontPlusJakartaSans()
-                      .copyWith(color: Colors.white, fontSize: 14),
+                      color: AppColors.textTim,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
                 ),
               ),
-            ),
+              // Row(
+              //   children: [
+              //     SizedBox(
+              //       width: Get.width,
+              //       height: 35,
+              //       child: ListView.builder(
+              //         scrollDirection: Axis.horizontal,
+              //         itemCount: 5,
+              //         itemBuilder: (context, index) {
+              //           return optionOder(
+              //               controller.listCancelOder[index], index);
+              //         },
+              //       ),
+              //     )
+              //   ],
+              // ).paddingSymmetric(vertical: 30),
+              Text(
+                "Danh sách đơn huỷ",
+                style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                  color: AppColors.textTim,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ).paddingOnly(left: 10),
+              // BaseWidget().baseShowOverlayLoading(
+              //     _buildData(), controller.isShowLoading.value)
+              // _buildItemOrder()
+            ],
           ),
         ),
-        // const DataCell(Center(child: Text("..."))),
-      ],
+      ),
     );
   }
+
+  // Widget _buildData() {
+  //   return (controller.listRegistrationSchedule.isNotEmpty)
+  //       ? Expanded(
+  //           child: SizedBox(
+  //             width: Get.width,
+  //             height: Get.height,
+  //             child: BaseWidget.buildSmartRefresher(
+  //               child: _buildDataTable(),
+  //               onRefresh: controller.onRefresh,
+  //               onLoadMore: controller.onLoadMore,
+  //               enablePullUp: true,
+  //               enablePullDown: true,
+  //               refreshController: controller.refreshController,
+  //             ),
+  //           ),
+  //         )
+  //       : Center(child: BaseWidget().listEmpty())
+  //           .paddingSymmetric(vertical: 70);
+  // }
+
+  // Widget _buildDataTable() {
+  //   return Container(
+  //     color: Colors.white,
+  //     child: DataTable2(
+  //       // dataRowColor:
+  //       //     MaterialStateColor.resolveWith((states) => Colors.white10),
+  //       showCheckboxColumn: false,
+  //       columnSpacing: 10,
+  //       headingTextStyle: const TextStyle(
+  //         fontSize: 16,
+  //         fontWeight: FontWeight.bold,
+  //         color: Colors.black,
+  //       ),
+  //       // Kiểu chữ của tiêu đề
+  //       dividerThickness: 1,
+  //       // decoration: BoxDecoration(
+  //       //   // border: Border.all(color: Colors.blue), // Màu sắc của thanh kẻ,
+  //       //   color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
+  //       // ),
+  //       // rowDecoration: BoxDecoration(
+  //       //   color: Colors.blue.withOpacity(0.1), // Màu sắc giữa các hàng
+  //       // ),
+  //       minWidth: 1000,
+  //       columns: [
+  //         DataColumn2(
+  //           size: ColumnSize.S,
+  //           label: Text(
+  //             "ID",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           ),
+  //         ),
+  //         DataColumn(
+  //           label: Text(
+  //             "Tên khách hàng",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           ),
+  //         ),
+  //         DataColumn(
+  //           label: Text(
+  //             "Số điện thoại",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           ),
+  //         ),
+  //         DataColumn(
+  //           label: Text(
+  //             "Địa chỉ",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           ),
+  //         ),
+  //         DataColumn(
+  //           label: Text(
+  //             "Tình trạng lỗi",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           ),
+  //         ),
+  //         DataColumn2(
+  //           size: ColumnSize.S,
+  //           label: Center(
+  //               child: Text(
+  //             "Thợ sửa",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           )),
+  //         ),
+  //         DataColumn(
+  //           label: Center(
+  //               child: Text(
+  //             "Thời gian yêu cầu",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           )),
+  //         ),
+  //         DataColumn(
+  //           label: Center(
+  //               child: Text(
+  //             "Trạng thái",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           )),
+  //         ),
+  //       ],
+  //       rows: List.generate(
+  //         controller.listRegistrationSchedule.length,
+  //         (index) =>
+  //             recentFileDataRow(controller.listRegistrationSchedule[index]),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+  // DataRow recentFileDataRow(
+  //     RegistrationScheduleModel registrationScheduleModel) {
+  //   return DataRow(
+  //     onSelectChanged: (bool? select) {},
+  //     // color: MaterialStateColor.resolveWith((states) => Colors.black12),
+  //     cells: [
+  //       DataCell(
+  //         Text(
+  //           "${registrationScheduleModel.id}",
+  //           style: FontStyleUI.fontPlusJakartaSans()
+  //               .copyWith(color: Colors.black, fontSize: 14),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         Text(
+  //           controller.getNameUser(registrationScheduleModel.uidClient ?? ""),
+  //           style: FontStyleUI.fontPlusJakartaSans()
+  //               .copyWith(color: Colors.black, fontSize: 14),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         Text(
+  //           registrationScheduleModel.numberPhone ?? "",
+  //           style: FontStyleUI.fontPlusJakartaSans()
+  //               .copyWith(color: Colors.black, fontSize: 14),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         Text(
+  //           registrationScheduleModel.address ?? "",
+  //           style: FontStyleUI.fontPlusJakartaSans()
+  //               .copyWith(color: Colors.black, fontSize: 14),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         Center(
+  //           child: Text(
+  //             registrationScheduleModel.describe ?? "",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           ),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         Center(
+  //           child: Text(
+  //             registrationScheduleModel.uidFixer?.name ?? "",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           ),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         Center(
+  //           child: Text(
+  //             "${registrationScheduleModel.timeSet}:${registrationScheduleModel.dateSet}",
+  //             style: FontStyleUI.fontPlusJakartaSans()
+  //                 .copyWith(color: Colors.black, fontSize: 14),
+  //           ),
+  //         ),
+  //       ),
+  //       DataCell(
+  //         Center(
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //                 color: controller
+  //                     .colorStatus(registrationScheduleModel.status ?? 0),
+  //                 borderRadius: BorderRadius.circular(10)),
+  //             // width: 70,
+  //             height: 25,
+  //             child: Padding(
+  //               padding: const EdgeInsets.symmetric(horizontal: 8),
+  //               child: Text(
+  //                 controller.getStatus(registrationScheduleModel.status ?? 0),
+  //                 style: FontStyleUI.fontPlusJakartaSans()
+  //                     .copyWith(color: Colors.white, fontSize: 14),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //       // const DataCell(Center(child: Text("..."))),
+  //     ],
+  //   );
+  // }
 
   Widget optionOder(String title, int index) {
     return InkWell(
@@ -296,10 +294,9 @@ class CancelView extends BaseGetWidget {
             child: Text(
               title,
               style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.white
-              ),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.white),
             ).paddingOnly(top: 5),
           ),
         ).paddingSymmetric(horizontal: 10),

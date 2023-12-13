@@ -1,5 +1,5 @@
-class CancelOder {
-  CancelOder({
+class CancelOderModel {
+  CancelOderModel({
     required this.dateCancel,
     required this.idCustom,
     required this.idFixer,
@@ -13,8 +13,8 @@ class CancelOder {
   final String? idOder;
   final String? reason;
 
-  factory CancelOder.fromJson(Map<String, dynamic> json){
-    return CancelOder(
+  factory CancelOderModel.fromJson(Map<String, dynamic> json){
+    return CancelOderModel(
       dateCancel: json["DateCancel"],
       idCustom: json["IDCustom"],
       idFixer: json["IDFixer"],
