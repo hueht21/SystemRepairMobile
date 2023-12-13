@@ -1,0 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:systemrepair/modules/cancel/controllers/cancel_controller.dart';
+import 'package:systemrepair/modules/oders/models/registration_schedule_model.dart';
+
+import '../models/cancel_oder_model.dart';
+
+class CancelOderImp extends CancelController {
+  @override
+  void onInit() {
+
+
+
+    super.onInit();
+  }
+
+  Future<void> getDataCancelOder() async {
+    final documentSnapshot =
+        await FirebaseFirestore.instance.collection('CancelOder').get();
+    if (documentSnapshot.docs.isNotEmpty) {
+      listCancelOder.addAll(documentSnapshot.docs
+          .map((cancelOrder) => CancelOder.fromJson(cancelOrder.data())));
+    }
+  }
+
+  Future<void> getRegistrationScheduleModel() async {
+    final documentSnapshot =
+    await FirebaseFirestore.instance.collection('RegistrationSchedule').get();
+    if (documentSnapshot.docs.isNotEmpty) {
+      listRegistrationSchedule.addAll(documentSnapshot.docs
+          .map((cancelOrder) => RegistrationScheduleModel.fromJson(cancelOrder.data())));
+    }
+  }
+
+
+
+  @override
+  Future<void> onLoadMore() {
+    // TODO: implement onLoadMore
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> onRefresh() {
+    // TODO: implement onRefresh
+    throw UnimplementedError();
+  }
+}

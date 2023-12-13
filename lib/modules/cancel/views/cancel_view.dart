@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/cores/const/app_colors.dart';
+import 'package:systemrepair/modules/cancel/controllers/cancel_controller.dart';
+import 'package:systemrepair/modules/cancel/controllers/cancel_oder_imp.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 
 import '../../../base_utils/base_widget/base_widget_page.dart';
 import '../../../shared/widget/base_widget.dart';
-
+import '../../oders/models/registration_schedule_model.dart';
 
 class CancelView extends BaseGetWidget {
   @override
-  OrderController controller = Get.put(OrderControllerImp());
+  CancelController controller = Get.put(CancelOderImp());
 
   CancelView({super.key});
 
@@ -27,7 +29,7 @@ class CancelView extends BaseGetWidget {
         ),
         child: SafeArea(
           child: Obx(
-                () => Column(
+            () => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -50,7 +52,7 @@ class CancelView extends BaseGetWidget {
                         itemCount: 5,
                         itemBuilder: (context, index) {
                           return optionOder(
-                              controller.listTitleOption[index], index);
+                              controller.listCancelOder[index], index);
                         },
                       ),
                     )
@@ -78,21 +80,21 @@ class CancelView extends BaseGetWidget {
   Widget _buildData() {
     return (controller.listRegistrationSchedule.isNotEmpty)
         ? Expanded(
-      child: SizedBox(
-        width: Get.width,
-        height: Get.height,
-        child: BaseWidget.buildSmartRefresher(
-          child: _buildDataTable(),
-          onRefresh: controller.onRefresh,
-          onLoadMore: controller.onLoadMore,
-          enablePullUp: true,
-          enablePullDown: true,
-          refreshController: controller.refreshController,
-        ),
-      ),
-    )
+            child: SizedBox(
+              width: Get.width,
+              height: Get.height,
+              child: BaseWidget.buildSmartRefresher(
+                child: _buildDataTable(),
+                onRefresh: controller.onRefresh,
+                onLoadMore: controller.onLoadMore,
+                enablePullUp: true,
+                enablePullDown: true,
+                refreshController: controller.refreshController,
+              ),
+            ),
+          )
         : Center(child: BaseWidget().listEmpty())
-        .paddingSymmetric(vertical: 70);
+            .paddingSymmetric(vertical: 70);
   }
 
   Widget _buildDataTable() {
@@ -159,31 +161,31 @@ class CancelView extends BaseGetWidget {
             size: ColumnSize.S,
             label: Center(
                 child: Text(
-                  "Thợ sửa",
-                  style: FontStyleUI.fontPlusJakartaSans()
-                      .copyWith(color: Colors.black, fontSize: 14),
-                )),
+              "Thợ sửa",
+              style: FontStyleUI.fontPlusJakartaSans()
+                  .copyWith(color: Colors.black, fontSize: 14),
+            )),
           ),
           DataColumn(
             label: Center(
                 child: Text(
-                  "Thời gian yêu cầu",
-                  style: FontStyleUI.fontPlusJakartaSans()
-                      .copyWith(color: Colors.black, fontSize: 14),
-                )),
+              "Thời gian yêu cầu",
+              style: FontStyleUI.fontPlusJakartaSans()
+                  .copyWith(color: Colors.black, fontSize: 14),
+            )),
           ),
           DataColumn(
             label: Center(
                 child: Text(
-                  "Trạng thái",
-                  style: FontStyleUI.fontPlusJakartaSans()
-                      .copyWith(color: Colors.black, fontSize: 14),
-                )),
+              "Trạng thái",
+              style: FontStyleUI.fontPlusJakartaSans()
+                  .copyWith(color: Colors.black, fontSize: 14),
+            )),
           ),
         ],
         rows: List.generate(
           controller.listRegistrationSchedule.length,
-              (index) =>
+          (index) =>
               recentFileDataRow(controller.listRegistrationSchedule[index]),
         ),
       ),
@@ -255,9 +257,9 @@ class CancelView extends BaseGetWidget {
           Center(
             child: Container(
               decoration: BoxDecoration(
-                  color: controller.colorStatus(registrationScheduleModel.status ?? 0),
-                  borderRadius: BorderRadius.circular(10)
-              ),
+                  color: controller
+                      .colorStatus(registrationScheduleModel.status ?? 0),
+                  borderRadius: BorderRadius.circular(10)),
               // width: 70,
               height: 25,
               child: Padding(
@@ -279,17 +281,15 @@ class CancelView extends BaseGetWidget {
   Widget optionOder(String title, int index) {
     return InkWell(
       onTap: () {
-        controller.indexOption.value = index;
-        controller.optionType(controller.indexOption.value);
+        // controller.indexOption.value = index;
+        // controller.optionType(controller.indexOption.value);
       },
       child: Obx(
-            () => Container(
+        () => Container(
           width: 100,
           height: 35,
           decoration: BoxDecoration(
-            color: controller.indexOption.value == index
-                ? AppColors.colorBottom
-                : AppColors.textXam,
+            color: AppColors.colorBottom,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Center(
@@ -298,9 +298,7 @@ class CancelView extends BaseGetWidget {
               style: FontStyleUI.fontPlusJakartaSans().copyWith(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: controller.indexOption.value == index
-                    ? Colors.white
-                    : Colors.black,
+                color: Colors.white
               ),
             ).paddingOnly(top: 5),
           ),
@@ -308,5 +306,4 @@ class CancelView extends BaseGetWidget {
       ),
     );
   }
-
 }
