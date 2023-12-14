@@ -10,4 +10,5 @@ class FixerAccountModelFields {
 	static const int status = 8;
 	static const int uid = 9;
 	static const int token = 10;
+	static const int active = 11;
 }

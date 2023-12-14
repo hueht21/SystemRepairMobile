@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:systemrepair/modules/cancel/controllers/cancel_controller.dart';
 import 'package:systemrepair/modules/cancel/models/cancel_model.dart';
-import 'package:systemrepair/modules/oders/models/fixer_model.dart';
 import 'package:systemrepair/modules/oders/models/registration_schedule_model.dart';
 
 import '../models/cancel_oder_model.dart';
@@ -34,9 +33,7 @@ class CancelOderImp extends CancelController {
         reason: item.reason,
       );
       listCancelModel.add(cancelModel);
-      // mapCancelOderListModel.addAll({item.idOder ?? "" :});
     }
-    print(listCancelModel);
   }
 
   Future<void> getRegistrationScheduleModel() async {

@@ -47,8 +47,8 @@ class HomeView extends BaseGetWidget {
                 : const Color(0xff888888),
           ),
           _bottomNavi(
-            AppConst.iconNotification,
-            "Thông báo",
+            AppConst.iconFixer,
+            "Thợ sửa",
             controller.selectIndex.value == 3
                 ? const Color(0xff6B46D6)
                 : const Color(0xff888888),

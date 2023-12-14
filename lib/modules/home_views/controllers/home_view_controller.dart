@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:systemrepair/modules/pay_order/models/pay_oder_model.dart';
 
 import '../../../base_utils/base_controllers/base_controller.dart';
 import '../../oders/models/registration_schedule_model.dart';
@@ -22,9 +23,12 @@ abstract class HomeViewController extends BaseGetxController {
 
   int numberCanceledStatus = 0;
 
+  Map<int, int> mapAmount = <int, int>{};
+
+  List<PayOderModel> listPayModel = [];
+
   Future<void> getDataStatistical();
 
-  Future<void> setStatus();
 
 
 }

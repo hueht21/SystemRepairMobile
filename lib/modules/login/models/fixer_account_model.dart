@@ -22,6 +22,7 @@ class FixerAccountModel extends HiveObject{
     required this.status,
     required this.uid,
     required this.token,
+    required this.isActive
   });
 
 	@HiveField(FixerAccountModelFields.address)
@@ -46,6 +47,8 @@ class FixerAccountModel extends HiveObject{
   final String? uid;
   @HiveField(FixerAccountModelFields.token)
   String? token;
+  @HiveField(FixerAccountModelFields.active)
+  bool isActive;
 
 
   factory FixerAccountModel.fromJson(Map<String, dynamic> json){
@@ -61,6 +64,7 @@ class FixerAccountModel extends HiveObject{
       status: json["Status"],
       uid: json["UID"],
       token: json["Token"],
+      isActive: json["active"],
     );
   }
 

@@ -9,7 +9,7 @@ class FixerModel {
     required this.status,
     required this.uid,
     required this.address,
-    required this.imgAcc
+    required this.imgAcc,
   });
 
   int? age;
@@ -23,6 +23,7 @@ class FixerModel {
   String address;
   String imgAcc;
 
+
   factory FixerModel.fromJson(Map<String, dynamic> json){
     return FixerModel(
         age: json["Age"],
@@ -34,7 +35,7 @@ class FixerModel {
         status: json["Status"],
         uid: json["UID"],
         address: json["Address"],
-        imgAcc: json["ImgAcc"]
+        imgAcc: json["ImgAcc"],
     );
   }
 

@@ -8,8 +8,8 @@ import 'package:systemrepair/modules/home_views/controllers/home_view_controller
 import 'package:systemrepair/modules/home_views/views/sales_data_view.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
 import 'package:intl/intl.dart';
+import 'package:systemrepair/shared/widget/base_widget.dart';
 
-import '../../../shared/utils/util_widget.dart';
 
 class HomeViewPage extends BaseGetWidget {
   @override
@@ -20,14 +20,8 @@ class HomeViewPage extends BaseGetWidget {
     return Scaffold(
       backgroundColor: AppColors.colorNen,
       body: Obx(
-        () => Container(
-          child: controller.isShowLoading.value
-              ? const SizedBox(
-                  height: 60,
-                  child: Center(child: UtilWidget.buildLoading),
-                )
-              : body(),
-        ),
+        () => BaseWidget()
+            .baseShowOverlayLoading(body(), controller.isShowLoading.value),
       ),
     );
   }
@@ -179,37 +173,54 @@ class HomeViewPage extends BaseGetWidget {
   }
 
   Widget chartsMoneyHeight() {
-    return SizedBox(
-      // width: MediaQuery.of(context).size.width,
-      // height: 300,
-      child: Column(
-        children: [
-          SfCartesianChart(
-            // SfCartesianChart
-            isTransposed: true,
-            series: <ChartSeries>[
-              BarSeries<MonthMoney, String>(
-                  dataSource: controller.charGetData,
-                  xValueMapper: (MonthMoney gdp, _) => gdp.toalMoney,
-                  yValueMapper: (MonthMoney gdp, _) => gdp.monthMoney,
-                  dataLabelSettings: const DataLabelSettings(isVisible: true)),
-            ],
-            primaryXAxis: CategoryAxis(),
-            primaryYAxis: NumericAxis(
-                numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Biểu đồ thống kê doanh thu",
+          style: FontStyleUI.fontPlusJakartaSans().copyWith(
+            color: AppColors.colorNext,
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
           ),
-          Text(
-            "Biểu đồ chi tiết chi tiêu tháng",
-            style: FontStyleUI.fontPlusJakartaSans().copyWith(
-              color: AppColors.colorNext,
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-            ),
-          )
-        ],
-      ),
-      // child: Subscr,
+        ),
+        SfCartesianChart(
+          plotAreaBorderWidth: 2.0, // Đặt độ rộng của biên khu vực vẽ
+          series: <ChartSeries<MonthMoney, int>>[
+            // Renders column chart
+            BarSeries<MonthMoney, int>(
+              width: 0.7,
+              // Giảm kích thước của cột
+              color: AppColors.colorTextLogin,
+              dataSource: controller.charGetData,
+              xValueMapper: (MonthMoney data, _) => data.monthMoney,
+              yValueMapper: (MonthMoney data, _) => data.toalMoney,
+              dataLabelSettings: const DataLabelSettings(
+                isVisible: true,
+                textStyle: TextStyle(color: Colors.black),
+                labelAlignment: ChartDataLabelAlignment.outer,
+                // labelPosition: ChartDataLabelPosition.inside,
+                // textStyle: TextStyle(color: Colors.white),
+              ),
+              markerSettings: const MarkerSettings(
+                  isVisible: false), // Ẩn marker để tránh che phủ nhãn
+            )
+          ],
+          primaryXAxis: CategoryAxis(
+            title: AxisTitle(
+                text: 'Tháng', textStyle: const TextStyle(color: Colors.black)),
+            labelStyle: const TextStyle(color: Colors.black),
+            majorGridLines:
+                const MajorGridLines(width: 0), // Ẩn đường lưới chính giữa cột
+          ),
+          primaryYAxis: NumericAxis(
+            numberFormat: NumberFormat.currency(locale: 'vi_VN', symbol: '₫'),
+            labelStyle: const TextStyle(color: Colors.black),
+            // interval: 1, // Đặt giá trị này để hiển thị tất cả các tháng
+            labelRotation: -45, // Đặt góc quay để nhãn không bị tràn
+          ),
+        ),
+      ],
     );
   }
 }
-
