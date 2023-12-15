@@ -8,10 +8,150 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:systemrepair/cores/const/app_colors.dart';
+import 'package:systemrepair/shared/utils/font_ui.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class UtilWidget {
   static DateTime? _dateTime;
   static int _oldFunc = 0;
+
+  static Widget baseBottomSheet({
+    required String title,
+    required Widget body,
+    Widget? iconTitle,
+    bool isSecondDisplay = false,
+    Widget? actionArrowBack,
+    double? padding,
+    bool noHeader = false,
+    Color? backgroundColor,
+    TextAlign? textAlign,
+    double? height,
+  }) {
+    return SafeArea(
+      bottom: false,
+      minimum: EdgeInsets.only(
+          top: Get.mediaQuery.padding.top + (isSecondDisplay ? 100 : 20)),
+      child: Container(
+        height: height ?? Get.height / 3,
+        padding: const EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          color: backgroundColor ?? Colors.white,
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(16),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            //Drag handle Icon
+            Center(
+              child: Container(
+                height: 4,
+                width: 36,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                  color: Colors.grey,
+                ),
+              ).paddingSymmetric(vertical: 10),
+            ),
+            noHeader
+                ? const SizedBox()
+                : Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                actionArrowBack ??
+                    const BackButton(
+                      color: Colors.grey,
+                    ),
+                Expanded(
+                  child: Text(
+                    title.tr,
+                    textAlign: textAlign ?? TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: FontStyleUI.fontPlusJakartaSans(),
+                  ),
+                ),
+                iconTitle ??
+                    const SizedBox(
+                      width: 48, //size of Back Button
+                    ),
+              ],
+            ),
+            Expanded(child: body),
+          ],
+        ).paddingSymmetric(horizontal: padding ?? 16),
+      ),
+    );
+  }
+
+  static Widget buildBottomSheet(String telephone) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () async {
+            if (Get.isDialogOpen == false) {
+              Get.back();
+            }
+            await launchUrlString(telephone);
+          },
+          child: Container(
+            width: Get.width - 20,
+            height: 44,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.white),
+            child: Center(
+              child: Text(
+                "Liên hệ",
+                style: FontStyleUI.fontPlusJakartaSans()
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          width: Get.width - 20,
+          height: 44,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8), color: Colors.white),
+          child: Center(
+            child: Text(
+              "Nhắn tin",
+              style: FontStyleUI.fontPlusJakartaSans()
+                  .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            width: Get.width - 20,
+            height: 44,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.white),
+            child: Center(
+              child: Text(
+                "Huỷ",
+                style: FontStyleUI.fontPlusJakartaSans()
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
   //dateTimePicker dung chung
   // static Future<DateTime?> dayPickerUtils(

@@ -128,14 +128,14 @@ class CancelView extends BaseGetWidget {
         // ),
         minWidth: 1000,
         columns: [
-          DataColumn2(
-            size: ColumnSize.L,
-            label: Text(
-              "ID",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
+          // DataColumn2(
+          //   size: ColumnSize.L,
+          //   label: Text(
+          //     "ID",
+          //     style: FontStyleUI.fontPlusJakartaSans()
+          //         .copyWith(color: Colors.black, fontSize: 14),
+          //   ),
+          // ),
           DataColumn2(
             size: ColumnSize.L,
             label: Text(
@@ -230,13 +230,13 @@ class CancelView extends BaseGetWidget {
       onSelectChanged: (bool? select) {},
       // color: MaterialStateColor.resolveWith((states) => Colors.black12),
       cells: [
-        DataCell(
-          Text(
-            "${cancelModel.idOder}",
-            style: FontStyleUI.fontPlusJakartaSans()
-                .copyWith(color: Colors.black, fontSize: 14),
-          ),
-        ),
+        // DataCell(
+        //   Text(
+        //     "${cancelModel.idOder}",
+        //     style: FontStyleUI.fontPlusJakartaSans()
+        //         .copyWith(color: Colors.black, fontSize: 14),
+        //   ),
+        // ),
         DataCell(
           Text(
             "${cancelModel.registrationScheduleModel.customerName}",

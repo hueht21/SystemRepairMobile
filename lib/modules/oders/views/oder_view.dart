@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:systemrepair/cores/const/app_colors.dart';
 import 'package:systemrepair/shared/utils/font_ui.dart';
+import 'package:systemrepair/shared/utils/util_widget.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../base_utils/base_widget/base_widget_page.dart';
 import '../../../shared/widget/base_widget.dart';
@@ -33,7 +35,7 @@ class OdersView extends BaseGetWidget {
                 Container(
                   alignment: Alignment.center,
                   child: Text(
-                    "Đơn đặt của bạn",
+                    "Quản lý đơn đặt",
                     style: FontStyleUI.fontPlusJakartaSans().copyWith(
                         color: AppColors.textTim,
                         fontSize: 20,
@@ -119,14 +121,6 @@ class OdersView extends BaseGetWidget {
         // ),
         minWidth: 1000,
         columns: [
-          DataColumn2(
-            size: ColumnSize.S,
-            label: Text(
-              "ID",
-              style: FontStyleUI.fontPlusJakartaSans()
-                  .copyWith(color: Colors.black, fontSize: 14),
-            ),
-          ),
           DataColumn(
             label: Text(
               "Tên khách hàng",
@@ -193,16 +187,26 @@ class OdersView extends BaseGetWidget {
   DataRow recentFileDataRow(
       RegistrationScheduleModel registrationScheduleModel) {
     return DataRow(
-      onSelectChanged: (bool? select) {},
+      onSelectChanged: (bool? select) {
+        Get.bottomSheet(
+          UtilWidget.baseBottomSheet(
+            backgroundColor: AppColors.lightAccentColor,
+            noHeader: true,
+            title: "",
+            padding: 0,
+            body: buildBottomSheet("tel:${registrationScheduleModel.numberPhone}", "tel:${registrationScheduleModel.uidFixer?.numberPhone ?? ""}"),
+          ),
+        );
+      },
       // color: MaterialStateColor.resolveWith((states) => Colors.black12),
       cells: [
-        DataCell(
-          Text(
-            "${registrationScheduleModel.id}",
-            style: FontStyleUI.fontPlusJakartaSans()
-                .copyWith(color: Colors.black, fontSize: 14),
-          ),
-        ),
+        // DataCell(
+        //   Text(
+        //     "${registrationScheduleModel.id}",
+        //     style: FontStyleUI.fontPlusJakartaSans()
+        //         .copyWith(color: Colors.black, fontSize: 14),
+        //   ),
+        // ),
         DataCell(
           Text(
             controller.getNameUser(registrationScheduleModel.uidClient ?? ""),
@@ -306,6 +310,82 @@ class OdersView extends BaseGetWidget {
           ),
         ).paddingSymmetric(horizontal: 10),
       ),
+    );
+  }
+
+   Widget buildBottomSheet(String telephone, String numberPhoneFixer) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () async {
+            if (Get.isDialogOpen == false) {
+              Get.back();
+            }
+            await launchUrlString(telephone);
+          },
+          child: Container(
+            width: Get.width - 20,
+            height: 44,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.white),
+            child: Center(
+              child: Text(
+                "Liên hệ khách hàng",
+                style: FontStyleUI.fontPlusJakartaSans()
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () async {
+            if (Get.isDialogOpen == false) {
+              Get.back();
+            }
+            await launchUrlString(numberPhoneFixer);
+          },
+          child: Container(
+            width: Get.width - 20,
+            height: 44,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.white),
+            child: Center(
+              child: Text(
+                "Liên hệ thợ sửa",
+                style: FontStyleUI.fontPlusJakartaSans()
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        InkWell(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            width: Get.width - 20,
+            height: 44,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.white),
+            child: Center(
+              child: Text(
+                "Huỷ",
+                style: FontStyleUI.fontPlusJakartaSans()
+                    .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 

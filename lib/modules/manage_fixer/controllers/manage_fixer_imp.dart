@@ -7,14 +7,24 @@ import 'package:systemrepair/modules/manage_fixer/controllers/manage_fixer_contr
 
 class ManageFixerImp extends ManageFixerController {
   @override
+  Future<void> onInit() async {
+    showLoading();
+    await getFixerAcc().whenComplete(() => hideLoading());
+    super.onInit();
+  }
+
+  @override
   Future<void> getFixerAcc() async {
+
     final documentSnapshot = await FirebaseFirestore.instance
         .collection('Fixer')
         .get()
         .whenComplete(() => hideLoading());
     if (documentSnapshot.docs.isNotEmpty) {
+      listFixerAccountModel = [];
       for (final item in documentSnapshot.docs) {
-        FixerAccountModel fixerAccountModel = FixerAccountModel.fromJson(item.data());
+        FixerAccountModel fixerAccountModel =
+            FixerAccountModel.fromJson(item.data());
         listFixerAccountModel.add(fixerAccountModel);
       }
     } else {
@@ -26,4 +36,15 @@ class ManageFixerImp extends ManageFixerController {
     }
   }
 
+  @override
+  Future<void> onLoadMore() {
+    // TODO: implement onLoadMore
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    showLoading();
+    await getFixerAcc().whenComplete(() => hideLoading());
+  }
 }
