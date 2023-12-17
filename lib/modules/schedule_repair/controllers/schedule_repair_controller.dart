@@ -70,6 +70,8 @@ abstract class ScheduleRepairController extends BaseGetxController {
     token: ""
   );
 
+
+
   void setIndexHead(int index);
 
   Future<void> selectDate(BuildContext context);
@@ -82,7 +84,7 @@ abstract class ScheduleRepairController extends BaseGetxController {
 
   Future<void> getDataFixerModel();
 
-  Future<void> getFixer();
+  void getFixer();
 
   Future<void> registerSchedule();
 

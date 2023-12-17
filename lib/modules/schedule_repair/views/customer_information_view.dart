@@ -133,7 +133,7 @@ Widget _buildWarning() {
 }
 
 Widget _buildItemInfor(TextEditingController textEditingController,
-    String title, String svg, bool isTextInputNumber) {
+    String title, String svg, bool isTextInputNumber,) {
   return Container(
     width: Get.width,
     height: 40,

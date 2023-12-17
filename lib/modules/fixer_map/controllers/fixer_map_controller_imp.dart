@@ -41,7 +41,7 @@ class FixerMapControllerImp extends FixerMapController {
 
     for(var item in listFixer){
       addMarker(item.uid ?? "", LatLng(item.latitude ?? 0.0 , item.longitude ?? 0.0),
-          await loadIconFixer());
+          await loadIconFixer(), nameFixer: item.name ?? "");
     }
     // addMarker("1", const LatLng(20.98927217500758, 105.81164038126636),
     //     await loadIconFixer());
@@ -54,13 +54,13 @@ class FixerMapControllerImp extends FixerMapController {
   }
 
   @override
-  void addMarker(String id, LatLng location, BitmapDescriptor icon) async {
+  void addMarker(String id, LatLng location, BitmapDescriptor icon, {String nameFixer = ""}) async {
     var maker = Marker(
         markerId: MarkerId(id),
         position: location,
-        infoWindow: const InfoWindow(
-            title: "Vị trí của bạn",
-            snippet: "Bạn có tìm kiếm các thợ xung quanh"),
+        infoWindow: InfoWindow(
+            title: nameFixer.isNotEmpty ? "Vị trí thợ sửa" : "Vị trí của bạn",
+            snippet: nameFixer.isNotEmpty ? nameFixer : "Bạn có tìm kiếm các thợ xung quanh"),
         icon: icon);
     allMarkers.add(maker);
   }

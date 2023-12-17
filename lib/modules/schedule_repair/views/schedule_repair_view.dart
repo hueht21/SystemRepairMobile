@@ -33,56 +33,58 @@ class ScheduleRepair extends BaseGetWidget {
       buildConfirmSchedule(controller),
     ];
 
-    return Scaffold(
-      backgroundColor: AppColors.colorNen,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          "Đặt lịch",
-          style: FontStyleUI.fontPlusJakartaSans().copyWith(
-            fontSize: 20,
-            color: AppColors.colorTextLogin,
-            fontWeight: FontWeight.w700,
+    return Obx(()
+      => Scaffold(
+        backgroundColor: AppColors.colorNen,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text(
+            "Đặt lịch",
+            style: FontStyleUI.fontPlusJakartaSans().copyWith(
+              fontSize: 20,
+              color: AppColors.colorTextLogin,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          iconTheme: const IconThemeData(
+            color: AppColors.colorTextLogin, // Đặt màu cho icon ở đây
           ),
         ),
-        iconTheme: const IconThemeData(
-          color: AppColors.colorTextLogin, // Đặt màu cho icon ở đây
-        ),
-      ),
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: const SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          systemNavigationBarColor: Color.fromRGBO(143, 148, 251, 1),
-          statusBarIconBrightness: Brightness.dark,
-          systemNavigationBarIconBrightness: Brightness.dark,
-        ),
-        child: SafeArea(
-          child: Obx(
-            () => BaseWidget().baseLoading(
-              isLoading: controller.isLoadingOverlay.value,
-              widget: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _buildTitleHead(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    widgetView[controller.indexHead.value],
-                    const SizedBox(
-                      height: 30,
-                    ),
-                  ],
-                ).paddingSymmetric(horizontal: 10),
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: const SystemUiOverlayStyle(
+            statusBarColor: Colors.white,
+            systemNavigationBarColor: Color.fromRGBO(143, 148, 251, 1),
+            statusBarIconBrightness: Brightness.dark,
+            systemNavigationBarIconBrightness: Brightness.dark,
+          ),
+          child: SafeArea(
+            child: Obx(
+              () => BaseWidget().baseLoading(
+                isLoading: controller.isLoadingOverlay.value,
+                widget: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      _buildTitleHead(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      widgetView[controller.indexHead.value],
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ).paddingSymmetric(horizontal: 10),
+                ),
               ),
             ),
           ),
         ),
+        bottomNavigationBar: controller.isLoadingOverlay.value ? const SizedBox() : _buildButtonNext().paddingOnly(bottom: 10),
       ),
-      bottomNavigationBar: _buildButtonNext().paddingOnly(bottom: 10),
     );
   }
 

@@ -27,7 +27,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
   @override
   Future<void> onInit() async {
     accountModel = HIVE_APP.get(AppConst.keyAccount);
-    getDataFixerModel();
+    await getDataFixerModel();
     super.onInit();
   }
 
@@ -96,7 +96,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
   }
 
   @override
-  Future<void> getFixer() async {
+  void getFixer() {
     for (var item in listFixerModel) {
       if (item.status ?? false) {
         // Tính khoảng cách giữa vị trí hiện tại và vị trí trong danh sách
@@ -120,56 +120,83 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
   Future<void> registerSchedule() async {
     showLoadingOverlay();
 
-    if (isNullTime()) {
-      if (checkFileType(image.value.path) || image.value.path.isEmpty) {
-        await searchLocation(
-          textAddress.text.trim().isEmpty
-              ? accountModel.address
-              : textAddress.text.trim(),
-        );
-        getFixer();
-        fixAccNull();
-        String id = uuid.v4();
-        RegistrationScheduleModel registrationScheduleModel =
-            RegistrationScheduleModel(
-                id: id,
-                address: textAddress.text.trim(),
-                numberPhone: textNumberPhone.text.trim(),
-                email: textEmail.text.trim(),
-                status: 1,
-                customerName: textName.text.trim(),
-                numberCancel: 0,
-                uidFixer: fixerModel,
-                latitude: accountModel.latitude,
-                longitude: accountModel.longitude,
-                describe: textDescribe.text.trim(),
-                note: textNote.text.trim(),
-                imgFix: "",
-                // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
-                timeSet: timeSelect.value,
-                dateSet: dateSelect.value,
-                uidClient: accountModel.uid);
+    if(isValidate() ){
+      if (isNullTime()) {
+        if (checkFileType(image.value.path) || image.value.path.isEmpty) {
+          await searchLocation(
+            textAddress.text.trim().isEmpty
+                ? accountModel.address
+                : textAddress.text.trim(),
+          );
+          getFixer();
+          fixAccNull();
+          String id = uuid.v4();
+          RegistrationScheduleModel registrationScheduleModel =
+          RegistrationScheduleModel(
+              id: id,
+              address: textAddress.text.trim(),
+              numberPhone: textNumberPhone.text.trim(),
+              email: textEmail.text.trim(),
+              status: 1,
+              customerName: textName.text.trim(),
+              numberCancel: 0,
+              uidFixer: fixerModel,
+              latitude: accountModel.latitude,
+              longitude: accountModel.longitude,
+              describe: textDescribe.text.trim(),
+              note: textNote.text.trim(),
+              imgFix: "",
+              // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
+              timeSet: timeSelect.value,
+              dateSet: dateSelect.value,
+              uidClient: accountModel.uid);
 
-        await insertData(registrationScheduleModel, id);
-        await sentNotification(registrationScheduleModel);
 
-        Get.offNamed(AppPages.completeRegistration, arguments: fixerModel);
+          if(isValidateTime(dateSelect.value)){
+            await insertData(registrationScheduleModel, id);
+            await sentNotification(registrationScheduleModel);
+            Get.offNamed(AppPages.completeRegistration, arguments: fixerModel);
+          }else{
+            BaseShowNotification.showNotification(Get.context!, "Thời gian đăng ký không vượt quá 7 ngày và không nhỏ hơn ngày hôm nay", QuickAlertType.warning);
+            // Get.snackbar(titleText: "Thông báo", colorText: "Thời gian đăng ký không vượt quá 7 ngày và không nhỏ hơn ngày hôm nay");
+          }
+        } else {
+          BaseShowNotification.showNotification(
+            Get.context!,
+            'Định dạng không được hỗ trợ',
+            QuickAlertType.warning,
+          );
+        }
       } else {
         BaseShowNotification.showNotification(
           Get.context!,
-          'Định dạng không được hỗ trợ',
+          'Thời gian và mô tả không được để trống',
           QuickAlertType.warning,
         );
       }
-    } else {
+    }else {
       BaseShowNotification.showNotification(
         Get.context!,
-        'Thời gian và mô tả không được để trống',
+        'Số điện thoại với email bạn phải nhập đúng',
         QuickAlertType.warning,
       );
     }
 
     hideLoadingOverlay();
+  }
+
+  bool isValidate() {
+    if(isValidEmail(textEmail.text) && textNumberPhone.text.length <= 11){
+      return true;
+    }else {
+      return false;
+    }
+  }
+
+  bool isValidEmail(String email) {
+    return RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(email);
   }
 
   Future<void> insertData(
@@ -250,6 +277,20 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
       return false;
     }
     return true;
+  }
+
+  bool isValidateTime(String date) {
+
+    DateTime dateNow = DateTime.now();
+    Duration difference = convertStringToDate(date, PATTERN_1).difference(dateNow);
+
+    if(difference.inDays > 7){
+      return false;
+    }else if(difference.inDays < 0){
+      return false;
+    }else {
+      return true;
+    }
   }
 
   @override

@@ -37,62 +37,87 @@ class RegisterAccountControllerImp extends RegisterAccountController {
 
   @override
   Future<void> signUp({required String email, required String password}) async {
-    try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      User? user = credential.user;
-      if (user != null) {
-        // sendVerificationEmail(user);
-        await searchLocation(textAddress.text);
 
-        CollectionReference users =
-            FirebaseFirestore.instance.collection('User');
-
-        AccountModel accountModel = AccountModel(
-          auth: 0,
-          latitude: latitude.value,
-          longitude: longitude.value,
-          nameAccout: textName.text.trim(),
-          numberPhone: textNumberPhone.text.trim(),
-          uid: user.uid,
-          email: textEmail.text.trim(),
-          address: textAddress.text.trim(),
-          imgUser: "",
-          token: ""
+    if(isValidate()){
+      try {
+        final credential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
         );
+        User? user = credential.user;
+        if (user != null) {
+          // sendVerificationEmail(user);
+          await searchLocation(textAddress.text);
 
-        try {
-          await users.add(accountModel.toMap());
-        } catch (e) {
+          CollectionReference users =
+          FirebaseFirestore.instance.collection('User');
+
+          AccountModel accountModel = AccountModel(
+              auth: 0,
+              latitude: latitude.value,
+              longitude: longitude.value,
+              nameAccout: textName.text.trim(),
+              numberPhone: textNumberPhone.text.trim(),
+              uid: user.uid,
+              email: textEmail.text.trim(),
+              address: textAddress.text.trim(),
+              imgUser: "",
+              token: ""
+          );
+
+          try {
+            await users.add(accountModel.toMap());
+          } catch (e) {
+            BaseShowNotification.showNotification(
+              Get.context!,
+              'Lỗi khi thêm dữ liệu vào Firestore: $e',
+              QuickAlertType.error,
+            );
+          }
+          // Get.back();
+          Get.toNamed(AppPages.finishRegister);
+        }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
           BaseShowNotification.showNotification(
             Get.context!,
-            'Lỗi khi thêm dữ liệu vào Firestore: $e',
+            "Mật khẩu được cung cấp quá yếu.",
             QuickAlertType.error,
           );
+        } else if (e.code == 'email-already-in-use') {
+          BaseShowNotification.showNotification(
+            Get.context!,
+            "Tài khoản đã tồn tại ",
+            QuickAlertType.error,
+          );
+          print('The account already exists for that email.');
         }
-        // Get.back();
-        Get.toNamed(AppPages.finishRegister);
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        BaseShowNotification.showNotification(
-          Get.context!,
-          "Mật khẩu được cung cấp quá yếu.",
-          QuickAlertType.error,
-        );
-      } else if (e.code == 'email-already-in-use') {
-        BaseShowNotification.showNotification(
-          Get.context!,
-          "Tài khoản đã tồn tại ",
-          QuickAlertType.error,
-        );
-        print('The account already exists for that email.');
-      }
+    }else{
+      BaseShowNotification.showNotification(
+        Get.context!,
+        "Định dạng email số điện thoại không hợp lệ",
+        QuickAlertType.error,
+      );
+    }
+
+  }
+
+  bool isValidate() {
+    if(isValidEmail(textEmail.text) && textNumberPhone.text.length <= 11){
+      return true;
+    }else {
+      return false;
     }
   }
+
+  bool isValidEmail(String email) {
+    return RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(email);
+  }
+
 
   @override
   Future<void> searchLocation(String address) async {
@@ -105,7 +130,6 @@ class RegisterAccountControllerImp extends RegisterAccountController {
         latitude.value = 0.0;
         longitude.value = 0.0;
       }
-      log("${latitude.value} ${longitude.value}");
     } catch (e) {
       BaseShowNotification.showNotification(
         Get.context!,
@@ -146,13 +170,19 @@ class RegisterAccountControllerImp extends RegisterAccountController {
           QuickAlertType.error,
         );
       } else {
-        await signUp(
-          email: textEmail.text.trim(),
-          password: textPass.text.trim(),
-        );
-        Get.toNamed(AppPages.finishRegister);
-        // await sendSignInLink(textNumberPhone.text);
-        // Get.back();
+        if(textEnterPassword.text.length >= 6 && textPass.text.length >= 6){
+          await signUp(
+            email: textEmail.text.trim(),
+            password: textPass.text.trim(),
+          );
+        }else {
+          BaseShowNotification.showNotification(
+            Get.context!,
+            "Mật khẩu phải lớn hơn 6 ký tự",
+            QuickAlertType.error,
+          );
+        }
+
       }
     } else {
       BaseShowNotification.showNotification(
