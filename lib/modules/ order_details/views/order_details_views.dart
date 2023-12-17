@@ -120,13 +120,13 @@ class OrderDetails extends BaseGetWidget {
             ),
           ),
           Expanded(
-            child: BaseWidget().buildItemBar(controller.indexHead.value > 2),
+            child: BaseWidget().buildItemBar(controller.indexHead.value > 3),
           ),
           Expanded(
             child: BaseWidget().buildItemHead(
               EnumStatusOder.canceledStatus,
               "4",
-              controller.indexHead.value > 2,
+              controller.indexHead.value > 3,
             ),
           ),
         ],
@@ -343,13 +343,14 @@ class OrderDetails extends BaseGetWidget {
                 ? const SizedBox()
                 : CachedNetworkImage(
                     imageUrl: controller.imageUrlSchedule.value,
+                    // fit: BoxFit.cover,
                     placeholder: (context, url) =>
                         const CircularProgressIndicator(),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
                   ),
           ),
-        ),
+        ).paddingSymmetric(vertical: 30),
       ],
     ).paddingSymmetric(horizontal: 10);
   }
