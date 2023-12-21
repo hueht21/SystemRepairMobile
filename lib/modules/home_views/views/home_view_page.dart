@@ -206,7 +206,7 @@ class HomeViewPage extends BaseGetWidget {
             dataLabelSettings: DataLabelSettings(
               isVisible: true,
               textStyle: FontStyleUI.fontPlusJakartaSans().copyWith(
-                color: AppColors.colorNext,
+                color: AppColors.lightAccentColor,
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
               ),

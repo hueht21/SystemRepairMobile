@@ -125,9 +125,7 @@ class HomeViewControllerImp extends HomeViewController {
     for (int i = 0; i < listPayModel.length; i++) {
       int month = convertStringToDate(listPayModel[i].createDate ?? "", PATTERN_1).month;
       if (mapAmount.containsKey(month)) {
-        int number1 = listPayModel[i].amount;
-        number1 = number1 + listPayModel[i].amount;
-        mapAmount[month] = number1;
+        mapAmount[month] = (mapAmount[month] ?? 0) + listPayModel[i].amount;
       }else {
         mapAmount.addAll({month : listPayModel[i].amount});
       }

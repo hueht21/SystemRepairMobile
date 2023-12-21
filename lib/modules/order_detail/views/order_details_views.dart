@@ -21,29 +21,31 @@ class OrderDetails extends BaseGetWidget {
 
   @override
   Widget buildWidgets(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Text(
-          "Chi tiết đơn đặt",
-          style: FontStyleUI.fontPlusJakartaSans().copyWith(
-            fontSize: 20,
-            color: AppColors.colorTextLogin,
-            fontWeight: FontWeight.w700,
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text(
+            "Chi tiết đơn đặt",
+            style: FontStyleUI.fontPlusJakartaSans().copyWith(
+              fontSize: 20,
+              color: AppColors.colorTextLogin,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          iconTheme: const IconThemeData(
+            color: AppColors.colorTextLogin, // Đặt màu cho icon ở đây
           ),
         ),
-        iconTheme: const IconThemeData(
-          color: AppColors.colorTextLogin, // Đặt màu cho icon ở đây
-        ),
-      ),
-      body: Obx(
-        () => BaseWidget().baseShowOverlayLoading(
+        body: BaseWidget().baseShowOverlayLoading(
           body(),
           controller.isShowLoading.value,
         ),
+        bottomSheet: controller.isShowLoading.value
+            ? const SizedBox()
+            : _buildItemConfirm().paddingOnly(bottom: 10),
       ),
-      bottomSheet: _buildItemConfirm().paddingOnly(bottom: 10),
     );
   }
 
@@ -173,7 +175,8 @@ class OrderDetails extends BaseGetWidget {
                     backgroundColor: AppColors.lightAccentColor,
                     noHeader: true,
                     title: "",
-                    body: _buildBottomSheet("tel:${controller.registrationScheduleModel.numberPhone}"),
+                    body: _buildBottomSheet(
+                        "tel:${controller.registrationScheduleModel.numberPhone}"),
                   ),
                 );
               },
@@ -275,7 +278,8 @@ class OrderDetails extends BaseGetWidget {
                     backgroundColor: AppColors.lightAccentColor,
                     noHeader: true,
                     title: "",
-                    body: _buildBottomSheet("tel:${controller.registrationScheduleModel.uidFixer!.numberPhone}"),
+                    body: _buildBottomSheet(
+                        "tel:${controller.registrationScheduleModel.uidFixer!.numberPhone}"),
                   ),
                 );
               },
@@ -363,7 +367,7 @@ class OrderDetails extends BaseGetWidget {
         ),
         InkWell(
           onTap: () async {
-            if(Get.isDialogOpen == false){
+            if (Get.isDialogOpen == false) {
               Get.back();
             }
             await launchUrlString(telephone);
@@ -408,10 +412,10 @@ class OrderDetails extends BaseGetWidget {
               borderRadius: BorderRadius.circular(8), color: Colors.white),
           child: Center(
               child: Text(
-                "Báo cáo",
-                style: FontStyleUI.fontPlusJakartaSans()
-                    .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
-              )),
+            "Báo cáo",
+            style: FontStyleUI.fontPlusJakartaSans()
+                .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+          )),
         ),
         const SizedBox(
           height: 10,
@@ -427,10 +431,10 @@ class OrderDetails extends BaseGetWidget {
                 borderRadius: BorderRadius.circular(8), color: Colors.white),
             child: Center(
                 child: Text(
-                  "Huỷ",
-                  style: FontStyleUI.fontPlusJakartaSans()
-                      .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
-                )),
+              "Huỷ",
+              style: FontStyleUI.fontPlusJakartaSans()
+                  .copyWith(fontSize: 16, fontWeight: FontWeight.w700),
+            )),
           ),
         )
       ],

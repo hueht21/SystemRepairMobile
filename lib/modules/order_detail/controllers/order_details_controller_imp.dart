@@ -163,7 +163,7 @@ class OderDetailControllerImp extends OderDetailController {
 
   @override
   Future<void> confirmStatus() async {
-    showLoadingOverlay();
+    showLoading();
     registrationScheduleModel.status = 2;
 
     /// 2 Xác nhận
@@ -176,7 +176,7 @@ class OderDetailControllerImp extends OderDetailController {
       for (var doc in querySnapshot.docs) {
         doc.reference.update(registrationScheduleModel.toJson());
       }
-    }).whenComplete(() => hideLoadingOverlay());
+    }).whenComplete(() => hideLoading());
 
     String tokenClient = await BaseShowNotificationCtr()
         .getTokenClient(registrationScheduleModel.uidClient ?? "");
