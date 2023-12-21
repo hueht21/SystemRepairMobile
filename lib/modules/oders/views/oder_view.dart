@@ -262,10 +262,10 @@ class OdersView extends BaseGetWidget {
                 color: controller.colorStatus(registrationScheduleModel.status ?? 0),
                 borderRadius: BorderRadius.circular(10)
               ),
-              // width: 70,
+              width: 100,
               height: 25,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Align(
+                alignment: Alignment.center,
                 child: Text(
                   controller.getStatus(registrationScheduleModel.status ?? 0),
                   style: FontStyleUI.fontPlusJakartaSans()
@@ -306,7 +306,7 @@ class OdersView extends BaseGetWidget {
                     ? Colors.white
                     : Colors.black,
               ),
-            ).paddingOnly(top: 5),
+            ),
           ),
         ).paddingSymmetric(horizontal: 10),
       ),
