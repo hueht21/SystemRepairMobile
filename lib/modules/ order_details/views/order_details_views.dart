@@ -18,73 +18,75 @@ class OrderDetails extends BaseGetWidget {
 
   @override
   Widget buildWidgets(BuildContext context) {
-    return BaseWidget().baseLoading(
-      isLoading: controller.isLoadingOverlay.value,
-      widget: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text(
-            "Chi tiết đơn đặt",
-            style: FontStyleUI.fontPlusJakartaSans().copyWith(
-              fontSize: 20,
-              color: AppColors.colorTextLogin,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          iconTheme: const IconThemeData(
-            color: AppColors.colorTextLogin, // Đặt màu cho icon ở đây
+    // return Obx(() => BaseWidget().baseShowOverlayLoading( body(), controller.isLoadingOverlay.value));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: Text(
+          "Chi tiết đơn đặt",
+          style: FontStyleUI.fontPlusJakartaSans().copyWith(
+            fontSize: 20,
+            color: AppColors.colorTextLogin,
+            fontWeight: FontWeight.w700,
           ),
         ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 15,
-                ),
-                _buildTitleHead(),
-                const SizedBox(
-                  height: 10,
-                ),
-                _buildInforOder(),
-                const SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  width: Get.width,
-                  height: 1,
-                  decoration: const BoxDecoration(color: AppColors.colorThanh),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                _buildInforFixer(),
-                const SizedBox(
-                  height: 15,
-                ),
-                Container(
-                  width: Get.width,
-                  height: 1,
-                  decoration: const BoxDecoration(color: AppColors.colorThanh),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                _buildRepairPhoto()
-              ],
-            ),
-          ),
+        iconTheme: const IconThemeData(
+          color: AppColors.colorTextLogin, // Đặt màu cho icon ở đây
         ),
-        bottomNavigationBar:
-            (controller.indexHead.value != 3 && controller.indexHead.value != 4)
-                ? BaseGetWidget.buildButton("Huỷ đơn", () async {
-                    await controller.cancelOrder();
-                  },
-                        isLoading: controller.isShowLoading.value,
-                        colors: AppColors.colorButton)
-                    .paddingSymmetric(horizontal: 10)
-                : const SizedBox(),
+      ),
+      body: SafeArea(
+          child: BaseWidget().baseShowOverlayLoading(
+              body(), controller.isLoadingOverlay.value)),
+      bottomNavigationBar:
+          (controller.indexHead.value != 3 && controller.indexHead.value != 4)
+              ? (controller.isLoadingOverlay.value ? const SizedBox() : BaseGetWidget.buildButton("Huỷ đơn", () async {
+            await controller.cancelOrder();
+          },
+                          isLoading: controller.isLoadingOverlay.value,
+                          colors: AppColors.colorButton)
+              .paddingSymmetric(horizontal: 10))
+              : const SizedBox(),
+    );
+  }
+
+  Widget body() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 15,
+          ),
+          _buildTitleHead(),
+          const SizedBox(
+            height: 10,
+          ),
+          _buildInforOder(),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: Get.width,
+            height: 1,
+            decoration: const BoxDecoration(color: AppColors.colorThanh),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          _buildInforFixer(),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: Get.width,
+            height: 1,
+            decoration: const BoxDecoration(color: AppColors.colorThanh),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          _buildRepairPhoto()
+        ],
       ),
     );
   }
@@ -355,57 +357,57 @@ class OrderDetails extends BaseGetWidget {
     ).paddingSymmetric(horizontal: 10);
   }
 
-  // Widget _buildItemConfirm() {
-  //   return (controller.indexHead.value != 3 && controller.indexHead.value != 4)
-  //       ? ((controller.indexHead.value == 1)
-  //           ? Row(
-  //               children: [
-  //                 Expanded(
-  //                   child: BaseGetWidget.buildButton("Từ chối",
-  //                            () async {
-  //                     // await controller.cancelOrderBtn();
-  //                   },
-  //                           isLoading: controller.isShowLoading.value,
-  //                           colors: AppColors.xamHuy)
-  //                       .paddingSymmetric(horizontal: 10),
-  //                 ),
-  //                 Expanded(
-  //                   child: BaseGetWidget.buildButton("Xác nhận", () async {
-  //                     // await controller.confirmStatus();
-  //                   },
-  //                           isLoading: controller.isShowLoading.value,
-  //                           colors: AppColors.colorButton)
-  //                       .paddingSymmetric(horizontal: 10),
-  //                 ),
-  //               ],
-  //             )
-  //           : Row(
-  //               children: [
-  //                 Expanded(
-  //                   child: BaseGetWidget.buildButton("Huỷ đơn",
-  //                            () async {
-  //                     // await controller.cancelOrderBtn();
-  //                   },
-  //                           isLoading: controller.isShowLoading.value,
-  //                           colors: AppColors.xamHuy)
-  //                       .paddingSymmetric(horizontal: 10),
-  //                 ),
-  //                 Expanded(
-  //                   child: BaseGetWidget.buildButton("Thanh toán", () async {
-  //                     Get.toNamed(AppPages.payOder,
-  //                             arguments: controller.registrationScheduleModel)
-  //                         ?.then((value) async {
-  //                       if (value != null) {
-  //                         await controller.confirmPayOder();
-  //                       }
-  //                     });
-  //                   },
-  //                           isLoading: controller.isShowLoading.value,
-  //                           colors: AppColors.colorButton)
-  //                       .paddingSymmetric(horizontal: 10),
-  //                 ),
-  //               ],
-  //             ))
-  //       : const SizedBox();
-  // }
+// Widget _buildItemConfirm() {
+//   return (controller.indexHead.value != 3 && controller.indexHead.value != 4)
+//       ? ((controller.indexHead.value == 1)
+//           ? Row(
+//               children: [
+//                 Expanded(
+//                   child: BaseGetWidget.buildButton("Từ chối",
+//                            () async {
+//                     // await controller.cancelOrderBtn();
+//                   },
+//                           isLoading: controller.isShowLoading.value,
+//                           colors: AppColors.xamHuy)
+//                       .paddingSymmetric(horizontal: 10),
+//                 ),
+//                 Expanded(
+//                   child: BaseGetWidget.buildButton("Xác nhận", () async {
+//                     // await controller.confirmStatus();
+//                   },
+//                           isLoading: controller.isShowLoading.value,
+//                           colors: AppColors.colorButton)
+//                       .paddingSymmetric(horizontal: 10),
+//                 ),
+//               ],
+//             )
+//           : Row(
+//               children: [
+//                 Expanded(
+//                   child: BaseGetWidget.buildButton("Huỷ đơn",
+//                            () async {
+//                     // await controller.cancelOrderBtn();
+//                   },
+//                           isLoading: controller.isShowLoading.value,
+//                           colors: AppColors.xamHuy)
+//                       .paddingSymmetric(horizontal: 10),
+//                 ),
+//                 Expanded(
+//                   child: BaseGetWidget.buildButton("Thanh toán", () async {
+//                     Get.toNamed(AppPages.payOder,
+//                             arguments: controller.registrationScheduleModel)
+//                         ?.then((value) async {
+//                       if (value != null) {
+//                         await controller.confirmPayOder();
+//                       }
+//                     });
+//                   },
+//                           isLoading: controller.isShowLoading.value,
+//                           colors: AppColors.colorButton)
+//                       .paddingSymmetric(horizontal: 10),
+//                 ),
+//               ],
+//             ))
+//       : const SizedBox();
+// }
 }

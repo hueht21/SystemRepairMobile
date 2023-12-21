@@ -119,90 +119,90 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
   @override
   Future<void> registerSchedule() async {
     showLoadingOverlay();
+    if (isNullTime()) {
+      if (checkFileType(image.value.path) || image.value.path.isEmpty) {
+        await searchLocation(
+          textAddress.text.trim().isEmpty
+              ? accountModel.address
+              : textAddress.text.trim(),
+        );
+        getFixer();
+        fixAccNull();
+        String id = uuid.v4();
+        RegistrationScheduleModel registrationScheduleModel =
+            RegistrationScheduleModel(
+                id: id,
+                address: textAddress.text.trim(),
+                numberPhone: textNumberPhone.text.trim(),
+                email: textEmail.text.trim(),
+                status: 1,
+                customerName: textName.text.trim(),
+                numberCancel: 0,
+                uidFixer: fixerModel,
+                latitude: accountModel.latitude,
+                longitude: accountModel.longitude,
+                describe: textDescribe.text.trim(),
+                note: textNote.text.trim(),
+                imgFix: "",
+                // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
+                timeSet: timeSelect.value,
+                dateSet: dateSelect.value,
+                uidClient: accountModel.uid);
 
-    if(isValidate() ){
-      if (isNullTime()) {
-        if (checkFileType(image.value.path) || image.value.path.isEmpty) {
-          await searchLocation(
-            textAddress.text.trim().isEmpty
-                ? accountModel.address
-                : textAddress.text.trim(),
-          );
-          getFixer();
-          fixAccNull();
-          String id = uuid.v4();
-          RegistrationScheduleModel registrationScheduleModel =
-          RegistrationScheduleModel(
-              id: id,
-              address: textAddress.text.trim(),
-              numberPhone: textNumberPhone.text.trim(),
-              email: textEmail.text.trim(),
-              status: 1,
-              customerName: textName.text.trim(),
-              numberCancel: 0,
-              uidFixer: fixerModel,
-              latitude: accountModel.latitude,
-              longitude: accountModel.longitude,
-              describe: textDescribe.text.trim(),
-              note: textNote.text.trim(),
-              imgFix: "",
-              // image.value.path.isNotEmpty ? fileToBase64(image.value) : "",
-              timeSet: timeSelect.value,
-              dateSet: dateSelect.value,
-              uidClient: accountModel.uid);
-
-
-          if(isValidateTime(dateSelect.value)){
+        if(isValidate()){
+          if (isValidateTime(dateSelect.value)) {
             await insertData(registrationScheduleModel, id);
             await sentNotification(registrationScheduleModel);
             Get.offNamed(AppPages.completeRegistration, arguments: fixerModel);
-          }else{
-            BaseShowNotification.showNotification(Get.context!, "Thời gian đăng ký không vượt quá 7 ngày và không nhỏ hơn ngày hôm nay", QuickAlertType.warning);
+          } else {
+            BaseShowNotification.showNotification(
+                Get.context!,
+                "Thời gian đăng ký không vượt quá 7 ngày và không nhỏ hơn ngày hôm nay",
+                QuickAlertType.warning);
             // Get.snackbar(titleText: "Thông báo", colorText: "Thời gian đăng ký không vượt quá 7 ngày và không nhỏ hơn ngày hôm nay");
           }
-        } else {
+        }else {
           BaseShowNotification.showNotification(
             Get.context!,
-            'Định dạng không được hỗ trợ',
+            'Số điện thoại với email bạn phải nhập đúng',
             QuickAlertType.warning,
           );
         }
+
       } else {
         BaseShowNotification.showNotification(
           Get.context!,
-          'Thời gian và mô tả không được để trống',
+          'Định dạng không được hỗ trợ',
           QuickAlertType.warning,
         );
       }
-    }else {
+    } else {
       BaseShowNotification.showNotification(
         Get.context!,
-        'Số điện thoại với email bạn phải nhập đúng',
+        'Thời gian và mô tả không được để trống',
         QuickAlertType.warning,
       );
     }
-
     hideLoadingOverlay();
   }
 
   bool isValidate() {
-    if(isValidEmail(textEmail.text) && textNumberPhone.text.length <= 11){
+    if (isValidEmail(textEmail.text) && textNumberPhone.text.length <= 11) {
       return true;
-    }else {
+    } else {
       return false;
     }
   }
 
   bool isValidEmail(String email) {
     return RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(email);
   }
 
   Future<void> insertData(
       RegistrationScheduleModel registrationScheduleModel, String id) async {
-
-    if(image.value.path.isNotEmpty) {
+    if (image.value.path.isNotEmpty) {
       try {
         final storage = FirebaseStorage.instance;
         var updateImg = storage
@@ -216,7 +216,7 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
         hideLoadingOverlay();
       }
       registrationScheduleModel.imgFix = "${id}imageScheduleFixer.jpg";
-    }else {
+    } else {
       registrationScheduleModel.imgFix = "";
     }
 
@@ -280,15 +280,15 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
   }
 
   bool isValidateTime(String date) {
-
     DateTime dateNow = DateTime.now();
-    Duration difference = convertStringToDate(date, PATTERN_1).difference(dateNow);
+    Duration difference =
+        convertStringToDate(date, PATTERN_1).difference(dateNow);
 
-    if(difference.inDays > 7){
+    if (difference.inDays > 7) {
       return false;
-    }else if(difference.inDays < 0){
+    } else if (difference.inDays < 0) {
       return false;
-    }else {
+    } else {
       return true;
     }
   }
@@ -334,9 +334,9 @@ class ScheduleRepairControllerImp extends ScheduleRepairController {
       id: response.results[0].messageId,
       title: 'Thông báo mới',
     );
-    try{
+    try {
       await notificationSend.add(notificationGetModel.toJson());
-    }catch (e) {
+    } catch (e) {
       BaseShowNotification.showNotification(
         Get.context!,
         'Lỗi khi thêm dữ liệu vào Firestore: $e',
