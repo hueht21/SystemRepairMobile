@@ -161,7 +161,7 @@ class ProfileView extends BaseGetWidget {
                                 icon2: AppConst.payUser,
                                 name2: "Thanh toán",
                                 functionHeader: () {
-                                  Get.toNamed(AppPages.updateProfile);
+                                  Get.toNamed(AppPages.pay);
                                 },
                                 functionBottom: () {}),
                           ),

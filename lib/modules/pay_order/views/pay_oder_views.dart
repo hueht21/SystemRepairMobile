@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:systemrepair/base_utils/base_widget/base_widget_page.dart';
 import 'package:systemrepair/cores/const/app_colors.dart';
 import 'package:systemrepair/modules/pay_order/controllers/pay_oder_controller_imp.dart';
+import 'package:systemrepair/router/app_pages.dart';
 import '../../../cores/const/const.dart';
 import '../../../shared/utils/currency_utils.dart';
 import '../../../shared/utils/font_ui.dart';
@@ -138,41 +139,82 @@ class PayOderView extends BaseGetWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      InkWell(
-                        onTap: () async {
-                          await controller.getImageFromGallery();
-                        },
-                        child: Container(
-                          width: 200,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: AppColors.colorDate, // Màu đường viền bạn muốn sử dụng
-                              width: 1.0, // Độ rộng của đường viền
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              SvgPicture.asset(AppConst.iconCamera),
-                              Text(
-                                "Tải hình ảnh hoá đơn lên",
-                                style: FontStyleUI.fontPlusJakartaSans().copyWith(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.colorDate,
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              await controller.getImageFromGallery();
+                            },
+                            child: Container(
+                              width: 200,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: AppColors.colorDate, // Màu đường viền bạn muốn sử dụng
+                                  width: 1.0, // Độ rộng của đường viền
                                 ),
                               ),
-                              const SizedBox(
-                                width: 5,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  SvgPicture.asset(AppConst.iconCamera),
+                                  Text(
+                                    "Tải hình ảnh hoá đơn lên",
+                                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.colorDate,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                ],
                               ),
-                            ],
+                            ).paddingOnly(left: 10),
                           ),
-                        ).paddingOnly(left: 10),
+                          InkWell(
+                            onTap: () async {
+                              // await controller.getImageFromGallery();
+                              Get.toNamed(AppPages.pay);
+                            },
+                            child: Container(
+                              width: 150,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: AppColors.colorDate, // Màu đường viền bạn muốn sử dụng
+                                  width: 1.0, // Độ rộng của đường viền
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  SvgPicture.asset(AppConst.iconCamera),
+                                  Text(
+                                    "QR thanh toán",
+                                    style: FontStyleUI.fontPlusJakartaSans().copyWith(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.colorDate,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                ],
+                              ),
+                            ).paddingOnly(left: 10),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10,),
                       controller.image.value.path.isNotEmpty

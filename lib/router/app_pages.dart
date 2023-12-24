@@ -5,6 +5,7 @@ import '../modules/home/views/home_view.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/onboarding/views/splash_screen_view.dart';
 import '../modules/order_detail/views/order_details_views.dart';
+import '../modules/pay/views/pay_views.dart';
 
 part 'app_routes.dart';
 
@@ -23,6 +24,7 @@ class AppPages {
   static const orderDetails = Routes.orderDetails;
   static const completeRegistration = Routes.completeRegistration;
   static const payOder = Routes.payOder;
+  static const pay = Routes.pay;
 
   static final routes = [
     GetPage(
@@ -48,6 +50,10 @@ class AppPages {
     GetPage(
       name: _Paths.payOder,
       page: () => PayOderView(),
+    ),
+    GetPage(
+      name: _Paths.pay,
+      page: () => PayViews(),
     ),
   ];
 

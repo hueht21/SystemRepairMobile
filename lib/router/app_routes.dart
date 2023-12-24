@@ -14,6 +14,7 @@ abstract class Routes {
   static const orderDetails = _Paths.orderDetails;
   static const completeRegistration = _Paths.completeRegistration;
   static const payOder = _Paths.payOder;
+  static const pay = _Paths.pay;
 }
 
 abstract class _Paths {
@@ -30,4 +31,5 @@ abstract class _Paths {
   static const orderDetails = '/orderDetails';
   static const completeRegistration = '/completeRegistration';
   static const payOder = '/payOder';
+  static const pay = '/pay';
 }
