@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -8,7 +7,6 @@ import 'package:quickalert/quickalert.dart';
 import 'package:systemrepair/base_utils/base_widget/base_show_notification.dart';
 import 'package:systemrepair/modules/register_account/controllers/register_account_controller.dart';
 import 'package:systemrepair/modules/register_account/model/account_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:systemrepair/router/app_pages.dart';
 
 
@@ -45,9 +43,12 @@ class RegisterAccountControllerImp extends RegisterAccountController {
           email: email,
           password: password,
         );
+
         User? user = credential.user;
         if (user != null) {
           // sendVerificationEmail(user);
+          await credential.user?.sendEmailVerification();
+
           await searchLocation(textAddress.text);
 
           CollectionReference users =
