@@ -36,13 +36,18 @@ class BaseWidgetLogin {
 
   Widget buttonView(String title, VoidCallback function, bool isLoading) {
     return Container(
-        width: Get.width,
-        height: 46,
-        decoration: BoxDecoration(
-            color: AppColors.textTitleColor,
-            borderRadius: BorderRadius.circular(12)),
-        child: BaseGetWidget.buildButton(title, function,
-            isLoading: isLoading, colors: AppColors.colorButton));
+      width: Get.width,
+      height: 46,
+      decoration: BoxDecoration(
+          color: AppColors.textTitleColor,
+          borderRadius: BorderRadius.circular(12)),
+      child: BaseGetWidget.buildButton(
+        title,
+        function,
+        isLoading: isLoading,
+        colors: AppColors.colorButton,
+      ),
+    );
   }
 
   Widget buildLoginSocialNetwork() {
