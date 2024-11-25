@@ -9,9 +9,11 @@ import '../../../shared/utils/font_ui.dart';
 
 class SplashScreenView extends GetView<SplashScreenController> {
   @override
-  SplashScreenController controller = Get.put(SplashScreenController());
+  final SplashScreenController controller = Get.put(SplashScreenController());
 
-  SplashScreenView({super.key});
+  final String? router;
+
+  SplashScreenView({this.router, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,17 @@ class SplashScreenView extends GetView<SplashScreenController> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
-            child: Obx(()
-              => AnimatedContainer(
+            child: Obx(
+              () => AnimatedContainer(
                 duration: const Duration(seconds: 2),
                 width: controller.containerWidth.value,
                 height: controller.containerHeight.value,
                 onEnd: () {
-                  Get.offAllNamed(AppPages.walkTroughs);
+                  if (router == null) {
+                    Get.offAllNamed(AppPages.walkTroughs);
+                  } else {
+                    Get.offAllNamed(router ?? AppPages.walkTroughs);
+                  }
                 },
                 child: SizedBox(
                   width: 250,

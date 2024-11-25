@@ -19,73 +19,88 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const initial = Routes.screen;
-  static const walkTroughs = Routes.walkTroughs;
-  static const login = Routes.login;
-  static const register = Routes.register;
-  static const otp = Routes.otp;
-  static const finishRegister = Routes.finishRegister;
-  static const home = Routes.home;
-  static const scheduleRepair = Routes.scheduleRepair;
-  static const updateProfile = Routes.updateProfile;
-  static const orderDetails = Routes.orderDetails;
-  static const completeRegistration = Routes.completeRegistration;
-  static const notificationPage = Routes.notificationPage;
-  static const fixerMapPage = Routes.fixerMapPage;
+  // static const initial = Routes.screen;
+  // static const walkTroughs = Routes.walkTroughs;
+  // static const login = Routes.login;
+  // static const register = Routes.register;
+  // static const otp = Routes.otp;
+  // static const finishRegister = Routes.finishRegister;
+  // static const home = Routes.home;
+  // static const scheduleRepair = Routes.scheduleRepair;
+  // static const updateProfile = Routes.updateProfile;
+  // static const orderDetails = Routes.orderDetails;
+  // static const completeRegistration = Routes.completeRegistration;
+  // static const notificationPage = Routes.notificationPage;
+  // static const fixerMapPage = Routes.fixerMapPage;
+
+
+  static const home = '/home';
+  static const screen = '/screen';
+  static const login = '/login';
+  static const register= '/register';
+  static const walkTroughs = '/walktroughs';
+  static const otp = '/otp';
+  static const finishRegister = '/finish_register';
+  static const scheduleRepair = '/scheduleRepair';
+  static const updateProfile = '/updateProfile';
+  static const orderDetails = '/orderDetails';
+  static const completeRegistration = '/completeRegistration';
+  static const notificationPage = '/notificationPage';
+  static const fixerMapPage = '/fixerMap';
 
   static final routes = [
     GetPage(
-      name: _Paths.screen,
+      name: "/",
       page: () => SplashScreenView(),
     ),
 
     GetPage(
-      name: _Paths.walkTroughs,
+      name: walkTroughs,
       page: () => WalktroughsViews(),
     ),
 
     GetPage(
-      name: _Paths.login,
+      name: login,
       page: () => LoginView(),
     ),
     GetPage(
-      name: _Paths.register,
+      name: '/register',
       page: () => RegisterAccount(),
     ),
     GetPage(
-      name: _Paths.otp,
+      name: otp,
       page: () => OtpView(),
     ),
     GetPage(
-      name: _Paths.finishRegister,
+      name: finishRegister,
       page: () => FinishRegiter(),
     ),
     GetPage(
-      name: _Paths.home,
+      name: home,
       page: () => HomeView(),
     ),
     GetPage(
-      name: _Paths.scheduleRepair,
+      name: scheduleRepair,
       page: () => ScheduleRepair(),
     ),
     GetPage(
-      name: _Paths.updateProfile,
+      name: updateProfile,
       page: () => UpdateProfile(),
     ),
     GetPage(
-      name: _Paths.orderDetails,
+      name: orderDetails,
       page: () => OrderDetails(),
     ),
     GetPage(
-      name: _Paths.completeRegistration,
+      name: completeRegistration,
       page: () => CompleteRegistration(),
     ),
     GetPage(
-      name: _Paths.notificationPage,
+      name: notificationPage,
       page: () => const NotificationView(),
     ),
     GetPage(
-      name: _Paths.fixerMapPage,
+      name: fixerMapPage,
       page: () => FixerMapView(),
     ),
   ];

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:systemrepair/base_utils/base_controllers/app_controller.dart';
+import 'package:systemrepair/firebase/firebase_init.dart';
 
 
 class SplashScreenController extends GetxController {
@@ -13,6 +14,7 @@ class SplashScreenController extends GetxController {
   @override
   void onInit() async {
     Get.put(AppController(), permanent: true);
+    FirebaseInit.instance.initFirebaseMessaging();
     setTimeOutAnimation();
     super.onInit();
   }
